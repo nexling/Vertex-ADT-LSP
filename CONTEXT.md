@@ -13,16 +13,12 @@ The long-running process that speaks LSP and is the source of truth for language
 _Avoid_: LSP, the plugin, the extension (when the process is meant)
 
 **Language-server executable**:
-The win32-x64 process image at `server/vertex-adt-ls.exe` that the extension host launches over stdio when the language-server implementation setting is `native`.
+The win32-x64 process image at `server/vertex-adt-ls.exe` that the extension host launches over stdio. It is the only language server.
 _Avoid_: server.js, node server, lsp.exe, the binary (when this path is meant)
 
 **Node language server**:
-The process at `server/out/server.js` that the extension host launches over IPC when the language-server implementation setting is `node`.
-_Avoid_: old implementation, server.js (when the process is meant)
-
-**Language-server implementation setting**:
-The window-scoped `vertexadt.languageServer.implementation` setting (`node` | `native`, default `node`) that chooses which process the extension host starts.
-_Avoid_: flag, C++ rewrite switch, old/new implementation
+The former JavaScript language server (`server/out/server.js`), removed on 2026-11-20 ([ADR 0018](docs/adr/0018-remove-node-language-server.md)). Older ADRs, goldens and tickets call it "Node", "the frozen Node server" or "the oracle". Its recorded answers live on in `scripts/goldens/oracle-tapes/`.
+_Avoid_: old implementation, the oracle (when a live process is meant; there is none)
 
 **Extension host**:
 The VS Code client that starts the language server and owns editor chrome.
