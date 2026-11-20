@@ -1,6 +1,8 @@
 .agents/**
 .claude/**
 .vscode/**
+.gitignore
+desktop.ini
 scratch/**
 PerformanceRewrite/**
 test-fixtures/**
@@ -9,8 +11,8 @@ scripts/**
 CONTEXT.md
 skills-lock.json
 *.vsix
-client/testFixture/**
-client/out/test/**
+*.png
+working folder for completions/**
 server/build/**
 server/build-*/**
 server/src/**
@@ -19,3 +21,7 @@ server/catalog/**
 server/CMakeLists.txt
 server/vertex-adt-ls-*.exe
 server/vertex-adt-ls.*.exe
+node_modules/**
+client/out/**
+!client/out/extension.js
+!ADT-documentation/*explainer.png

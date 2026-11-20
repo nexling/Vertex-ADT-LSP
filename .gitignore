@@ -11,6 +11,7 @@ PerformanceRewrite/
 desktop.ini
 .claude/settings.local.json
 # held back pending public-repo review
-ADT-documentation/
+ADT-documentation/*
+!ADT-documentation/*explainer.png
 /*.png
 working folder for completions/
