@@ -2,7 +2,7 @@
 
 Golden: `scripts/goldens/42-macro-library-code-completion.js`. It runs as part of `npm run test:goldens`, or alone with `node scripts/goldens/42-macro-library-code-completion.js`. Set `GOLDEN_VERBOSE=1` to print each case's slot and items.
 
-**Oracle.** The live Node language server (`node server/out/server.js --stdio`) answers `custom/getMacroLibraries` and `custom/getMacroCodes`. Those answers go through a verbatim copy of the host's `libraryCodeCommands` site and its item mapping from `client/out/extension.js`. Every row must equal what the language-server executable returns from ordinary `textDocument/completion`. The comparison covers the family's items only: kind Folder or Value with no `data`.
+**Oracle.** The answers the removed Node language server gave (replayed from `scripts/goldens/oracle-tapes/`, ADR 0018) to `custom/getMacroLibraries` and `custom/getMacroCodes`. Those answers go through a verbatim copy of the host's `libraryCodeCommands` site and its item mapping from `client/out/extension.js`. Every row must equal what the language-server executable returns from ordinary `textDocument/completion`. The comparison covers the family's items only: kind Folder or Value with no `data`.
 
 **Workspace.** Each server gets its own temp copy of this folder. The workspace folders are `system/` then `customa/`, so the Custom name comes from `includes("custom")`.
 

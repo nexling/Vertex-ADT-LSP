@@ -2,7 +2,7 @@
 
 Golden: `scripts/goldens/41-object-parameter-completion.js`. It runs as part of `npm run test:goldens`, or alone with `node scripts/goldens/41-object-parameter-completion.js`. Set `GOLDEN_VERBOSE=1` to print each case's object type and items.
 
-**Oracle.** The live Node language server (`node server/out/server.js --stdio`) answers `custom/getVariableObjectType` and `custom/getObjectParameters`. Those answers go through a verbatim copy of the host's `extractGetCommandInfo` and its item mapping from `client/out/extension.js`. Every row must equal what the language-server executable returns from ordinary `textDocument/completion`. The comparison covers the family's items only: kind Property, with `sortText` starting `0`.
+**Oracle.** The answers the removed Node language server gave (replayed from `scripts/goldens/oracle-tapes/`, ADR 0018) to `custom/getVariableObjectType` and `custom/getObjectParameters`. Those answers go through a verbatim copy of the host's `extractGetCommandInfo` and its item mapping from `client/out/extension.js`. Every row must equal what the language-server executable returns from ordinary `textDocument/completion`. The comparison covers the family's items only: kind Property, with `sortText` starting `0`.
 
 **Workspaces.** Each server gets its own temp copy of the libraries, with the workspace folder set to that copy's `custom/`:
 

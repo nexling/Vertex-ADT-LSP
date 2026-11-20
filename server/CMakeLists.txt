@@ -33,7 +33,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(lsp-framework)
 
-# Generated catalog TUs: npm run harvest-catalogs (CMake does not run it).
+# Generated catalog TUs: npm run generate-catalogs, from server/catalog/*.json (CMake does not run it).
 # Custom validators (hand-maintained): abs, dbcreate, get_area_param, new_iterator, pnt_to_plane.
 # Everything but main.cpp, so tests can link the real validators and code actions.
 set(VERTEX_ADT_LS_CORE_SOURCES
