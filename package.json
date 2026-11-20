@@ -61,21 +61,20 @@
 			{
 				"command": "vertexadt.moveProgram",
 				"title": "Vertex ADT: Move Callable Program…",
-				"category": "Vertex ADT",
-				"enablement": "vertexadt.nativeServer"
+				"category": "Vertex ADT"
 			}
 		],
 		"menus": {
 			"commandPalette": [
 				{
 					"command": "vertexadt.moveProgram",
-					"when": "vertexadt.nativeServer && editorLangId == vertexadt"
+					"when": "editorLangId == vertexadt"
 				}
 			],
 			"explorer/context": [
 				{
 					"command": "vertexadt.moveProgram",
-					"when": "vertexadt.nativeServer && resourceLangId == vertexadt && !explorerResourceIsFolder",
+					"when": "resourceLangId == vertexadt && !explorerResourceIsFolder",
 					"group": "7_modification"
 				}
 			]
@@ -134,20 +133,6 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
-				"vertexadt.languageServer.implementation": {
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"node",
-						"native"
-					],
-					"enumDescriptions": [
-						"Launch the Node language server over IPC.",
-						"Launch the language-server executable over stdio."
-					],
-					"default": "native",
-					"description": "Which language server the extension host starts. Reload the window after changing this setting; an already-started language client is not swapped."
-				},
 				"vertexadt.snippets.useExpandedSyntax": {
 					"type": "boolean",
 					"default": false,
@@ -166,7 +151,7 @@
 				"vertexadt.variables.warnUsedBeforeAssignment": {
 					"type": "boolean",
 					"default": true,
-					"description": "When enabled, warns when a variable is used on a line before its first assignment in the file (or before its first assignment in the same #SECTION#). Variables that are never assigned are always reported as used before declaration. Native language server only."
+					"description": "When enabled, warns when a variable is used on a line before its first assignment in the file (or before its first assignment in the same #SECTION#). Variables that are never assigned are always reported as used before declaration.."
 				},
                 "vertexadt.diagnostics.maxNumberOfProblems": {
 					"scope": "resource",
@@ -197,7 +182,7 @@
 				"vertexadt.strictMode.crossCallTypeChecks": {
 					"type": "boolean",
 					"default": true,
-					"description": "When enabled together with strict mode, reports cross-call type problems: call() arguments whose type differs from the callee's ;!\"[type]\" comment on get($CALLPARAMn), callee comments that contradict what callers pass, callers passing different types, and return fields packed or received with conflicting types. Types inferred across calls are always used for highlighting and completion. Native language server only."
+					"description": "When enabled together with strict mode, reports cross-call type problems: call() arguments whose type differs from the callee's ;!\"[type]\" comment on get($CALLPARAMn), callee comments that contradict what callers pass, callers passing different types, and return fields packed or received with conflicting types. Types inferred across calls are always used for highlighting and completion.."
 				},
 				"vertexadt.debug.validationCommands": {
 					"type": "boolean",
@@ -238,17 +223,17 @@
 				"vertexadt.completion.macroCodeFirst": {
 					"type": "boolean",
 					"default": false,
-					"description": "Native language server only. When enabled, the first argument of new_macro / new_djoint / new_sheet suggests LIBRARY/CODE pairs from every Custom complibs library. Type part of the code and/or the library (use / to separate them, e.g. wal/corner); picking a pair fills in both arguments."
+					"description": "When enabled, the first argument of new_macro / new_djoint / new_sheet suggests LIBRARY/CODE pairs from every Custom complibs library. Type part of the code and/or the library (use / to separate them, e.g. wal/corner); picking a pair fills in both arguments."
 				},
 				"vertexadt.format.enable": {
 					"type": "boolean",
 					"default": true,
-					"description": "Native language server only. When enabled, Format Document and Format Selection re-indent if/else/endif and loop/endloop blocks with spaces (one level = editor.tabSize). Only leading whitespace changes. A file with an unmatched or unclosed block, or an if without then, is not formatted and a warning names the line."
+					"description": "When enabled, Format Document and Format Selection re-indent if/else/endif and loop/endloop blocks with spaces (one level = editor.tabSize). Only leading whitespace changes. A file with an unmatched or unclosed block, or an if without then, is not formatted and a warning names the line."
 				},
 				"vertexadt.inferIncludedFrom": {
 					"type": "boolean",
 					"default": true,
-					"description": "Native language server only. A file that is # include'd (or call'ed by a program with common_indexes 1 / common_points 1) without a ##included_from line gets its parents' variables automatically: what each parent declares before its earliest include of this file, in that section. With several parents only names every parent declares count; above 10 parents nothing is inferred. A written ##included_from line switches inference off for its scope (whole file, or the section it is written in). A CodeLens on line 1 lists the inferred parents and Source Action offers to pin them."
+					"description": "A file that is # include'd (or call'ed by a program with common_indexes 1 / common_points 1) without a ##included_from line gets its parents' variables automatically: what each parent declares before its earliest include of this file, in that section. With several parents only names every parent declares count; above 10 parents nothing is inferred. A written ##included_from line switches inference off for its scope (whole file, or the section it is written in). A CodeLens on line 1 lists the inferred parents and Source Action offers to pin them."
 				},
 				"vertexadt.header.username": {
 					"type": "string",

@@ -9,22 +9,6 @@
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ],
             "name": "Launch Extension",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js",
-                "${workspaceFolder}/client/out/**/*.js",
-                "${workspaceFolder}/server/out/**/*.js"
-            ],
-            "request": "launch",
-            "type": "extensionHost"
-        },
-        {
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ],
-            "name": "Launch Extension (Native LS)",
-            "env": {
-                "VERTEXADT_LS_IMPLEMENTATION": "native"
-            },
             "preLaunchTask": "Build native language server",
             "outFiles": [
                 "${workspaceFolder}/client/out/**/*.js"
@@ -33,25 +17,15 @@
             "type": "extensionHost"
         },
         {
-            "name": "Attach LSP Server",
-            "port": 6009,
-            "request": "attach",
-            "type": "node",
-            "restart": true,
-            "timeout": 30000,
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
-        },
-    ]
-    ,
-    "compounds": [
-        {
-            "name": "Launch Extension + Attach LSP",
-            "configurations": [
-                "Launch Extension",
-                "Attach LSP Server"
-            ]
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension (skip build)",
+            "outFiles": [
+                "${workspaceFolder}/client/out/**/*.js"
+            ],
+            "request": "launch",
+            "type": "extensionHost"
         }
     ]
 }
