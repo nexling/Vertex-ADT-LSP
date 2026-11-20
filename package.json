@@ -275,7 +275,7 @@
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"harvest-catalogs": "node scripts/harvest-catalogs.js",
+		"generate-catalogs": "node scripts/generate-catalog-cpp.js",
 		"test:goldens": "node scripts/lsp-golden-harness.js",
 		"test": "node scripts/lsp-golden-harness.js"
 	},
