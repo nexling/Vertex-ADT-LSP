@@ -1,6 +1,7 @@
 node_modules/
 server/build*/
 *.exe
+!/Vertex_Dbase_Converter.exe
 *.pdb
 *.ilk
 *.exp

@@ -16,5 +16,5 @@ The Node language server (`server/out/server.js` and its helper modules) has bee
 
 ## Consequences
 
-- The open native/Node parity tickets in `scratch/native-node-parity-gaps/` can no longer run their diffs against a live Node process. To run Node again, check out the "Snapshot before Node removal" commit, the first commit in the repository.
+- The native/Node parity effort (`scratch/native-node-parity-gaps/`) was dropped with its open diff tickets unrun, and the folder was deleted. To run Node again, check out the "Snapshot before Node removal" commit, the first commit in the repository.
 - `npm test` runs the golden harness.
