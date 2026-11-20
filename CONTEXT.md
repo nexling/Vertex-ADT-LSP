@@ -269,7 +269,7 @@ The advertised LSP `tokenTypes` list in fixed order, from `variable` through `va
 _Avoid_: theme colors, token modifiers (when the type list is meant)
 
 **Type timeline**:
-The ordered per-name type writes collected during one full-document validate of this buffer (this-file command and comment writes, plus one-level `##included_from` snapshot types). Vector-to-value diagnostics and semantic tokens read it.
+The ordered per-name type writes collected during one full-document validate of this buffer (this-file command and comment writes, plus one-level `##included_from` snapshot types). Vector-to-value diagnostics and semantic tokens read it. A command or assignment write takes effect at its target token: in `obj = get_panel_core(obj)` the right `obj` keeps its earlier type (`typeWriteAt`; see `docs/adr/0019-native-write-target-token.md`).
 _Avoid_: variableTypes, objectType (when this pass's writes are meant), live-buffer extract (when types rather than names/comments are meant)
 
 **Object type**:

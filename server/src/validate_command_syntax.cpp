@@ -320,44 +320,40 @@ auto hoverTypeFromExtracts(const ValidateContext& ctx, std::string_view name)
   return std::nullopt;
 }
 
+// `lineIndex` is 0-based; `column` is the read's byte column on that line, or
+// -1 when it is not a write target (see typeWriteAt).
 auto getCurrentVariableType(
   const ValidateContext& ctx,
   std::string_view varName,
-  int currentLine) -> std::optional<std::string>
+  int lineIndex,
+  int column) -> std::optional<std::string>
 {
-  const auto sectionName = sectionNameForLine(ctx.prep->lines.empty() ? 0 : currentLine - 1, ctx.prep->sections);
-  // Same scan as over every write, restricted to this name's writes in write
-  // order, so the `>=` tie-break still picks the last closest write.
-  const auto bucket = ctx.typeWritesByName.find(varName);
-  if (bucket == ctx.typeWritesByName.end())
+  const auto& types = ctx.prep->types;
+  if (const auto it = types.byName.find(std::string(varName)); it == types.byName.end())
   {
     return hoverTypeFromExtracts(ctx, varName);
   }
-  const TypeWrite* closest = nullptr;
-  for (const auto index : bucket->second)
+  const auto sectionName = sectionNameForLine(ctx.prep->lines.empty() ? 0 : lineIndex, ctx.prep->sections);
+  if (const auto* write = typeWriteAt(types, varName, lineIndex, column, sectionName))
   {
-    const auto& write = ctx.prep->types.writes[index];
-    if (write.line <= currentLine && write.section == sectionName)
-    {
-      if (!closest || write.line >= closest->line)
-      {
-        closest = &write;
-      }
-    }
-  }
-  if (closest)
-  {
-    return closest->type;
+    return write->type;
   }
   return std::nullopt;
 }
 
-auto getVariableType(const ValidateContext& ctx, std::string variableName, int currentLine)
-  -> std::string
+auto getVariableType(
+  const ValidateContext& ctx,
+  std::string variableName,
+  int lineIndex,
+  int column) -> std::string
 {
   if (!variableName.empty() && variableName.front() == '-')
   {
     variableName.erase(variableName.begin());
+    if (column >= 0)
+    {
+      ++column;
+    }
   }
   if (catalog::isKeywordLabel(variableName))
   {
@@ -393,7 +389,7 @@ auto getVariableType(const ValidateContext& ctx, std::string variableName, int c
     }
   }
 
-  if (auto variableType = getCurrentVariableType(ctx, baseVariableName, currentLine))
+  if (auto variableType = getCurrentVariableType(ctx, baseVariableName, lineIndex, column))
   {
     if (!variableType->empty() && *variableType != "generic")
     {
@@ -411,12 +407,20 @@ auto getVariableType(const ValidateContext& ctx, std::string variableName, int c
   return "unknown";
 }
 
+// Byte column of each parsed parameter in the line's raw text; -1 unknown.
+struct ParamColumns
+{
+  std::vector<int> inside;
+  std::vector<int> after;
+};
+
 std::optional<SyntaxIssue> validateStrictMode(
   const ValidateContext& ctx,
   const catalog::ParsedCommand& parsed,
   const catalog::StrictMode& strictConfig,
   std::string_view commandName,
-  int lineNumber)
+  int lineIndex,
+  const ParamColumns& columns)
 {
   if (auto types = strictConfig.inputTypes; !types.empty())
   {
@@ -431,7 +435,10 @@ std::optional<SyntaxIssue> validateStrictMode(
       {
         continue;
       }
-      const auto paramType = getVariableType(ctx, param, lineNumber);
+      const auto column = typeCheck.paramIndex < columns.inside.size()
+        ? columns.inside[typeCheck.paramIndex]
+        : -1;
+      const auto paramType = getVariableType(ctx, param, lineIndex, column);
       if (paramType == "unknown")
       {
         continue;
@@ -475,7 +482,10 @@ std::optional<SyntaxIssue> validateStrictMode(
     {
       continue;
     }
-    const auto paramType = getVariableType(ctx, param, lineNumber);
+    const auto column = typeCheck.paramIndex < columns.after.size()
+      ? columns.after[typeCheck.paramIndex]
+      : -1;
+    const auto paramType = getVariableType(ctx, param, lineIndex, column);
     if (paramType == "unknown")
     {
       continue;
@@ -600,6 +610,114 @@ bool noParenHit(std::string_view trimmedLine, std::string_view commandName)
     ++i;
   }
   return false;
+}
+
+// Top-level comma pieces of text[begin, end) (outside quotes and nested
+// parentheses): each trimmed piece's byte column, `base` + its offset, or -1
+// when it is not `expected[i]` (the parser normalized it differently).
+auto pieceColumns(
+  std::string_view text,
+  std::size_t begin,
+  std::size_t end,
+  int base,
+  const std::vector<std::string>& expected) -> std::vector<int>
+{
+  std::vector<int> columns;
+  const auto push = [&](std::size_t from, std::size_t to) {
+    const auto piece = text.substr(from, to - from);
+    const auto trimmed = trim(piece);
+    const auto index = columns.size();
+    if (base < 0 || trimmed.empty() || index >= expected.size()
+        || trimmed != trimCopy(expected[index]))
+    {
+      columns.push_back(-1);
+      return;
+    }
+    columns.push_back(base + static_cast<int>(trimmed.data() - text.data()));
+  };
+  int depth = 0;
+  char quote = 0;
+  auto start = begin;
+  for (auto i = begin; i < end; ++i)
+  {
+    const char ch = text[i];
+    if (quote)
+    {
+      if (ch == quote)
+      {
+        quote = 0;
+      }
+    }
+    else if (ch == '"' || ch == '\'')
+    {
+      quote = ch;
+    }
+    else if (ch == '(')
+    {
+      ++depth;
+    }
+    else if (ch == ')')
+    {
+      --depth;
+    }
+    else if (ch == ',' && depth == 0)
+    {
+      push(start, i);
+      start = i + 1;
+    }
+  }
+  if (begin < end)
+  {
+    push(start, end);
+  }
+  return columns;
+}
+
+// Byte columns, in the line's raw text, of the parsed call's parameters, so a
+// strict read can tell a write's own target token from the line's other
+// tokens (typeWriteAt). `base` is where `trimmedLine` starts in the raw text.
+auto paramColumns(
+  std::string_view trimmedLine,
+  std::size_t callStart,
+  int base,
+  const catalog::ParsedCommand& parsed) -> ParamColumns
+{
+  const auto open = trimmedLine.find('(', callStart);
+  if (base < 0 || open == std::string_view::npos)
+  {
+    return {};
+  }
+  const auto close = catalog::findMatchingParenIndex(trimmedLine, open);
+  if (close < 0)
+  {
+    return {};
+  }
+  const auto closeIndex = static_cast<std::size_t>(close);
+  return ParamColumns{
+    .inside = pieceColumns(trimmedLine, open + 1, closeIndex, base, parsed.insideParams),
+    .after = pieceColumns(trimmedLine, closeIndex + 1, trimmedLine.size(), base, parsed.afterParams),
+  };
+}
+
+// Where `trimmedLine` (the validated text) starts in line `lineIndex`'s raw
+// text, or -1. A joined `dbcreate` statement starts with its first line.
+int validatedTextBase(const ValidateContext& ctx, int lineIndex, std::string_view trimmedLine)
+{
+  if (lineIndex < 0 || lineIndex >= static_cast<int>(ctx.prep->lines.size()) || trimmedLine.empty())
+  {
+    return -1;
+  }
+  const auto raw = stripValidationComment(ctx.prep->lines[static_cast<std::size_t>(lineIndex)]);
+  if (const auto at = raw.find(trimmedLine); at != std::string::npos)
+  {
+    return static_cast<int>(at);
+  }
+  const auto first = trim(std::string_view(raw));
+  if (!first.empty() && trimmedLine.starts_with(first))
+  {
+    return static_cast<int>(first.data() - raw.data());
+  }
+  return -1;
 }
 
 auto validateCommandSyntax(
@@ -775,8 +893,13 @@ auto validateCommandSyntax(
 
       if (ctx.settings.strictModeEnabled && config->strictMode && config->strictMode->enabled)
       {
-        if (auto strictError =
-              validateStrictMode(ctx, *parsed, *config->strictMode, commandName, lineNumber))
+        const auto lineIndex = lineNumber - 1;
+        const auto columns = config->structure.hasParentheses
+          ? paramColumns(
+              trimmedLine, funcCall.startIndex, validatedTextBase(ctx, lineIndex, trimmedLine), *parsed)
+          : ParamColumns{};
+        if (auto strictError = validateStrictMode(
+              ctx, *parsed, *config->strictMode, commandName, lineIndex, columns))
         {
           return {std::move(*strictError)};
         }
@@ -874,17 +997,6 @@ void familyCommandSyntax(ValidateContext& ctx, PerLineState& line)
   else if (line.lowercaseTrimmed.starts_with("if") && hasThenToken(line.stripped))
   {
     validationLine = afterThenFragment(line.stripped);
-  }
-
-  if (ctx.settings.strictModeEnabled && !ctx.typeWritesByNameBuilt)
-  {
-    const auto& writes = ctx.prep->types.writes;
-    ctx.typeWritesByName.reserve(writes.size());
-    for (std::size_t i = 0; i < writes.size(); ++i)
-    {
-      ctx.typeWritesByName[writes[i].name].push_back(i);
-    }
-    ctx.typeWritesByNameBuilt = true;
   }
 
   const auto issues = validateCommandSyntax(ctx, std::move(validationLine), reportLine + 1);

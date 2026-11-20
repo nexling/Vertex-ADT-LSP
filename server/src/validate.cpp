@@ -179,6 +179,44 @@ void postFilter(ValidateContext& ctx)
 
 } // namespace
 
+auto typeWriteAt(
+  const TypeTimeline& types,
+  std::string_view name,
+  int line,
+  int column,
+  std::string_view section) -> const TypeWrite*
+{
+  const TypeWrite* closest = nullptr;
+  const auto consider = [&](const TypeWrite& write) {
+    if (write.name != name || write.section != section)
+    {
+      return;
+    }
+    const bool visible = write.line < line
+      || (write.line == line && (write.column < 0 || (column >= 0 && write.column == column)));
+    if (visible && (!closest || write.line >= closest->line))
+    {
+      closest = &write;
+    }
+  };
+  if (!types.byName.empty())
+  {
+    if (const auto it = types.byName.find(std::string(name)); it != types.byName.end())
+    {
+      for (const auto index : it->second)
+      {
+        consider(types.writes[index]);
+      }
+    }
+    return closest;
+  }
+  for (const auto& write : types.writes)
+  {
+    consider(write);
+  }
+  return closest;
+}
+
 bool ValidateContext::atCap() const
 {
   return problems >= settings.maxNumberOfProblems;

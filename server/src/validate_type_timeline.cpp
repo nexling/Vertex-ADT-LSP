@@ -469,14 +469,51 @@ void pushWrite(
   std::string name,
   std::string type,
   int line,
-  std::string section)
+  std::string section,
+  int column = -1)
 {
   ctx.buildingTypes->writes.push_back(TypeWrite{
     .name = std::move(name),
     .type = std::move(type),
     .line = line,
     .section = std::move(section),
+    .column = column,
   });
+}
+
+// Byte column of `token`, a view into `line`.
+int columnIn(std::string_view line, std::string_view token)
+{
+  return static_cast<int>(token.data() - line.data());
+}
+
+struct CommaPart
+{
+  std::string text;
+  int column = -1;
+};
+
+// splitComma, keeping each trimmed part's byte column in `line` (`text` is a
+// view into it).
+auto splitCommaAt(std::string_view line, std::string_view text) -> std::vector<CommaPart>
+{
+  std::vector<CommaPart> parts;
+  const auto base = columnIn(line, text);
+  std::size_t start = 0;
+  while (start <= text.size())
+  {
+    const auto comma = text.find(',', start);
+    const auto piece = text.substr(start, comma == std::string_view::npos ? std::string_view::npos : comma - start);
+    const auto trimmed = trim(piece);
+    const auto offset = trimmed.empty() ? start : static_cast<std::size_t>(trimmed.data() - text.data());
+    parts.push_back(CommaPart{std::string(trimmed), base + static_cast<int>(offset)});
+    if (comma == std::string_view::npos)
+    {
+      break;
+    }
+    start = comma + 1;
+  }
+  return parts;
 }
 
 std::string priorType(
@@ -537,7 +574,12 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
       if (const auto* row = findNameType(catalog::returnTypeMap(), funcName))
       {
         pushWrite(
-          ctx, std::string(assignment->target), std::string(row->type), lineNumber, section);
+          ctx,
+          std::string(assignment->target),
+          std::string(row->type),
+          lineNumber,
+          section,
+          columnIn(line, assignment->target));
       }
     }
 
@@ -551,10 +593,10 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
       const auto funcName = toLowerAscii(*functionMatch);
       if (const auto* slots = findSlotTypes(catalog::paramTypeMap(), funcName))
       {
-        const auto outputs = splitComma(*outputsText);
+        const auto outputs = splitCommaAt(line, *outputsText);
         for (std::size_t i = 0; i < outputs.size(); ++i)
         {
-          if (!isOutputName(outputs[i]))
+          if (!isOutputName(outputs[i].text))
           {
             continue;
           }
@@ -563,14 +605,16 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
           {
             continue;
           }
-          pushWrite(ctx, outputs[i], std::string(type), lineNumber, section);
+          pushWrite(
+            ctx, outputs[i].text, std::string(type), lineNumber, section, outputs[i].column);
         }
       }
     }
 
     if (const auto arrayName = arrayDeclName(line))
     {
-      pushWrite(ctx, std::string(*arrayName), "array", lineNumber, section);
+      pushWrite(
+        ctx, std::string(*arrayName), "array", lineNumber, section, columnIn(line, *arrayName));
     }
 
     const auto funcNameRaw = *functionMatch;
@@ -581,7 +625,13 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
       {
         if (const auto* row = findNameType(catalog::inputParamTypeMap(), funcName))
         {
-          pushWrite(ctx, std::string(*param), std::string(row->type), lineNumber, section);
+          pushWrite(
+            ctx,
+            std::string(*param),
+            std::string(row->type),
+            lineNumber,
+            section,
+            columnIn(line, *param));
         }
       }
     }
@@ -600,7 +650,8 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
         }
         auto allParams = splitComma(after);
         allParams.insert(allParams.begin(), first);
-        pushWrite(ctx, first, vecToReturnType(allParams), lineNumber, section);
+        pushWrite(
+          ctx, first, vecToReturnType(allParams), lineNumber, section, columnIn(line, *param));
       }
     }
 
@@ -618,7 +669,7 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
         }
         const auto inputType =
           priorType(ctx, stripTrailingCommaSpace(after), lineNumber, section);
-        pushWrite(ctx, outputParam, inputType, lineNumber, section);
+        pushWrite(ctx, outputParam, inputType, lineNumber, section, columnIn(line, *param));
       }
     }
 
@@ -641,7 +692,8 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
           outputParam,
           inputType == "pvector" ? "pvector" : "dvector",
           lineNumber,
-          section);
+          section,
+          columnIn(line, *param));
       }
     }
 
@@ -666,7 +718,12 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
           if (!outputType.empty())
           {
             pushWrite(
-              ctx, std::string(parentAssign->target), std::move(outputType), lineNumber, section);
+              ctx,
+              std::string(parentAssign->target),
+              std::move(outputType),
+              lineNumber,
+              section,
+              columnIn(line, parentAssign->target));
           }
         }
       }
@@ -676,13 +733,19 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
     {
       if (const auto inside = insideParams(line))
       {
-        const auto params = splitComma(*inside);
+        const auto params = splitCommaAt(line, *inside);
         for (const auto& slot : multi->slots)
         {
           const auto index = static_cast<std::size_t>(slot.index) - 1;
-          if (index < params.size() && isOutputName(params[index]))
+          if (index < params.size() && isOutputName(params[index].text))
           {
-            pushWrite(ctx, params[index], std::string(slot.type), lineNumber, section);
+            pushWrite(
+              ctx,
+              params[index].text,
+              std::string(slot.type),
+              lineNumber,
+              section,
+              params[index].column);
           }
         }
       }
@@ -692,11 +755,13 @@ void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int line
   if (const auto simple = simpleAssign(line))
   {
     const auto inputType = priorType(ctx, simple->source, lineNumber, section);
-    pushWrite(ctx, std::string(simple->target), inputType, lineNumber, section);
+    pushWrite(
+      ctx, std::string(simple->target), inputType, lineNumber, section, columnIn(line, simple->target));
   }
   else if (const auto arrayTarget = arrayAssignTarget(line))
   {
-    pushWrite(ctx, std::string(*arrayTarget), "array", lineNumber, section);
+    pushWrite(
+      ctx, std::string(*arrayTarget), "array", lineNumber, section, columnIn(line, *arrayTarget));
   }
 }
 

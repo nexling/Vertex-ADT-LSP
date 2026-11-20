@@ -866,6 +866,7 @@ const FAMILY_GOLDENS = [
     '59-if-header-continuation',
     '60-inferred-included-from',
     '61-program-move',
+    '62-self-reassign-types',
 ];
 
 async function runFamilyGoldens() {

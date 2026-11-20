@@ -29,6 +29,8 @@ struct ObjectParameterSite
   // The captured first inside argument, trimmed (UTF-8).
   std::string variableName;
   int line = 0;
+  // Byte column of `variableName` on `line`; -1 unknown.
+  int column = -1;
 };
 
 // client extractGetCommandInfo on the line prefix `[0, character)`: ten

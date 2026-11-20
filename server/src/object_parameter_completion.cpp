@@ -281,34 +281,24 @@ auto splitAll(std::string_view text, char separator) -> std::vector<std::string>
 constexpr std::string_view kValuePrefix = "Value in database: ";
 
 // server.js getCurrentVariableType (+ getVariableObjectType's `|| 'generic'`).
-auto variableObjectType(const ValidateContext& ctx, const std::string& variableName, int line)
-  -> std::string
+// `column` is the variable's byte column on `line` (typeWriteAt).
+auto variableObjectType(
+  const ValidateContext& ctx,
+  const std::string& variableName,
+  int line,
+  int column) -> std::string
 {
   const auto baseName = extractBaseVariableName(variableName);
   const auto section = sectionNameForLine(line, ctx.prep->sections);
-  bool anyRow = false;
-  const TypeWrite* closest = nullptr;
-  for (auto it = ctx.prep->types.writes.rbegin(); it != ctx.prep->types.writes.rend(); ++it)
-  {
-    if (it->name != baseName)
-    {
-      continue;
-    }
-    anyRow = true;
-    if (it->line <= line && it->section == section)
-    {
-      closest = &*it;
-      break;
-    }
-  }
+  const auto& types = ctx.prep->types;
   std::string type;
-  if (!anyRow)
+  if (!types.byName.contains(baseName))
   {
     type = commentObjectType(ctx, baseName);
   }
-  else if (closest)
+  else if (const auto* write = typeWriteAt(types, baseName, line, column, section))
   {
-    type = closest->type;
+    type = write->type;
   }
   return type.empty() ? std::string("generic") : type;
 }
@@ -324,9 +314,11 @@ auto extractGetCommandInfo(std::u16string_view prefix) -> std::optional<ObjectPa
     {
       if (auto capture = matchTail(prefix, at + pattern.command.size(), pattern.shape))
       {
+        const auto before = prefix.substr(0, static_cast<std::size_t>(capture->data() - prefix.data()));
         return ObjectParameterSite{
           .command = utf16To8(pattern.command),
           .variableName = utf16To8(jsTrim(*capture)),
+          .column = static_cast<int>(utf16To8(before).size()),
         };
       }
     }
@@ -503,7 +495,7 @@ auto objectParameterCompletionItems(const ObjectParameterRequest& request)
   };
   ctx.throwIfCanceled = request.throwIfCanceled;
   ctx.prep = buildDocumentPrep(request.snapshot, ctx.settings, ctx.stores, ctx.throwIfCanceled);
-  const auto objectType = variableObjectType(ctx, site.variableName, site.line);
+  const auto objectType = variableObjectType(ctx, site.variableName, site.line, site.column);
 
   const auto genericParameters = staticObjectParameters(site.command, "generic");
 

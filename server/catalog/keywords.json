@@ -1360,7 +1360,7 @@
   {
     "label": "dwgempty",
     "detail": " Clears graphics of active drawing. Scale, limits and window header is not affected.",
-    "documentation": "no example in system"
+    "documentation": "Example:\n\n```vertexadt\ndwgempty\n```"
   },
   {
     "label": "dwgfilename",

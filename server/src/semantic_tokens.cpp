@@ -182,49 +182,26 @@ auto hoverTypeFromExtracts(const VariableExtract& live, const VariableExtract& n
   return std::nullopt;
 }
 
-using WritesByName = std::unordered_map<std::string, std::vector<const TypeWrite*>>;
-
-auto indexWrites(const TypeTimeline& timeline) -> WritesByName
-{
-  WritesByName byName;
-  byName.reserve(timeline.writes.size());
-  for (const auto& write : timeline.writes)
-  {
-    byName[write.name].push_back(&write);
-  }
-  return byName;
-}
-
-// Same named section, latest write with line <= token line. Zero rows →
-// live-then-neighborhood [type] comment. Rows but none in this section → none.
+// The token at byte `column` on `line`: typeWriteAt in its named section.
+// Zero rows → live-then-neighborhood [type] comment. Rows but none visible →
+// none.
 auto currentVariableType(
   std::string_view name,
   int line,
+  int column,
   const std::string& section,
-  const WritesByName& byName,
+  const TypeTimeline& types,
   const VariableExtract& live,
   const VariableExtract& neighborhood) -> std::optional<std::string>
 {
-  const auto it = byName.find(std::string(name));
-  if (it == byName.end() || it->second.empty())
+  const auto it = types.byName.find(std::string(name));
+  if (it == types.byName.end() || it->second.empty())
   {
     return hoverTypeFromExtracts(live, neighborhood, name);
   }
-
-  const TypeWrite* closest = nullptr;
-  for (const auto* write : it->second)
+  if (const auto* write = typeWriteAt(types, name, line, column, section))
   {
-    if (write->line <= line && write->section == section)
-    {
-      if (!closest || write->line >= closest->line)
-      {
-        closest = write;
-      }
-    }
-  }
-  if (closest)
-  {
-    return closest->type;
+    return write->type;
   }
   return std::nullopt;
 }
@@ -329,7 +306,6 @@ auto semanticTokensFull(const SemanticTokensRequest& request) -> lsp::SemanticTo
     return emptyTokens(request.snapshot.version);
   }
 
-  const auto byName = indexWrites(ctx.prep->types);
   lsp::SemanticTokens tokens;
   tokens.resultId = std::to_string(request.snapshot.version);
   int prevLine = 0;
@@ -399,7 +375,13 @@ auto semanticTokensFull(const SemanticTokensRequest& request) -> lsp::SemanticTo
       }
 
       const auto type = currentVariableType(
-        name, i, section, byName, ctx.prep->live, ctx.prep->neighborhood);
+        name,
+        i,
+        static_cast<int>(word.start),
+        section,
+        ctx.prep->types,
+        ctx.prep->live,
+        ctx.prep->neighborhood);
       if (!type)
       {
         continue;

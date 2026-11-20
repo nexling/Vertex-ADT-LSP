@@ -32,6 +32,10 @@ struct TypeWrite
   std::string type;
   int line = 0;
   std::string section;
+  // Byte column of the written token on `line` (the assignment target or the
+  // output slot). -1: not tied to a token ([type] comment, included or
+  // inferred parent, cross-call injection) and visible to the whole line.
+  int column = -1;
 };
 
 struct TypeTimeline
@@ -41,6 +45,19 @@ struct TypeTimeline
   // finished (buildDocumentPrep), empty while it is collected.
   std::unordered_map<std::string, std::vector<std::size_t>> byName;
 };
+
+// The write that types `name` when it is read at byte `column` on `line` in
+// `section`: the latest write on an earlier line, or on this line when the
+// write is whole-line or targets this very token. So in `obj = f(obj)` only
+// the left `obj` sees f's type; the right one keeps the earlier type. A read
+// with column -1 is no write's target and sees only whole-line writes on its
+// own line. Ties on line go to the later write. Null: no visible write.
+[[nodiscard]] auto typeWriteAt(
+  const TypeTimeline& types,
+  std::string_view name,
+  int line,
+  int column,
+  std::string_view section) -> const TypeWrite*;
 
 struct ValidateSettings
 {
@@ -163,11 +180,6 @@ struct ValidateContext
   std::vector<lsp::Diagnostic> diagnostics;
   // Used-before-declaration: filled on first use, one entry per line.
   std::vector<DbcreateLineFlags> usedBeforeDbcreateFlags;
-  // Strict command-syntax type lookups: indexes into `prep->types.writes` per
-  // name, in write order. Keys view into the prep. Filled on the first strict
-  // command-syntax line.
-  std::unordered_map<std::string_view, std::vector<std::size_t>> typeWritesByName;
-  bool typeWritesByNameBuilt = false;
   // Command syntax: filled on first use.
   std::optional<DbcreateLogicalLines> commandSyntaxDbcreateLines;
   // If headers continued with `\`: filled on first use.
