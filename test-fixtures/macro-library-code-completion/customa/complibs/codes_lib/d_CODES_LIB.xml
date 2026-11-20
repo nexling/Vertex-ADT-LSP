@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VertexDatabase>
+  <Table Name="CODES_LIB">
+    <Records>
+      <Record Index="1"><Cell Name="NAME">First</Cell><Cell Name="CODE">BATHZONE</Cell></Record>
+      <Record Index="2"><Cell Name="CODE">BATHZONE</Cell></Record>
+      <Record Index="3"><Cell Name="CODE">  PADDED  </Cell></Record>
+      <Record Index="4"><Cell Name="CODE"></Cell></Record>
+      <Record Index="5"><Cell Name="SHTCODE">SHEET1</Cell><Cell Name="CODE">NOT_THIS</Cell></Record>
+      <Record Index="6"><Cell Name="CODE">BOTH_CODE</Cell><Cell Name="SHTCODE">BOTH_SHT</Cell></Record>
+      <Record Index="7"><Cell Name="code">lower_name</Cell><Cell Name="Code">mixed_name</Cell></Record>
+      <Record Index="8"><Cell Name="SHTCODE">SHEET1</Cell></Record>
+      <Record Index="9"><Cell Name="CODE">Tom &amp; Jerry</Cell></Record>
+      <Record Index="10"><Cell Name="CODE">FOO"BAR</Cell></Record>
+      <Record Index="11"><Cell Name="CODE"><![CDATA[Stairs, Straight]]></Cell></Record>
+      <Record Index="12"><Cell Name="CODE">Åsa</Cell></Record>
+      <Record Index="13"><Cell Name="NAME">no code here</Cell></Record>
+    </Records>
+  </Table>
+</VertexDatabase>

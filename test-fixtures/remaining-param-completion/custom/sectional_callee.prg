@@ -1,0 +1,11 @@
+#MACROS#
+m1 = get($CALLPARAM1)
+m2$ = get($CALLPARAM2)
+#MACROS#
+#EDIT_FORM#
+form = get($CALLPARAM1)
+#EDIT_FORM#
+#SECTION1#
+keep = 1
+#SECTION1#
+top = get($CALLPARAM9)

@@ -1,0 +1,6 @@
+call("sectional_callee.prg SECTION1", extra, extra)
+call("sectional_callee.prg OTHER", extra)
+call("sectional_callee.prg", extra, extra)
+call("sectional_callee.prg OTHER", a, b)
+call("sectional_callee.prg OTHER", a, b, c)
+call("sectional_callee.prg", extra)

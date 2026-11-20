@@ -1,0 +1,12 @@
+#JOINT#
+x = 1
+#JOINT#
+#MACROS#
+y = 2
+#MACROS#
+#MACROS#
+z = 3
+#MACROS#
+#SECTION#
+ignored = 4
+#SECTION#

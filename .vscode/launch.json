@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js",
+                "${workspaceFolder}/client/out/**/*.js",
+                "${workspaceFolder}/server/out/**/*.js"
+            ],
+            "request": "launch",
+            "type": "extensionHost"
+        },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension (Native LS)",
+            "env": {
+                "VERTEXADT_LS_IMPLEMENTATION": "native"
+            },
+            "preLaunchTask": "Build native language server",
+            "outFiles": [
+                "${workspaceFolder}/client/out/**/*.js"
+            ],
+            "request": "launch",
+            "type": "extensionHost"
+        },
+        {
+            "name": "Attach LSP Server",
+            "port": 6009,
+            "request": "attach",
+            "type": "node",
+            "restart": true,
+            "timeout": 30000,
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+    ]
+    ,
+    "compounds": [
+        {
+            "name": "Launch Extension + Attach LSP",
+            "configurations": [
+                "Launch Extension",
+                "Attach LSP Server"
+            ]
+        }
+    ]
+}

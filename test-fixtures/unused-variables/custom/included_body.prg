@@ -1,0 +1,1 @@
+output = sharedVar + 1

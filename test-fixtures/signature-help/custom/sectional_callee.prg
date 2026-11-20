@@ -1,0 +1,7 @@
+#MACROS#
+mac = get($CALLPARAM1)
+#MACROS#
+#EDIT_FORM#
+form = get($CALLPARAM2)
+#EDIT_FORM#
+whole = get($CALLPARAM3)

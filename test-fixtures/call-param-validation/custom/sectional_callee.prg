@@ -1,0 +1,7 @@
+#OTHER#
+a = get($CALLPARAM1)
+b = get($CALLPARAM2)
+#OTHER#
+#SECTION1#
+keep = 1
+#SECTION1#

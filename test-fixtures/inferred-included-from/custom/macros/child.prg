@@ -1,0 +1,7 @@
+X = A + B
+Y = C
+OUT1 = LATE
+#JOINT#
+Z = J1
+Z2 = J2
+#JOINT#

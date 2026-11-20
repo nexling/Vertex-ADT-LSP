@@ -1,0 +1,123 @@
+{
+  "get_obj_param": {
+    "profile": [
+      {
+        "label": "FPTYPE",
+        "documentation": "Returns the profile type/name (fptype)",
+        "detail": "String - Profile type identifier"
+      },
+      {
+        "label": "WEIGHT",
+        "documentation": "Returns the weight of the profile",
+        "detail": "Numeric - Profile weight calculation"
+      },
+      {
+        "label": "USE",
+        "documentation": "Returns the use/purpose of the profile",
+        "detail": "String - Profile usage specification"
+      },
+      {
+        "label": "SA_ID",
+        "documentation": "Returns the assembly information of the profile",
+        "detail": "String - Profile assembly identifier"
+      }
+    ],
+    "sheet": [
+      {
+        "label": "THICKNESS",
+        "documentation": "Returns the thickness of the sheet",
+        "detail": "Numeric - Sheet thickness measurement"
+      },
+      {
+        "label": "WEIGHT",
+        "documentation": "Returns the weight of the sheet",
+        "detail": "Numeric - Sheet weight calculation"
+      },
+      {
+        "label": "SHT_CODE",
+        "documentation": "Returns the sheet code of the sheet",
+        "detail": "String - Sheet code specification"
+      }
+    ],
+    "selemobj": [
+      {
+        "label": "TYPE",
+        "documentation": "Returns the type of the panel",
+        "detail": "String - Panel type specification"
+      },
+      {
+        "label": "LABEL",
+        "documentation": "Returns the label of the panel",
+        "detail": "String - Panel label specification"
+      }
+    ],
+    "area": [],
+    "joint": [],
+    "generic": [],
+    "any": []
+  },
+  "get_material_param": {
+    "any": [
+      {
+        "label": "SHAPE",
+        "documentation": "Returns the material shape",
+        "detail": "String - Material shape specification"
+      },
+      {
+        "label": "LIBRARY",
+        "documentation": "Returns the profile library name",
+        "detail": "String - Material library identifier"
+      },
+      {
+        "label": "MATER.CODE",
+        "documentation": "Returns the material code/grade of profile",
+        "detail": "String - Material code specification"
+      }
+    ]
+  },
+  "get_area_param": {
+    "any": [
+      {
+        "label": "CODE",
+        "documentation": "Returns the area code",
+        "detail": "String - Area code specification",
+        "insertText": "\"ADB_FIELD\", \"CODE\", 1"
+      },
+      {
+        "label": "NUM",
+        "documentation": "Returns the area layer number in slope sandwich",
+        "detail": "Numeric - Area layer index"
+      },
+      {
+        "label": "TYPE",
+        "documentation": "Returns the area layer type",
+        "detail": "String - Area layer type identifier"
+      },
+      {
+        "label": "THICKNESS",
+        "documentation": "Returns the area layer thickness",
+        "detail": "Numeric - Area layer thickness",
+        "insertText": "\"ADB_FIELD\", \"THICKNESS\", 1"
+      }
+    ]
+  },
+  "get_section_param": {
+    "any": [
+      {
+        "label": "HEIGHT",
+        "documentation": "Returns the section height",
+        "detail": "Numeric - Section height measurement"
+      },
+      {
+        "label": "WIDTH",
+        "documentation": "Returns the section width",
+        "detail": "Numeric - Section width measurement"
+      },
+      {
+        "label": "CODE",
+        "documentation": "Returns the section code",
+        "detail": "String - Section code specification"
+      }
+    ]
+  }
+}

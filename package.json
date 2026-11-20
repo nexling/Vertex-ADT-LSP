@@ -1,0 +1,314 @@
+{
+	"name": "vertex-adt",
+	"displayName": "Vertex-ADT",
+	"description": "Vertex ADT unofficial VSCode Plugin",
+	"license": "MIT",
+	"version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "null"
+	},
+	"publisher": "Emil-TTM",
+	"categories": [
+		"Programming Languages"
+	],
+	"keywords": [
+		"multi-root ready"
+	],
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"main": "./client/out/extension",
+	"activationEvents": [
+		"onCommand:yourExtension.command"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "vertexadt.openSettings",
+				"title": "Vertex ADT: Open Settings"
+			},
+			{
+				"command": "vertexadt.exportWorkspaceReports",
+				"title": "Vertex ADT: Export Workspace Reports",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.exportWorkspaceDiagnostics",
+				"title": "Vertex ADT: Export Workspace Diagnostics",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.showImpactAnalysis",
+				"title": "Vertex ADT: Show Impact Analysis",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.fixMissingCallParameters",
+				"title": "Vertex ADT: Fix Missing Call Parameters",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.assignLocalSlotNames",
+				"title": "Vertex ADT: Assign Local Slot Names",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.createFileHeader",
+				"title": "Vertex ADT: Create File Header",
+				"category": "Vertex ADT"
+			},
+			{
+				"command": "vertexadt.moveProgram",
+				"title": "Vertex ADT: Move Callable Program…",
+				"category": "Vertex ADT",
+				"enablement": "vertexadt.nativeServer"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "vertexadt.moveProgram",
+					"when": "vertexadt.nativeServer && editorLangId == vertexadt"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "vertexadt.moveProgram",
+					"when": "vertexadt.nativeServer && resourceLangId == vertexadt && !explorerResourceIsFolder",
+					"group": "7_modification"
+				}
+			]
+		},
+		"tasks": {
+			"version": "2.0.0",
+			"tasks": [
+				{
+					"label": "Vertex ADT: Export Workspace Reports",
+					"type": "vscode",
+					"command": "vertexadt.exportWorkspaceReports"
+				},
+				{
+					"label": "Vertex ADT: Export Workspace Diagnostics",
+					"type": "vscode",
+					"command": "vertexadt.exportWorkspaceDiagnostics"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "vertexadt",
+				"aliases": [
+					"Vertex ADT",
+					"vertexadt"
+				],
+				"extensions": [
+					".prg",
+					".adt",
+					".p",
+					".vxt",
+					".3d",
+					".2d"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Example configuration",
+			"properties": {
+				"languageServerExample.maxNumberOfProblems": {
+					"scope": "resource",
+					"type": "number",
+					"default": 100,
+					"description": "Controls the maximum number of problems produced by the server."
+				},
+				"languageServerExample.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Traces the communication between VS Code and the language server."
+				},
+				"vertexadt.languageServer.implementation": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"node",
+						"native"
+					],
+					"enumDescriptions": [
+						"Launch the Node language server over IPC.",
+						"Launch the language-server executable over stdio."
+					],
+					"default": "native",
+					"description": "Which language server the extension host starts. Reload the window after changing this setting; an already-started language client is not swapped."
+				},
+				"vertexadt.snippets.useExpandedSyntax": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, keyword snippets include parameter placeholders and formatting for commands that have it."
+				},
+				"vertexadt.variables.noteUnusedVariables": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, Unused variables will be highlighted with blue squigly."
+				},
+				"vertexadt.variables.warnVectorToValueTransition": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, warns if a variable is first typed as a vector and later re-typed as value."
+				},
+				"vertexadt.variables.warnUsedBeforeAssignment": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, warns when a variable is used on a line before its first assignment in the file (or before its first assignment in the same #SECTION#). Variables that are never assigned are always reported as used before declaration. Native language server only."
+				},
+                "vertexadt.diagnostics.maxNumberOfProblems": {
+					"scope": "resource",
+					"type": "number",
+					"default": 100,
+					"description": "Controls the maximum number of problems produced by the server."
+				},
+				"vertexadt.diagnostics.exportCustomOnly": {
+					"type": "boolean",
+					"default": true,
+					"description": "When exporting workspace diagnostics, only validate files under the custom folder (exclude files that exist only on the system side)."
+				},
+				"vertexadt.diagnostics.warnUnclosedResources": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, warns if dbcreate/dbopen/open are not closed in the same execution tree (includes and calls). ALREADY_OPEN aliases are information only. Suppress a line with ;!IGNORE CLOSE."
+				},
+				"vertexadt.semanticHighlighting.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, semantic highlighting is used if the theme supports it."
+				},
+				"vertexadt.strictMode.enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, additional strict mode checks are performed during diagnostics for variable type usage and cross-file declaration-number conflicts between included or called files."
+				},
+				"vertexadt.strictMode.crossCallTypeChecks": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled together with strict mode, reports cross-call type problems: call() arguments whose type differs from the callee's ;!\"[type]\" comment on get($CALLPARAMn), callee comments that contradict what callers pass, callers passing different types, and return fields packed or received with conflicting types. Types inferred across calls are always used for highlighting and completion. Native language server only."
+				},
+				"vertexadt.debug.validationCommands": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, validated commands will have a different color than unvalidated ones, semantic highlighting will be slower with this on."
+				},
+				"vertexadt.impactAnalysis.enabled": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, shows Impact and Blast Radius CodeLens at the top of files referenced from multiple callers or includes."
+				},
+				"vertexadt.impactAnalysis.minIncomingCount": {
+					"type": "number",
+					"default": 2,
+					"minimum": 1,
+					"description": "Minimum number of direct call/include references before the Impact CodeLens is shown."
+				},
+				"vertexadt.calls.validateParameterCount": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, validates call() argument counts against callee $CALLPARAMn declarations and offers quick-fixes to insert empty string parameters."
+				},
+				"vertexadt.locals.validateUniqueNames": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled with strict mode, reports workspace-wide conflicts when multiple callee programs declare the same l1/l2/... local slot variable name."
+				},
+				"vertexadt.locals.requireLNamesInCallees": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled (default follows strict mode), warns when call-target programs use non-lN names in declaration-number blocks."
+				},
+				"vertexadt.locals.warnOnRedeclaration": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, warns when a variable is assigned a new declaration number after an earlier assignment in the same section."
+				},
+				"vertexadt.completion.macroCodeFirst": {
+					"type": "boolean",
+					"default": false,
+					"description": "Native language server only. When enabled, the first argument of new_macro / new_djoint / new_sheet suggests LIBRARY/CODE pairs from every Custom complibs library. Type part of the code and/or the library (use / to separate them, e.g. wal/corner); picking a pair fills in both arguments."
+				},
+				"vertexadt.format.enable": {
+					"type": "boolean",
+					"default": true,
+					"description": "Native language server only. When enabled, Format Document and Format Selection re-indent if/else/endif and loop/endloop blocks with spaces (one level = editor.tabSize). Only leading whitespace changes. A file with an unmatched or unclosed block, or an if without then, is not formatted and a warning names the line."
+				},
+				"vertexadt.inferIncludedFrom": {
+					"type": "boolean",
+					"default": true,
+					"description": "Native language server only. A file that is # include'd (or call'ed by a program with common_indexes 1 / common_points 1) without a ##included_from line gets its parents' variables automatically: what each parent declares before its earliest include of this file, in that section. With several parents only names every parent declares count; above 10 parents nothing is inferred. A written ##included_from line switches inference off for its scope (whole file, or the section it is written in). A CodeLens on line 1 lists the inferred parents and Source Action offers to pin them."
+				},
+				"vertexadt.header.username": {
+					"type": "string",
+					"default": "",
+					"description": "Author name inserted into file headers created by Vertex ADT: Create File Header."
+				}
+			}
+		},
+		"configurationDefaults": {
+			"[vertexadt]": {
+				"editor.formatOnType": true,
+				"editor.tabSize": 2,
+				"editor.insertSpaces": true,
+				"editor.detectIndentation": false
+			}
+		},
+		"grammars": [
+			{
+				"language": "vertexadt",
+				"scopeName": "source.vertexadt",
+				"path": "./syntaxes/vertexadt.tmLanguage.json"
+			}
+		],
+		"themes": [
+			{
+				"label": "ADT-Theme-Dark",
+				"uiTheme": "vs-dark",
+				"path": "./themes/dark_modern.json"
+			},
+			{
+				"label": "ADT-Theme-Dark-Vector",
+				"uiTheme": "vs-dark",
+				"path": "./themes/vectordark_modern.json"
+			}
+		]
+	},
+	"scripts": {
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+		"harvest-catalogs": "node scripts/harvest-catalogs.js",
+		"test:goldens": "node scripts/lsp-golden-harness.js",
+		"test": "sh ./scripts/e2e.sh"
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.6",
+		"@types/node": "^18.14.6",
+		"@typescript-eslint/eslint-plugin": "^7.1.0",
+		"@typescript-eslint/parser": "^7.1.0",
+		"eslint": "^8.57.0",
+		"mocha": "^10.3.0",
+		"typescript": "^5.3.3"
+	},
+	"__metadata": {
+		"isApplicationScoped": false,
+		"installedTimestamp": 1762720619532,
+		"pinned": false,
+		"source": "vsix",
+		"size": 40948472,
+		"targetPlatform": "undefined"
+	}
+}

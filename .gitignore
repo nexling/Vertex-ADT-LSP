@@ -1,0 +1,16 @@
+node_modules/
+server/build*/
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.vsix
+scratch/
+PerformanceRewrite/
+desktop.ini
+.claude/settings.local.json
+# held back pending public-repo review
+ADT-documentation/
+/*.png
+working folder for completions/

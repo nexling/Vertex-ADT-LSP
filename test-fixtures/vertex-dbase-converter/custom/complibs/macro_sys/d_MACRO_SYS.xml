@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<VertexDatabase Revision="1.0" ProgVersion="DBASEReaderv1.0" DeliveryDate="06.10.2026">
+    <Table Name="MACRO_SYS" Version="1.0" DateModified="06.10.2026">
+        <Columns>
+            <Column Name="CATEGORY" Type="A" Length="3" Index="False" Unique="False" />
+            <Column Name="CODE" Type="A" Length="16" Index="False" Unique="False" />
+            <Column Name="DESCRIPTION" Type="A" Length="40" Index="True" Unique="False" />
+            <Column Name="EDIT_PARAM" Type="A" Length="1" Index="False" Unique="False" />
+            <Column Name="FORM_FILE" Type="A" Length="16" Index="False" Unique="False" />
+            <Column Name="MACTYPE" Type="N" Length="3" Index="False" Unique="False" />
+            <Column Name="NAME_2D" Type="A" Length="32" Index="False" Unique="False" />
+            <Column Name="NAME_3DACC" Type="A" Length="32" Index="False" Unique="False" />
+            <Column Name="NAME_3DCRS" Type="A" Length="32" Index="False" Unique="False" />
+            <Column Name="NAME_INI" Type="A" Length="16" Index="False" Unique="False" />
+            <Column Name="PARAMETERS" Type="A" Length="250" Index="False" Unique="False" />
+            <Column Name="THUMBNAIL_ID" Type="A" Length="6" Index="False" Unique="False" />
+            <Column Name="SQUARE" Type="N" Length="4" Index="False" Unique="False" />
+            <Column Name="IFC_PROP" Type="A" Length="250" Index="False" Unique="False" />
+            <Column Name="ITEM_CODE" Type="A" Length="64" Index="False" Unique="False" />
+            <Column Name="IFC_ENTITY_TYPE" Type="A" Length="255" Index="False" Unique="False" />
+            <Column Name="IFC_DISABLE" Type="A" Length="1" Index="False" Unique="False" />
+        </Columns>
+        <Records>
+            <Record Nr="0">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Railings</Cell>
+                <Cell Name="DESCRIPTION">Parametric stair railing</Cell>
+                <Cell Name="MACTYPE">455</Cell>
+                <Cell Name="NAME_2D">./stair.vxp</Cell>
+                <Cell Name="NAME_3DACC">./stair.vxm</Cell>
+                <Cell Name="NAME_3DCRS">./stair.vxm</Cell>
+                <Cell Name="SQUARE">76</Cell>
+            </Record>
+            <Record Nr="1">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Stairs, Straight</Cell>
+                <Cell Name="DESCRIPTION">Parametric straight stair</Cell>
+                <Cell Name="MACTYPE">320</Cell>
+                <Cell Name="NAME_2D">STAIRS_STR.2d</Cell>
+                <Cell Name="NAME_3DACC">STAIRS_STR.3d</Cell>
+                <Cell Name="PARAMETERS">ST_WIDTH=885|ST_TREAD=250|ST_LANDING_H=200|ST_LANDING_L=1000</Cell>
+                <Cell Name="SQUARE">70</Cell>
+            </Record>
+            <Record Nr="2">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Stairs</Cell>
+                <Cell Name="DESCRIPTION">Parametric stair</Cell>
+                <Cell Name="MACTYPE">454</Cell>
+                <Cell Name="NAME_2D">./stair.vxp</Cell>
+                <Cell Name="NAME_3DACC">./stair.vxm</Cell>
+                <Cell Name="NAME_3DCRS">./stair.vxm</Cell>
+                <Cell Name="SQUARE">75</Cell>
+            </Record>
+            <Record Nr="3">
+                <Cell Name="CODE">GROOVE_RLINE</Cell>
+                <Cell Name="DESCRIPTION">Groove reference line</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">groove_rline.vxm</Cell>
+                <Cell Name="NAME_3DCRS">groove_rline.vxm</Cell>
+                <Cell Name="PARAMETERS">LENGTH=1000</Cell>
+            </Record>
+            <Record Nr="4">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Stairs, U-Shape</Cell>
+                <Cell Name="DESCRIPTION">Parametric U-stair</Cell>
+                <Cell Name="MACTYPE">322</Cell>
+                <Cell Name="NAME_2D">STAIRS_U.2d</Cell>
+                <Cell Name="NAME_3DACC">STAIRS_U.3d</Cell>
+                <Cell Name="NAME_INI">STAIRS_U.INI</Cell>
+                <Cell Name="PARAMETERS">ST_WIDTH=885|ST_TREAD=250|ST_LANDING_H=200|ST_CORNER_VERT=1250|ST_CORNER_HOR=1000|ST_LANDING_L=2000|ST_LANDING_W=900</Cell>
+                <Cell Name="SQUARE">72</Cell>
+            </Record>
+            <Record Nr="5">
+                <Cell Name="CODE">WEBSTIFF</Cell>
+                <Cell Name="DESCRIPTION">Web stiffner</Cell>
+                <Cell Name="MACTYPE">44</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">webstiff.vxm</Cell>
+                <Cell Name="NAME_3DCRS">webstiff.vxm</Cell>
+            </Record>
+            <Record Nr="6">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Stairs, L-Shape</Cell>
+                <Cell Name="DESCRIPTION">Parametric L-stair</Cell>
+                <Cell Name="MACTYPE">321</Cell>
+                <Cell Name="NAME_2D">STAIRS_L.2d</Cell>
+                <Cell Name="NAME_3DACC">STAIRS_L.3d</Cell>
+                <Cell Name="PARAMETERS">ST_WIDTH=885|ST_TREAD=250|ST_LANDING_H=200|ST_CORNER_VERT=1000|ST_CORNER_HOR=1250|ST_LANDING_L=1500|ST_LANDING_W=885</Cell>
+                <Cell Name="SQUARE">71</Cell>
+            </Record>
+            <Record Nr="7">
+                <Cell Name="CODE">WSSINGLE</Cell>
+                <Cell Name="DESCRIPTION">Web stiffner (old one - not in use)</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">webstiff.prg</Cell>
+                <Cell Name="NAME_3DCRS">webstiff.prg</Cell>
+            </Record>
+            <Record Nr="8">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">SC_PATTERN_LBL</Cell>
+                <Cell Name="DESCRIPTION">Screw Pattern 2D</Cell>
+                <Cell Name="MACTYPE">10</Cell>
+                <Cell Name="NAME_2D">SC_PATTERN2D</Cell>
+                <Cell Name="NAME_3DACC">SC_PATTERN</Cell>
+                <Cell Name="NAME_3DCRS">SC_PATTERN</Cell>
+            </Record>
+            <Record Nr="9">
+                <Cell Name="CODE">RS_PATTERN1</Cell>
+                <Cell Name="DESCRIPTION">Rivet Pattern, type 1</Cell>
+                <Cell Name="FORM_FILE">rspattern_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">RS_PATTERN1</Cell>
+                <Cell Name="NAME_3DCRS">RS_PATTERN1</Cell>
+                <Cell Name="PARAMETERS">QTY=3|DX=50|DY=50|ANG=0|ROT=0|USE=RIVET</Cell>
+            </Record>
+            <Record Nr="10">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">JOISTCONN</Cell>
+                <Cell Name="DESCRIPTION">Joist connector</Cell>
+                <Cell Name="MACTYPE">63</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">joist_connector.vxm</Cell>
+                <Cell Name="NAME_3DCRS">joist_connector.vxm</Cell>
+            </Record>
+            <Record Nr="11">
+                <Cell Name="CODE">ROD_SYM</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodhole.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="12">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Stairs, Y-Shape</Cell>
+                <Cell Name="DESCRIPTION">Parametric Y-stair</Cell>
+                <Cell Name="MACTYPE">323</Cell>
+                <Cell Name="NAME_2D">STAIRS_Y.2d</Cell>
+                <Cell Name="NAME_3DACC">STAIRS_Y.3d</Cell>
+                <Cell Name="PARAMETERS">ST_WIDTH=885|ST_TREAD=250|ST_LANDING_H=200|ST_CORNER_VERT=1500|ST_LANDING_L=2000|ST_LANDING_W=900</Cell>
+                <Cell Name="SQUARE">73</Cell>
+            </Record>
+            <Record Nr="13">
+                <Cell Name="CODE">PNC_SYM_HATCH</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, Hatch</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_hatch.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_hatch.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="14">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">EaveBox</Cell>
+                <Cell Name="DESCRIPTION">Pork chop, horizontal filling</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">pork_chop</Cell>
+                <Cell Name="MACTYPE">309</Cell>
+                <Cell Name="NAME_3DACC">PORK_CHOP.vxm</Cell>
+                <Cell Name="PARAMETERS">WIDTH=600|DEPTH=300</Cell>
+                <Cell Name="SQUARE">411</Cell>
+            </Record>
+            <Record Nr="15">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="DESCRIPTION">Auto dimension point macro</Cell>
+                <Cell Name="MACTYPE">365</Cell>
+                <Cell Name="NAME_2D">Dim_Pnt.vxp</Cell>
+                <Cell Name="SQUARE">365</Cell>
+            </Record>
+            <Record Nr="16">
+                <Cell Name="CODE">WSROOF</Cell>
+                <Cell Name="DESCRIPTION">Web stiffner</Cell>
+                <Cell Name="MACTYPE">46</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">angled_webstiff.vxm</Cell>
+                <Cell Name="NAME_3DCRS">angled_webstiff.vxm</Cell>
+                <Cell Name="PARAMETERS">USE=WEB_STIFFENER|THICK=1|TOTAL_THICK=2.5|ANGLE=0|MATERIALCODE=osb_1 1/4</Cell>
+            </Record>
+            <Record Nr="17">
+                <Cell Name="CODE">WALLTIERAIL</Cell>
+                <Cell Name="DESCRIPTION">Wall tie rail</Cell>
+                <Cell Name="FORM_FILE">wall_tie_rail</Cell>
+                <Cell Name="MACTYPE">53</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">walltierail.vxm</Cell>
+                <Cell Name="NAME_3DCRS">walltierail.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=2000|DY=30|DZ=2</Cell>
+            </Record>
+            <Record Nr="18">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">LOGFOUND</Cell>
+                <Cell Name="DESCRIPTION">Log corner column foundation</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">found.vxp</Cell>
+                <Cell Name="NAME_3DACC">found.vxm</Cell>
+                <Cell Name="NAME_3DCRS">found.vxm</Cell>
+                <Cell Name="PARAMETERS">X1=240|Y1=240|X2=500|Y2=500|Z1=400|Z2=300</Cell>
+            </Record>
+            <Record Nr="19">
+                <Cell Name="CATEGORY">LST</Cell>
+                <Cell Name="CODE">TEK_SCREW</Cell>
+                <Cell Name="DESCRIPTION">Rivet Pattern, Tek-Screw</Cell>
+                <Cell Name="FORM_FILE">rspattern2_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">RS_PATTERN2</Cell>
+                <Cell Name="NAME_3DCRS">RS_PATTERN2</Cell>
+                <Cell Name="PARAMETERS">QTY=1|WDT=100|USE=SCREW</Cell>
+            </Record>
+            <Record Nr="20">
+                <Cell Name="CATEGORY">LST</Cell>
+                <Cell Name="CODE">RS_PATTERN2</Cell>
+                <Cell Name="DESCRIPTION">Rivet Pattern, type 2</Cell>
+                <Cell Name="FORM_FILE">rspattern2_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">RS_PATTERN2</Cell>
+                <Cell Name="NAME_3DCRS">RS_PATTERN2</Cell>
+                <Cell Name="PARAMETERS">QTY=1|WDT=100|USE=SCREW</Cell>
+            </Record>
+            <Record Nr="21">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">SCREW_CONNECTION</Cell>
+                <Cell Name="DESCRIPTION">Direct Screw Connection</Cell>
+                <Cell Name="FORM_FILE">screw_conn_form</Cell>
+                <Cell Name="MACTYPE">67</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">SCREW_CONNECTION</Cell>
+                <Cell Name="NAME_3DCRS">SCREW_CONNECTION</Cell>
+                <Cell Name="PARAMETERS">SCREW_QTY=1|WDT=100|USE=DIRECT_SCREW</Cell>
+            </Record>
+            <Record Nr="22">
+                <Cell Name="CODE">SCREW</Cell>
+                <Cell Name="DESCRIPTION">Generic Screw</Cell>
+                <Cell Name="MACTYPE">44</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">screw.vxm</Cell>
+                <Cell Name="NAME_3DCRS">screw.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=100|D=120</Cell>
+            </Record>
+            <Record Nr="23">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">TRUSSPLATE</Cell>
+                <Cell Name="DESCRIPTION">Truss plate</Cell>
+                <Cell Name="MACTYPE">63</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">plate.vxm</Cell>
+                <Cell Name="NAME_3DCRS">plate.vxm</Cell>
+                <Cell Name="PARAMETERS">LEN=200|THICK=2|ANG=15</Cell>
+            </Record>
+            <Record Nr="24">
+                <Cell Name="CODE">GREENBAR</Cell>
+                <Cell Name="DESCRIPTION">Greenbar for orientation hole</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">greenbar.vxm</Cell>
+                <Cell Name="NAME_3DCRS">greenbar.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=34|D=120|USE=FEATMAC</Cell>
+            </Record>
+            <Record Nr="25">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">GRAVITYPOINT</Cell>
+                <Cell Name="DESCRIPTION">Gravity point symbol</Cell>
+                <Cell Name="MACTYPE">386</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">GRAVITYPOINT.vxm</Cell>
+                <Cell Name="NAME_3DCRS">GRAVITYPOINT.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=50</Cell>
+            </Record>
+            <Record Nr="26">
+                <Cell Name="CODE">CYLINDER</Cell>
+                <Cell Name="DESCRIPTION">Cylinder</Cell>
+                <Cell Name="MACTYPE">100</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">cylinder.vxm</Cell>
+                <Cell Name="NAME_3DCRS">cylinder.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=34|D=120|USE=FEATMAC</Cell>
+            </Record>
+            <Record Nr="27">
+                <Cell Name="CODE">PNC_SYM_HATCHDIR</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, Hatch with direction arrow</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_hatchdir.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_hatchdir.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="28">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">FAST_CONN</Cell>
+                <Cell Name="DESCRIPTION">LGS fastener/connector</Cell>
+                <Cell Name="FORM_FILE">fast_conn_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">lgs_fast_conn</Cell>
+                <Cell Name="NAME_3DCRS">lgs_fast_conn</Cell>
+                <Cell Name="PARAMETERS">QTY=1|WDT=100|USE=SCREW|CONN=0</Cell>
+            </Record>
+            <Record Nr="29">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">FAST_CONN2</Cell>
+                <Cell Name="DESCRIPTION">LGS fastener/connector one side</Cell>
+                <Cell Name="FORM_FILE">fast_conn_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">lgs_fast_conn2</Cell>
+                <Cell Name="NAME_3DCRS">lgs_fast_conn2</Cell>
+                <Cell Name="PARAMETERS">QTY=1|WDT=100|USE=SCREW|CONN=0</Cell>
+            </Record>
+            <Record Nr="30">
+                <Cell Name="CODE">DUCT_SYM</Cell>
+                <Cell Name="DESCRIPTION">Rod duct macro</Cell>
+                <Cell Name="FORM_FILE">rod_duct.frm</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">ducthole.vxm</Cell>
+                <Cell Name="NAME_3DCRS">ducthole.vxm</Cell>
+                <Cell Name="PARAMETERS">W=60|H=18|TEXTTOPIC=T|TEXTPROP=WALL.HWARE|TEXTREFP=9|2D_LAYER=216</Cell>
+            </Record>
+            <Record Nr="31">
+                <Cell Name="CODE">DUCT_SYM_R</Cell>
+                <Cell Name="DESCRIPTION">Rod duct macro, round</Cell>
+                <Cell Name="FORM_FILE">rod_duct_r.frm</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">ducthole_r.vxm</Cell>
+                <Cell Name="NAME_3DCRS">ducthole_r.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=50|TEXTTOPIC=T|TEXTPROP=WALL.HWARE|TEXTREFP=9|2D_LAYER=216</Cell>
+            </Record>
+            <Record Nr="32">
+                <Cell Name="CODE">LIFTH_SYM</Cell>
+                <Cell Name="DESCRIPTION">Lift hole macro</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">lifth_sym.vxm</Cell>
+                <Cell Name="NAME_3DCRS">lifth_sym.vxm</Cell>
+                <Cell Name="PARAMETERS">LENGTH=200|2D_LAYER=46</Cell>
+            </Record>
+            <Record Nr="33">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">JOINT_ARROW</Cell>
+                <Cell Name="DESCRIPTION">Joint_Arrow</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">joint_arrow.2d</Cell>
+                <Cell Name="NAME_3DACC">JOINT_ARROW.3d</Cell>
+                <Cell Name="NAME_3DCRS">JOINT_ARROW.3d</Cell>
+                <Cell Name="PARAMETERS">USE=USELESS|XSCALE=1|YSCALE=1</Cell>
+            </Record>
+            <Record Nr="34">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">BOLT</Cell>
+                <Cell Name="DESCRIPTION">Bolt</Cell>
+                <Cell Name="MACTYPE">503</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">bolt.vxm</Cell>
+                <Cell Name="NAME_3DCRS">bolt.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=10|LEN=50|USE=BOLT</Cell>
+            </Record>
+            <Record Nr="35">
+                <Cell Name="CODE">BOX</Cell>
+                <Cell Name="DESCRIPTION">Box</Cell>
+                <Cell Name="FORM_FILE">Tool_form</Cell>
+                <Cell Name="MACTYPE">100</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">box.vxm</Cell>
+                <Cell Name="NAME_3DCRS">box.vxm</Cell>
+                <Cell Name="PARAMETERS">W=100|H=70|D=120|USE=FEATMAC</Cell>
+            </Record>
+            <Record Nr="36">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">I_CLIP</Cell>
+                <Cell Name="DESCRIPTION">I Clip</Cell>
+                <Cell Name="MACTYPE">58</Cell>
+                <Cell Name="NAME_2D">i_clip.vxp</Cell>
+                <Cell Name="NAME_3DACC">i_clip.vxm</Cell>
+                <Cell Name="NAME_3DCRS">i_clip.vxm</Cell>
+                <Cell Name="PARAMETERS">USE=PLY_CLIP</Cell>
+            </Record>
+            <Record Nr="37">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">GRAVITYERROR</Cell>
+                <Cell Name="DESCRIPTION">Gravity point symbol error</Cell>
+                <Cell Name="MACTYPE">386</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">GRAVITYPOINT.vxm</Cell>
+                <Cell Name="NAME_3DCRS">GRAVITYERROR.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=50</Cell>
+            </Record>
+            <Record Nr="38">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">FAST_CONN3</Cell>
+                <Cell Name="DESCRIPTION">LGS fastener/connector one side tri hole</Cell>
+                <Cell Name="FORM_FILE">fast_conn_form</Cell>
+                <Cell Name="MACTYPE">52</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">lgs_fast_conn3</Cell>
+                <Cell Name="NAME_3DCRS">lgs_fast_conn3</Cell>
+                <Cell Name="PARAMETERS">QTY=1|WDT=100|USE=SCREW|CONN=0</Cell>
+            </Record>
+            <Record Nr="39">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">SC_PATTERN</Cell>
+                <Cell Name="DESCRIPTION">Screw pattern</Cell>
+                <Cell Name="MACTYPE">66</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">SC_PATTERN</Cell>
+                <Cell Name="NAME_3DCRS">SC_PATTERN</Cell>
+                <Cell Name="PARAMETERS">USE=SCREW_PATTERN</Cell>
+            </Record>
+            <Record Nr="40">
+                <Cell Name="CODE">ALIGNPNT</Cell>
+                <Cell Name="DESCRIPTION">Magnet point macro</Cell>
+                <Cell Name="MACTYPE">105</Cell>
+                <Cell Name="NAME_2D">ALIGNPNT.2d</Cell>
+                <Cell Name="NAME_3DACC">ALIGNPNT.3d</Cell>
+                <Cell Name="NAME_INI">ALIGNPNT.INI</Cell>
+                <Cell Name="SQUARE">105</Cell>
+            </Record>
+            <Record Nr="41">
+                <Cell Name="CODE">HOLEandSQUARE</Cell>
+                <Cell Name="DESCRIPTION">HOLEandSQUARE</Cell>
+                <Cell Name="MACTYPE">100</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">HOLEandSQUARE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">HOLEandSQUARE.vxm</Cell>
+                <Cell Name="PARAMETERS">XOFST=0|YOFST=0|SLOPEXSIZE=1000|SLOPEYSIZE=1000|HOLE_SIZE=100|NUM_HOLES=1|HOLE_CC=50</Cell>
+            </Record>
+            <Record Nr="42">
+                <Cell Name="CODE">PNC_SYM_HATCH2</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, Hatch</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_hatch2.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_hatch2.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DXL=10|DYL=10</Cell>
+            </Record>
+            <Record Nr="43">
+                <Cell Name="CODE">PNC_SYM_SHAFT</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, Shaft</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="44">
+                <Cell Name="CODE">PNC_SYM_ELC</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, ELC</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">ELCLUCKA2d.vxp</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="45">
+                <Cell Name="CODE">PNC_SYM_LUCKA</Cell>
+                <Cell Name="DESCRIPTION">Punch Symbol, LUCKA</Cell>
+                <Cell Name="FORM_FILE">LUCKA_props</Cell>
+                <Cell Name="MACTYPE">510</Cell>
+                <Cell Name="NAME_2D">WALL_LUCKA2d.vxp</Cell>
+                <Cell Name="NAME_3DACC">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="NAME_3DCRS">pnc_sym_shaft.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="46">
+                <Cell Name="CODE">D3kolltext</Cell>
+                <Cell Name="DESCRIPTION">3D moderobjekt av kollisionstext joint</Cell>
+                <Cell Name="MACTYPE">100</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">D3kolltext.vxm</Cell>
+                <Cell Name="NAME_3DCRS">D3kolltext.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=34|D=120|USE=FEATMAC</Cell>
+            </Record>
+            <Record Nr="47">
+                <Cell Name="CODE">EDGESAWMAC</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">EDGESAWMAC.vxm</Cell>
+                <Cell Name="NAME_3DCRS">EDGESAWMAC.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="48">
+                <Cell Name="CODE">CRNSAWMAC</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">CRNSAWMAC.vxm</Cell>
+                <Cell Name="NAME_3DCRS">CRNSAWMAC.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="49">
+                <Cell Name="CODE">SNEDBORR</Cell>
+                <Cell Name="DESCRIPTION">snedborr</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">snedborr.vxm</Cell>
+                <Cell Name="NAME_3DCRS">snedborr.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=34|D=120|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="50">
+                <Cell Name="CODE">HOLELINE</Cell>
+                <Cell Name="DESCRIPTION">HOLELINE</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">HOLELINE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">HOLELINE.vxm</Cell>
+                <Cell Name="PARAMETERS">LEN=150|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="51">
+                <Cell Name="CODE">EDGESAWMAC2</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">EDGESAWMAC2.vxm</Cell>
+                <Cell Name="NAME_3DCRS">EDGESAWMAC2.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="52">
+                <Cell Name="CODE">CRNSAWMAC2</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">CRNSAWMAC2.vxm</Cell>
+                <Cell Name="NAME_3DCRS">CRNSAWMAC2.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="53">
+                <Cell Name="CODE">CRNSAWMACT</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro topside</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">CRNSAWMACT.vxm</Cell>
+                <Cell Name="NAME_3DCRS">CRNSAWMACT.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="54">
+                <Cell Name="CODE">CRNSAWMAC2T</Cell>
+                <Cell Name="DESCRIPTION">Edge Saw Size Macro topside</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">CRNSAWMAC2T.vxm</Cell>
+                <Cell Name="NAME_3DCRS">CRNSAWMAC2T.vxm</Cell>
+                <Cell Name="PARAMETERS">DX=5|DY=5|DZ=5|USE=USELESS|DYUP=100|DYDOWN=100</Cell>
+            </Record>
+            <Record Nr="55">
+                <Cell Name="CODE">ROD_SYMRED</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole.3d</Cell>
+                <Cell Name="NAME_3DCRS">rodhole.3d</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="56">
+                <Cell Name="CODE">TSCHAKTBOX</Cell>
+                <Cell Name="DESCRIPTION">TSCHAKTBOX</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">TSCHAKTBOX.vxm</Cell>
+                <Cell Name="NAME_3DCRS">TSCHAKTBOX.vxm</Cell>
+                <Cell Name="PARAMETERS">USE=USELESS|DX=100|DY=100|DZ=22</Cell>
+            </Record>
+            <Record Nr="57">
+                <Cell Name="CODE">GSCHAKTBOX</Cell>
+                <Cell Name="DESCRIPTION">GSCHAKTBOX</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">GSCHAKTBOX.vxm</Cell>
+                <Cell Name="NAME_3DCRS">GSCHAKTBOX.vxm</Cell>
+                <Cell Name="PARAMETERS">USE=USELESS|DX=100|DY=100|DZ=22</Cell>
+            </Record>
+            <Record Nr="58">
+                <Cell Name="CODE">sheetboxF</Cell>
+                <Cell Name="DESCRIPTION">sheetboxF</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">sheetboxF.vxp</Cell>
+                <Cell Name="PARAMETERS">SIZEX=200|SIZEY=100</Cell>
+            </Record>
+            <Record Nr="59">
+                <Cell Name="CODE">sheetboxC</Cell>
+                <Cell Name="DESCRIPTION">sheetboxC</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">sheetboxC.vxp</Cell>
+                <Cell Name="PARAMETERS">SIZEX=200|SIZEY=100</Cell>
+            </Record>
+            <Record Nr="60">
+                <Cell Name="CODE">BGtopceil</Cell>
+                <Cell Name="DESCRIPTION">BGtopceil</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">BGtopceil.vxm</Cell>
+                <Cell Name="NAME_3DCRS">BGtopceil.vxm</Cell>
+            </Record>
+            <Record Nr="61">
+                <Cell Name="CODE">hookmac</Cell>
+                <Cell Name="DESCRIPTION">hookmac</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">hookmac.vxm</Cell>
+                <Cell Name="NAME_3DCRS">hookmac.vxm</Cell>
+                <Cell Name="PARAMETERS">USE=USELESS</Cell>
+            </Record>
+            <Record Nr="62">
+                <Cell Name="CODE">HATCHBOX</Cell>
+                <Cell Name="DESCRIPTION">HATCHBOX</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">HATCHBOX.3d</Cell>
+                <Cell Name="NAME_3DCRS">HATCHBOX.3d</Cell>
+                <Cell Name="PARAMETERS">X=300|Y=200|Z=100|USE=USELESS|cutwidth=100</Cell>
+            </Record>
+            <Record Nr="63">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">JOINT_INFO</Cell>
+                <Cell Name="DESCRIPTION">Joint_info</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">JOINT_INFO.2d</Cell>
+                <Cell Name="PARAMETERS">USE=USELESS|XSCALE=1|YSCALE=1|XOFFSET=0|YOFFSET=0</Cell>
+            </Record>
+            <Record Nr="64">
+                <Cell Name="CODE">Kfrmtool</Cell>
+                <Cell Name="DESCRIPTION">Konstruktion Framing tool changer macro</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">kfrmtool.2d</Cell>
+                <Cell Name="NAME_3DACC">Cylinder.vxm</Cell>
+                <Cell Name="NAME_3DCRS">Cylinder.vxm</Cell>
+            </Record>
+            <Record Nr="65">
+                <Cell Name="CODE">RODHOLE_BLUE</Cell>
+                <Cell Name="DESCRIPTION">rodhole 3d cylinder stretchable</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodhole_blue.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_blue.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=34|TD=83|USE=USELESS</Cell>
+            </Record>
+            <Record Nr="66">
+                <Cell Name="CODE">clt2dhatch</Cell>
+                <Cell Name="DESCRIPTION">clt2dhatch</Cell>
+                <Cell Name="MACTYPE">2</Cell>
+                <Cell Name="NAME_2D">clt2dhatch.2d</Cell>
+                <Cell Name="PARAMETERS">SIZEX=200|SIZEY=100</Cell>
+            </Record>
+            <Record Nr="67">
+                <Cell Name="CODE">ROD_SYMREDRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole.3d</Cell>
+                <Cell Name="NAME_3DCRS">rodhole.3d</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="68">
+                <Cell Name="CODE">TOPPLATECUTTER</Cell>
+                <Cell Name="DESCRIPTION">TOPPLATECUTTER</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole.3d</Cell>
+                <Cell Name="NAME_3DCRS">rodhole.3d</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="69">
+                <Cell Name="CODE">SUBELEMOVERRIDE</Cell>
+                <Cell Name="DESCRIPTION">SUBELEMOVERRIDE</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole.3d</Cell>
+                <Cell Name="NAME_3DCRS">rodhole.3d</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="70">
+                <Cell Name="CODE">ROD_SYMBLUE</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodhole_BLUE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_BLUE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="71">
+                <Cell Name="CODE">ROD_SYMBLUERT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_BLUE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_BLUE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="72">
+                <Cell Name="CODE">ROD_SYMGREENRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_GREEN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_GREEN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="73">
+                <Cell Name="CODE">ROD_SYMORANGERT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_ORANGE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_ORANGE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="74">
+                <Cell Name="CODE">ROD_SYMREDRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_RED.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_RED.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="75">
+                <Cell Name="CODE">ROD_SYMYELLOWRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_YELLOW.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_YELLOW.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="76">
+                <Cell Name="CODE">ROD_SYMBROWN</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodhole_BROWN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_BROWN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="77">
+                <Cell Name="CODE">ROD_SYMBROWNRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">AUTOMATIC</Cell>
+                <Cell Name="NAME_3DACC">rodholert_BROWN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_BROWN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="78">
+                <Cell Name="CODE">ROD_SYMRED</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_RED.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_RED.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="79">
+                <Cell Name="CODE">ROD_SYMGREEN</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_GREEN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_GREEN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="80">
+                <Cell Name="CODE">ROD_SYMYELLOW</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_YELLOW.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_YELLOW.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="81">
+                <Cell Name="CODE">ROD_SYMORANGE</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_ORANGE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_ORANGE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="82">
+                <Cell Name="CODE">ROD_SYMBLUE</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_BLUE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_BLUE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="83">
+                <Cell Name="CODE">ROD_SYMBLUERT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_BLUE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_BLUE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="84">
+                <Cell Name="CODE">ROD_SYMGREENRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_GREEN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_GREEN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="85">
+                <Cell Name="CODE">ROD_SYMORANGERT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_ORANGE.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_ORANGE.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="86">
+                <Cell Name="CODE">ROD_SYMREDRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_RED.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_RED.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="87">
+                <Cell Name="CODE">ROD_SYMYELLOWRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_YELLOW.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_YELLOW.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+            <Record Nr="88">
+                <Cell Name="CODE">ROD_SYMBROWN</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodhole.2d</Cell>
+                <Cell Name="NAME_3DACC">rodhole_BROWN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodhole_BROWN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83</Cell>
+            </Record>
+            <Record Nr="89">
+                <Cell Name="CODE">ROD_SYMBROWNRT</Cell>
+                <Cell Name="DESCRIPTION">Rodhole macro</Cell>
+                <Cell Name="EDIT_PARAM">1</Cell>
+                <Cell Name="FORM_FILE">Free_holeL_form</Cell>
+                <Cell Name="MACTYPE">342</Cell>
+                <Cell Name="NAME_2D">rodholeRT.2d</Cell>
+                <Cell Name="NAME_3DACC">rodholert_BROWN.vxm</Cell>
+                <Cell Name="NAME_3DCRS">rodholert_BROWN.vxm</Cell>
+                <Cell Name="PARAMETERS">DIA=22|TD=83|HEIGHT=50|WIDTH=50</Cell>
+            </Record>
+        </Records>
+    </Table>
+</VertexDatabase>

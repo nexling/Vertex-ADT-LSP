@@ -1,0 +1,1 @@
+dbopen(1) "SHEETLIB",1 ;!IGNORE CLOSE

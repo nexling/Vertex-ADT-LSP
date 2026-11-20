@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VertexDatabase>
+    <Table Name="FRM_SHEET">
+        <Records>
+            <Record Nr="0">
+                <Cell Name="CODE">FS1</Cell>
+                <Cell Name="WIDTH">1200</Cell>
+            </Record>
+        </Records>
+    </Table>
+</VertexDatabase>

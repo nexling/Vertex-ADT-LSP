@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<VertexDatabase Revision="1.0" ProgVersion="DBASEReaderv1.0" DeliveryDate="17.11.2026">
+    <Table Name="FRESH_LIB" Version="1.0" DateModified="17.11.2026">
+        <Columns>
+            <Column Name="CODE" Type="A" Length="16" Index="False" Unique="False" />
+        </Columns>
+        <Records>
+            <Record Nr="0">
+                <Cell Name="CATEGORY">STD</Cell>
+                <Cell Name="CODE">Plain</Cell>
+                <Cell Name="DESCRIPTION">  Tom &amp; Jerry &lt;b&gt; &#65;&#x42; </Cell>
+                <Cell Name="FORM_FILE">plain.frm</Cell>
+                <Cell Name="PARAMETERS">A=1|B|C=2=3|</Cell>
+                <Cell Name="EMPTY_VALUE"></Cell>
+                <Cell Name="SELF_CLOSED" />
+                <Cell>no name</Cell>
+                <Cell Name="">empty name</Cell>
+                <Cell Name="Category">exact-case exclude only</Cell>
+            </Record>
+            <Record Nr="1">
+                <Cell Name="CODE">other</Cell>
+                <Cell Name="SHTCODE">SheetOnly</Cell>
+                <Cell Name="NOTE"><![CDATA[cdata <kept>]]></Cell>
+            </Record>
+            <Record Nr="2">
+                <Cell Name="CODE">PLAIN</Cell>
+                <Cell Name="NOTE">second match never wins</Cell>
+            </Record>
+        </Records>
+    </Table>
+</VertexDatabase>

@@ -1,0 +1,279 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Vertex ADT",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#debug"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#punctuation"
+		},
+		{
+			"include": "#vardeclares"
+		}
+		
+	],
+	"repository": {
+		"debug": {
+			"patterns": [{
+				"name": "debug.line.vertexadt",
+				"match": "^\\s*debug.*"
+			}
+			]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.vertexadt",
+				"match": "\\b(if|then|else|endif|loop|endloop|return|exitif|and|or)\\b"
+			},
+			{
+				"name": "keyword.control.include.vertexadt",
+				"match": "#\\s*include\\b"
+			  },
+			  {
+				"name": "keyword.control.include.vertexadt",
+				"match": "##\\s*included_from\\b"
+			  },
+			  {
+				"name": "keyword.control.include.vertexadt",
+				"match": "#\\s*attributes\\b"
+			  },
+			  {
+				"name": "keyword.control.include.vertexadt",
+				"match": "\\s*call\\b"
+			  },
+			  {
+				"name": "keyword.commonon.vertexadt",
+				"match": "\\b(common_indexes 1|common_dbases 1|common_elements 1|common_files 1|common_points 1|common_progressbars 1)\\b"
+			  },
+			  {
+				"name": "keyword.commonoff.vertexadt",
+				"match": "\\b(common_indexes 0|common_dbases 0|common_elements 0|common_files 0|common_points 0|common_progressbars 0)\\b"
+			  },
+			  {
+				"name": "keyword.strsyntax.vertexadt",
+				"match": "^\\s*charset=.*"
+			  }
+			]
+		},
+		"strings": {
+			"patterns": [
+				  {
+					"name": "string.quoted.double.vertexadt",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+					  {
+						"name": "constant.character.escape.vertexadt",
+						"match": "\\\\."
+					  },
+					  {
+						"name": "string.hash.vertexadt",
+						"begin": "^###",
+						"end": "###$"
+					  }
+					]
+				  },
+				  {
+					"name": "string.hash.vertexadt",
+					"begin": "^###",
+					"end": "###$"
+				  }
+				
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.todo",
+					"match": "^\\s*!.*TODO.*$"
+				},
+				{
+					"name": "comment.line.problem",
+					"match": "^\\s*!.*PROBLEM.*$"
+				},
+				{
+					"name": "comment.line.temporary",
+					"match": "^\\s*!.*TEMP.*$"
+				},
+				{
+					"name": "comment.line.debug",
+					"match": "^\\s*!.*DEBUG.*$"
+				},
+				{
+					"name": "comment.line.debug",
+					"match": ";\\s*!.*DEBUG.*$"
+				},
+				{
+					"name": "comment.line.old",
+					"match": "^\\s*!.*OLD.*$"
+				},
+				{
+					"name": "comment.line.old",
+					"match": ";\\s*!.*OLD.*$"
+				},
+				{
+					"name": "comment.line.new",
+					"match": "^\\s*!.*NEW.*$"
+				},
+				{
+					"name": "comment.line.new",
+					"match": ";\\s*!.*NEW.*$"
+				},
+				{
+					"name": "comment.line.todo",
+					"match": ";\\s*!.*TODO.*$"
+				},
+				{
+					"name": "comment.line.problem",
+					"match": ";\\s*!.*PROBLEM.*$"
+				},
+				{
+					"name": "comment.line.temporary",
+					"match": ";\\s*!.*TEMP.*$"
+				},
+				{
+					"name": "comment.line.question",
+					"match": "^\\s*!.*QUEST.*$"
+				},
+				{
+					"name": "comment.line.question",
+					"match": ";\\s*!.*QUEST.*$"
+				},
+				{
+					"name": "comment.line.info",
+					"match": "^\\s*!.*INFO.*$"
+				},
+				{
+					"name": "comment.line.info",
+					"match": ";\\s*!.*INFO.*$"
+				},
+				{
+					"name": "comment.line.example",
+					"match": "^\\s*!.*EXAMPLE.*$"
+				},
+				{
+					"name": "comment.line.example",
+					"match": ";\\s*!.*EXAMPLE.*$"
+				},
+				{
+					"name": "comment.line.semicolon",
+					"match": ";\\s*!.*"
+				},
+				{
+					"name": "comment.line.exclamation",
+					"match": "^\\s*!.*$"
+				}
+				
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "variable.string.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*\\$"
+				},
+				{
+					"name": "variable.Xvector.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*X(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Yvector.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*Y(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Zvector.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*Z(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Pvector.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*P(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Nvector.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*N(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Xvector.vertexadt",
+					"match": "\\bX(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Yvector.vertexadt",
+					"match": "\\bY(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Zvector.vertexadt",
+					"match": "\\bZ(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Pvector.vertexadt",
+					"match": "\\bP(\\d+)?\\b"
+				},
+				{
+					"name": "variable.Nvector.vertexadt",
+					"match": "\\bN(\\d+)?\\b"
+				},
+				{
+					"name": "variable.other.vertexadt",
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*\\b(?!\\$)"
+				}
+			]
+		},
+		"punctuation": {
+			"patterns": [
+				{
+					"name": "punctuation.separator.semicolon.vertexadt",
+					"match": ";"
+				}
+				]
+		},
+		"vardeclares": {
+			"patterns": [
+				{
+					"name": "variable.declare.vertexadt",
+					"match": "@declarationnumbercheckend"
+				},
+				{
+					"name": "variable.declare.vertexadt",
+					"match": "@declarationnumbercheckstart"
+				},
+				{
+					"name": "variable.declare.vertexadt",
+					"match": "@require_common_(?:indexes|dbases|elements|files|points)\\b"
+				},
+				{
+					"name": "variable.declare.vertexadt",
+					"match": "@nodebugstart"
+				},
+				{
+					"name": "variable.declare.vertexadt",
+					"match": "@nodebugend"
+				}
+			]
+		},
+		"functions":{
+			"patterns": [
+				{
+					"name": "support.function.vertexadt",
+					"match": "\\b(is_struct_in_pdm|dbledit2_unrelated|xml_import|xml_export|window_tile|virtual_call|updatemassvalues|timestamp|text_z|speechsynthesizer|solve_effective_c|show_edge_surf|seteditval|set_wpnl_sa_ids|set_vxtype|set_primary_mem|set_frm_tool|select_wall|roman8toiso|requestwinhttp|reloadbrowsers|refchecksum|publish|project_rstatus|pressure_drop|piece_move_end_free|piabdexport|pdm_create_or_update_doc|openpipepositiondb|openitemdata|open_mail|obj_has_param|new_wall2|modelupdate|modeldatatofile|milliseconds_since_1970|makeexcellist|macro_param|line_data_in_3d|isotoroman8|isometrics|is_weak|is_primary_mem|infunction|hatch_add_holes|has_macro_in_point|handlesize|grade_map_refresh|grade_map|getvid|getpipepositiondb|getpipecompfield|getcurrenthaspid|get_wall_bot_and_top|get_vxtype_sub|get_vxtype_main|get_vxtype_group|get_unite_vxgeom|get_truss|get_sheet_type|get_pipe_ends|get_opendwg|get_lib_file_path|get_lbl_param|get_joint_preview_path|get_gravity_pnt|get_coolprop_name|from_registry|fileinfo_remove_temp_meta|fileinfo_from_meta|file_is_open|empty_dbase|dwg_inch_mode|distance|dbtoxml|dbgetactrowvalue|dbgetactrowdata|dbeditfrm|dbbtmenable|current_pdm_user|createlocalpdmpipeid|copy_support_pos|copy_feat_data|convert_from_si|conv_eave_trims|complib_value|color_to_bitmap|coll_materials|clprint|closepipepositiondb|check_walljnts|c-call|bds_wfrmpiece|bds_add_dbl_dim|add_save_vers|is_connected_to|dbdump_to_xml|set_djdependent|max|savebrowserpict|fileinfo_to_meta|get_ci_param|new_ci_iterator|get_vxgeom_overlap|edit_jnt_data|inside_truss_ctr|get_complib_descr|del_area_frmdata|touch_joint|get_act_cl_file_path|set_djmaster|add_area_frmdata|set_piece_inst|dbtranslate|copy_feature|adb_type|set_sa_id_rule|set_ncacc_setup|new_sheet|set_regenerable|pnchline_to_poly|get_poly_ctr|set_sheet_shape|get_vxtype_code_by_m|get_vxtype_code_by_s|get_vxtype_m_by_code|get_vxtype_s_by_code|get_vxtype_m_descr|get_vxtype_s_descr|get_area_clips_with_edges|set_capa_param|add_capacity_data|set_piece_set|macro_disconnect|piupdate|new_area|update_joints|is_adapt_act|disconnect_c|make_dependent|set_joint_punch|find_roof_slope|mirror_piece|modellimits|mtype|select_lb|pnt_inside_poly|is_adapt_act_pos|calc_cambium_pos|is_pce_end_in_pce|get_struct_core|set_pnt_param|cut_piece|call_virtual|getprompt|get_pnt_param|set_piece_sect|new_ncaccessory|set_frame_tlink|get_panel|set_base_label|abs|access|access_custom|acistol|acos|active_task|actmacsearch|acttarget|add_area_adtdata|add_aux_task|add_comp_member|add_edge|add_poly|add_refmod|add_sobj|add_to_group|add_wall_pce|ainv|alfa|allow_var_mixing|and|animoper|arc|archtop_xz|arc_2pr|areatextedit|area_to_dwg|ascii|asin|ask|askdim|atan|atan2|aton_doc_firstf|aton_item_trans|atopbrowser|ax_point|base_to_dwg|bdschartselect|bdsstdpiecelabel|bds_double_dim|bds_trimpiece|bds_wadtpiece|bds_wadt_spdet_select|beta|bezier|BindCodeInRepre|boolean_oper|build|build_option_condition|button_switch|bytelen|calcu_angles|calc_elem|cat_line|cbezier|ceilslopedir|ceil_height|ceil_slope|changeproj|change_sheet|charset|checkpdfpicts|check_holes|chg_adb_type|ch_mac_codes|circle|circled|circle_xz|cline|clipcyl|clipvol|close|close_building|close_icm|close_port|cmp|cmpi|cmp_wall_identifier|color|command_to_stack|common_dbases|common_elements|common_files|common_indexes|common_points|comparedrawing|comp_library|connect|constr|convchars|copy_elem|copy_object|copy_piece_pres|cos|createbitmap|create_guid|create_new_proj|crimeconvert|cross_product|crounded|cruled|cube|current_user|customfileaccess|custom_file_sys|cut_wlmprof|cylinder|cylinder_radius|dateadd|datecheck|datecompare|dateconvert|dateoffile|dateofweek|day|ddrevid_check|ddrevid_cmp|ddrevid_from_number|ddrevid_last|ddrevid_next|ddrevid_to_number|deactmacsearch|debug|define_elem|delallbitpics|delete|deltarget|delview|del_area_adtdata|del_elem|del_elem3d|del_joint_det|del_macro_param|del_object|del_obj_param|del_wlmprof|depression_in_log|dialog|dig|digconstrain|dighit|digsnapmode|dig_z_iop|dim|dimang|dimrad|dimradc|dircopy|dircreate|dirremove|disconnect|displayimages|distanceP2P|documtype|dot_product|drawingtolines|drawingtype|drop_poly|dr_to_part|dt_eccentricity|duct_angles|dwgactivate|dwgbgclose|dwgbgopen|dwgcleararea|dwgclose|dwgdraft|dwgempty|dwgfilename|dwggetlimits|dwggetvardims|dwginit|dwgischanged|dwgmultishtact|dwgmultishtget|dwgopen|dwgopen_bg|dwgopen_old|dwgpath|dwgplot|dwgportclose|dwgpreview_activate|dwgpreview_compare|dwgpreview_plotpen|dwgpreview_redraw|dwgpreview_replot|dwgread|dwgredo|dwgredraw|dwgrefresh|dwgresetchanges|dwgresetundo|dwgparamget|dwgparamset|dwgsetchanged|dwgsetlevels|dwgsetlimits|dwgsetlimitsby|dwgsetorigin|dwgsetscale|dwgsetzoom|dwgsheetbyseries|dwgstore|dwgstretchdims|dwgundo|dwgundostore|dwgupdate|dwgupdatedims|dwgupdatetext|dwg_to_area|dwg_to_base|dwg_to_inch|dwg_to_linear|dwg_to_mm|edit_obj_data|edit_wlmprof|elbow|ellipse|ellipsetop_xz|ellipse_arc|ellipse_xz|emptypage|empty_string|eof|error_msgbox|error_stops|escape|exec_features|exec_office|exp|explode_line|exitif|then|facet|fade_elem|feature_to_part|feat_vgtool_shp|feat_vgtool_swp|fileaccess|filecopy|filecopy_custom|filename_body|filename_ext|filename_prefix|filename_validate|fileopen|filepath|filepath_back|filepath_custom|filepath_drive|filepath_file|filepath_lastdir|filepath_normal|filepath_path|fileremove|fileselectdialog|filesort|file_exists|file_isotoroman8|file_permission|file_read_mode|file_roman8toiso|file_selection|file_wrdisable|file_wrenable|fill_dtext|findfile|findstr|findstri|findstrr|findstrri|find_3d_macro|find_group|find_group_param|find_hatch|find_hatch_param|find_line|find_line_param|find_line_rid|find_macro|find_macro3d|find_macro_param|find_macro_rid|find_partlist|find_pview|find_support_points|find_surf|find_text|find_text_param|find_truss|find_volume|finish_op_combo|folder_files|folder_folders|fonttolines|force_image_load|format_key_value|fractinches|frn_get_height|frn_get_thickness|frn_get_width|from3d|furn_del_meas|furn_get_active_room|furn_picselection|furn_variate|gamma|gcoll|gdist|get|getact_formatorder|getcurrenttarget|getdate|getenv|getlevels|getmeas|getobjparam|getpartcode|getpartstodb|getpipecvariables|getplantdata|getprompt |getrootname|getsheetname|gettargetdwgofbd|gettargetmodelofbd|gettargetmodelofdwg|gettime|get_actrepre_itemdata|get_actual_area|get_actual_pcend|get_actual_piece|get_actual_railing|get_actual_railing_end|get_area_param|get_area_param|get_area_plane|get_area_point|get_attr_text|get_attr_text2|get_attr_text3|get_aux_object|get_ctr_edge|get_current_pid|get_cyl_point|get_detail_param|get_detail_param|get_drawing_type|get_edge_detail|get_edge_dir|get_feat_ctype|get_file_suffix|get_framing_dir|get_hasp_id|get_hatch_line|get_hole_contour|get_io_point|get_joint_param|get_joint_pnt|get_joint_pos|get_line_point|get_log_wall_param|get_lwmater|get_macro_param|get_macro_point|get_material_param|get_model_alfa|get_model_beta|get_model_gamma|get_object_type|get_obj_param|get_obj_reflector|get_obj_size|get_option_string|get_origin|get_origin_pnt|get_origin_pos|get_panel_core|get_param|get_parent|get_part_data|get_piece_dir|get_piece_end_trims|get_piece_localp|get_piece_param|get_piece_point|get_piece_pos|get_piece_tan|get_piece_vxgeom|get_poly_lim|get_reactor_pos|get_section_param|get_section_param|get_sheet_ctr|get_suitable_hangers|get_surf_sizes|get_text_point|get_trs_ctr|get_trs_dir|get_trs_param|get_trs_supports|get_ultimate_pnt|get_vxgeom|get_vxgeom_clips|get_vxgeom_len|get_vxgeom_point|get_vxgeom_shape|get_vxgeom_tan|get_wall_corner_pnt|get_wall_from_wpnl|get_wall_jntpnts|get_wall_localp|get_wall_trim|get_wall_vxgeom|get_wlmprof_ref|grille_limits|grlinkclose|grlinkopen|group|groupf|groupm|groupm2|groupm3|groups|groupv|group_add|group_dashing|group_found|group_updating|hatch|hatch_angle|hatch_area|hatch_color|hatch_found|hatch_holes|hatch_level|hatch_linewidth|hatch_rsize|hatch_sort|hidetopic|hisback|hisdelall|hisfor|hisversion|hlight_icm_sq|inch_mode|inch_to_dwg|initgroups|initmacroloop|initscreen|initsurfloop|initvolumeloop|init_iterator|insert_det_mem|insert_edges|inside|inside_panel_fence|inside_trs_ctr|int|interaction|intersect|intsectline|int_part|io_label|io_point|io_point_descr|io_point_exists|io_text|io_type|is_crossing_pce|is_det_member|is_in_vxgeom|is_point_inside|killatopbrowser|killbrowser|kx|ky|kz|lastgetvarnotset|last_io_found|last_kbd|last_xcoord|last_ycoord|latin1|latin2|layerdelete|layermove|layerscheme|len|level|line|lineadbget|lineadbset|linear_to_dwg|linetop_xz|linewidth|line_found|lintersect|load_bmp_lights|load_def_lights|load_tiff|log|log_middle_surface_model|log_silh_dwg_active|ltypetolines|lwindex|lwsetmaterial|macdir|macparamadbopen|macro|macroadbget|macroadbset|macropipenumber|macro_code|macro_found|macro_in_library|macro_info|macro_level|macro_name|macro_type|macro_zhgt|make_group|make_view|make_volume|mangledef|mapactenv|map_macro|markmacro|markpipe|markpoint|mark_elem|mark_linked|mark_obj|mark_point|massprop|mass_prop|mcode|meas|meas3d_text|meastolerans|meas_auto_level|meas_auto_locate|meas_end1|meas_end2|meas_ext1|meas_ext2|meas_line|meas_reso|message|messagebox|min|miscadbclose|miscadbopen|mm_to_dwg|modelcloseback|modeldrawings|modelopen|modelopenback|modelpath|modelportclose|modelread|modelsetlimits|modelsetpcolor|modelstore|moveview|ms_volume|mzdef|newassembly|newbezier|newcbezier|new_comp|new_djoint|new_feature|new_hole_feature|new_iterator|new_macro|new_notch_feature|new_origin|new_piece|new_piece2|new_route|new_vxgeom|new_wall|nextconnectionid|nextmacro|nextpartnumber|nextpipenumber|nextsurf|nextvolume|next_item|next_object|not|note|notewinclear|notewinclose|notewinopen|numeric_string|objadbclose|objadbopen|objfindoff|objfindon|offset_line|offset_vxgeom|open|OpenDBs|open_ascii|open_dwg|open_icm|open_icon|open_raster|opngmac|optbitset|or|output_partlist|partlist_found|paths_equal|pcolor|pdb_to_part|pdfdeststr|pdfmarkstr|pdfmarkstrinv|pdm_create|pdm_create_item|pdm_create_link|pdm_create_structure|pdm_dwgopen|pdm_dwgread|pdm_dwgstore|pdm_get_field|pdm_get_itemdata|pdm_get_metadata|pdm_get_window_pdmname|pdm_new_code|pdm_select_item|pdm_send_notific|pdm_set_metadata|pdm_subslist_id|pdm_variant_opt|pdm_varsign_field|piece_move_end|pipe_angles|piping_joint|plane|plane_autodir|platetext|plc_family|plc_unbuild|plmb_collect_ship_loose|plmb_sys|pnt_to_plane|point|pointadbget|pointadbset|points_to_poly|point_found|point_macro|point_to_piece|point_to_vxgeom|polyline_pts|Ponline|pow|presolve_settings|print|profiler|program_version|progressbarpos|projectms|projectpath|proj_to_piece|proj_vxgeom|proj_vxgeom_dir|ptol|puzzlemode|pview|pview_act|pview_kx|pview_ky|pview_xcoord|pview_ycoord|radrect|randomnumber|read|really|reallycancel|refdwgadd|refmodel|refmod_to_group|refresh_layout|refresh_struct|remainder_part|render_to_file|replace|replacem|replname_valid|resize_xz|restoreparams|roman8|roofslopedir|roof_height|roof_slope|roomcollect|rotate|round|rounded|rounds|route_append|ruled|runtask|rwidth|savebitpics|savepart|saveporttobmp|savevoltomodreg|save_group|save_volume|Scale|scalewm|section_to_poly|seladbtype|select|selectcodepic|selectfolder|selectlevels|select_defsel|select_file|select_label|select_nrows|select_str_options|select_winposx|select_winposy|separategroups|set|setgeomsnap|setgetval|setglabel|setpcolor|setprofnumber|setprogressbar|setprompt|setrootname|setwaitcursor|set_area_mater|set_attr_text|set_attr_text2|set_attr_text3|set_clipboard|set_djmember|set_djparam|set_edge_shape|set_feat_param|set_find_param|set_group_origo|set_hatch_param|set_joint_param|set_joint_pos|set_lbl_param|set_line_param|set_log_pnl_org|set_macro_form|set_macro_name|set_macro_param|set_macro_tr|set_no_drawing|set_obj_param|set_origin_pnt|set_origin_pos|set_param|set_param_prog|set_part_data|set_piece_enddir|set_piece_end_trims|set_piece_pos|set_piece_rotpnt|set_poly_pleq|set_same_tlink|set_same_visib|set_text_adbass|set_text_ass|set_text_param|set_text_string|set_visibility|set_vol_param|set_wall_org|set_wall_pos|shear_wall|show_error|shrink_poly|sin|snowload|sort|sound|special_command|spmacro|sqrt|strancmp|strcmp|stretch|stretch_area|stretch_wall_to_roof|strfield|strhasonlydigits|strincrement|strmatch|strparams|strtoks|strtoxml|subtract|surfadbget|surfadbset|surfhatchcolor|surf_ptol|sweep|sweepr|sweep_plane|tan|target_dbclose|target_dbopen|text|textfromdbtopic|text_angle|text_color|text_edit|text_editor|text_espace|text_font|text_found|text_height|text_hiding|text_inp|text_level|text_linewidth|text_lorg|text_process|text_processws|text_rdista|text_rwidth|text_slant|text_string|text_type|text_underline|tolower|toupper|translate|transparent|trans_polyline|trim|trim_piece|trim_railing|trim_round|trim_wall|twosided|unicode16|unite|unmapactenv|unset|unzip_dir|updateadbtexts|update_subs_pos|upd_object_geom|use_dxf_setup|utf8|utf8_noheader|vec_add|vec_copy|vec_cross_prod|vec_dot_prod|vec_get_x|vec_get_y|vec_get_z|vec_intersect|vec_len|vec_mark|vec_rev|vec_rot|vec_same|vec_start_blink|vec_stop_blink|vec_sub|vec_times_scalar|vec_to|vec_unit|view_name|view_option|view_options|volumeadbget|volumeadbset|volume_found|vxgeom_cross_pnts|vxgeom_exists|vxsettings_key_value|vxui_progress|wait|wall_end_points|wall_lay_on_flooring|webpublish|week|windowheader|window_visible|windzone|wmenu|write|xcoord|Xlimit_max|Xlimit_min|xmltopdf|xstore|xtra|ycoord|Ylimit_max|Ylimit_min|ystore|ytra|zip_dir|zcoord|ztra|adbcollect|adbopen|adbopendwg|adbset|adbsetdwg|adb_update_all|change_adb_type|dbadd|dbaddrow|dbalter|dbbind|dbbutton_disable|dbchanged|dbclose|dbclose_by_name|dbcontrol_disable|dbcontrol_hide|dbcopy|dbcopyrow|dbcreate|dbdebug|dbdefsellist|dbdelete|dbdelrow|dbdelrowsl|dbdialog|dbdialog_redraw|dbdiff|dbedit|dbemptyf|dbequalrows|dberrormessage|dbexpand|dbfenable|dbfield_prestr|dbfield_prestr_mapped|dbfieldexist|dbfieldlen|dbfieldname|dbfieldnum|dbfields_enable|dbfieldtype|dbfieldunion|dbfield_bgcolor|dbfield_caption|dbfield_changed|dbfield_disable|dbfield_freehided|dbfield_hide|dbfield_mark|dbfind|dbgetactrow|dbgetall|dbgetf|dbgetrid|dbgetval|dbladd|dbladdl|dblalreadyopen|dblastfunction|dblclear|dblclose|dblcopyl|dbldebug|dbldell|dbldelrid|dbldiff|dbledit|dbledit2|dblfield_bgcolor|dblfield_mark|dblfilter|dblfind|dblgetrid|dblgetval|dblist|dblistnum|dblistview_update|dblmatchl|dblopen|dblopenadd|dblopendel|dblopensort|dblorphans|dblprint|dblputf|dblridind|dblselect|dblselectn|dblselect2|dblselectn2|dblsort|dblsort_field|dblstore|dbltoxml|dblvalid|dbname|dbopen|dbpack|dbpage|dbpage2|dbpicformlist|dbprint|dbputall|dbputf|dbrollout|dbrowstatus|dbrowstatus_init|dbrowundo|dbsave|dbselect|dbselector_inp|dbsetactrow|dbunset|dbvalid|ddrevid_last|fill_adb|setelemadb3d|bgsystem|bgsystemnew|break|call|chmhelp|exit|function|include|open_url|quit|run_open|send_mail|system|map_add_map|map_clear|map_cmp|map_del_map|map_diff_keys|map_edit|map_find_key|map_find_value|map_from_db|map_from_dblist|map_from_dbrow|map_from_repl|map_get|map_get_first|map_get_next|map_key_at|map_read|map_same_keys|map_save|map_set|map_show|map_size|map_store|map_to_dblist|map_to_dbrow|map_to_repl|map_unset|map_unstore|map_valid_key|map_value_at|xl_create_book|xl_create_xml_book|xlbk_add_format|xlbk_add_sheet|xlbk_del_sheet|xlbk_get_named_range|xlbk_get_sheet|xlbk_get_sheet_by_name|xlbk_insert_sheet|xlbk_load|xlbk_release|xlbk_save|xlbk_sheet_count|xlfm_num_format|xlfm_set_num_format|xlsht_cell_format|xlsht_cell_type|xlsht_clear_print_area|xlsht_clear_print_repeats|xlsht_first_col|xlsht_first_data_col|xlsht_first_data_row|xlsht_first_row|xlsht_footer|xlsht_footer_margin|xlsht_del_named_range|xlsht_get_named_range|xlsht_get_num_format|xlsht_header|xlsht_header_margin|xlsht_last_col|xlsht_last_data_col|xlsht_last_data_row|xlsht_last_row|xlsht_name|xlsht_named_range|xlsht_named_range_size|xlsht_print_area|xlsht_print_repeat_cols|xlsht_print_repeat_rows|xlsht_print_row_col|xlsht_read_auto|xlsht_read_num|xlsht_read_str|xlsht_set_cell_format|xlsht_set_footer|xlsht_set_header|xlsht_set_hor_page_break|xlsht_set_name|xlsht_set_named_range|xlsht_set_print_area|xlsht_set_print_repeat_cols|xlsht_set_print_repeat_rows|xlsht_set_print_row_col|xlsht_write_auto|xlsht_write_num|xlsht_write_str|get_floor_level_name|get_wall_type)\\b"
+				}
+				]
+		}
+	},
+	"scopeName": "source.vertexadt"
+}
