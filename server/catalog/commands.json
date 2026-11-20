@@ -10857,9 +10857,9 @@
       "after": [
         {
           "index": 0,
-          "kind": "normal variable",
+          "kind": "string variable",
           "required": true,
-          "invalid": "Parameter outside parentheses must be a valid variable in dblopensort"
+          "invalid": "Parameter outside parentheses must be a valid string variable in dblopensort"
         }
       ]
     }
@@ -11881,6 +11881,828 @@
           "kind": "normal variable",
           "required": true,
           "invalid": "Parameter outside parentheses must be a valid variable in set_regenerable"
+        }
+      ]
+    }
+  },
+  "get_reactor_pos": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 6,
+      "maxParamsInside": 6
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "joint",
+            "array"
+          ],
+          "paramName": "input joint"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "wall"
+          ],
+          "paramName": "input wall"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in get_reactor_pos"
+      },
+      "tooFewInside": "get_reactor_pos requires 6 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter must be a valid variable in get_reactor_pos"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter must be a valid variable in get_reactor_pos"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter must be a valid variable in get_reactor_pos"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fourth parameter must be a valid variable in get_reactor_pos"
+        },
+        {
+          "index": 4,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fifth parameter must be a valid variable in get_reactor_pos"
+        },
+        {
+          "index": 5,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Sixth parameter must be a valid variable in get_reactor_pos"
+        }
+      ]
+    }
+  },
+  "check_walljnts": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "wall"
+          ],
+          "paramName": "input wall"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in check_walljnts"
+      },
+      "tooFewInside": "check_walljnts requires 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter must be a valid variable in check_walljnts"
+        }
+      ]
+    }
+  },
+  "proj_vxgeom": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 5,
+      "maxParamsOutside": 5
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "vxgeom"
+          ],
+          "paramName": "input vxgeom"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "plane coefficient a"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "plane coefficient b"
+        },
+        {
+          "paramIndex": 3,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "plane coefficient c"
+        },
+        {
+          "paramIndex": 4,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "plane coefficient d"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "proj_vxgeom requires 1 parameter inside parentheses",
+      "tooFewAfter": "proj_vxgeom requires 5 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in proj_vxgeom"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in proj_vxgeom"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid variable in proj_vxgeom"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter after parentheses must be a valid variable in proj_vxgeom"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fourth parameter after parentheses must be a valid variable in proj_vxgeom"
+        },
+        {
+          "index": 4,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fifth parameter after parentheses must be a valid variable in proj_vxgeom"
+        }
+      ]
+    }
+  },
+  "get_log_wall_param": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 2,
+      "maxParamsInside": 2
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "wall"
+          ],
+          "paramName": "input wall"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "parameter name"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "get_log_wall_param requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in get_log_wall_param"
+      },
+      "tooFewInside": "get_log_wall_param requires 2 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter must be a valid variable in get_log_wall_param"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Second parameter must be a valid string in get_log_wall_param"
+        }
+      ]
+    }
+  },
+  "get_wall_localp": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 3,
+      "maxParamsOutside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "wall"
+          ],
+          "paramName": "input wall"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "line name"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "height"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_wall_localp requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_wall_localp requires 3 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in get_wall_localp"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in get_wall_localp"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid string in get_wall_localp"
+        },
+        {
+          "index": 2,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Third parameter after parentheses must be a valid string in get_wall_localp"
+        }
+      ]
+    }
+  },
+  "wall_end_points": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 3,
+      "maxParamsInside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "wall"
+          ],
+          "paramName": "input wall"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in wall_end_points"
+      },
+      "tooFewInside": "wall_end_points requires 3 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter must be a valid variable in wall_end_points"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter must be a valid variable in wall_end_points"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter must be a valid variable in wall_end_points"
+        }
+      ]
+    }
+  },
+  "offset_vxgeom": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 4,
+      "maxParamsOutside": 4
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "vxgeom"
+          ],
+          "paramName": "input vxgeom"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "plane point"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "dvector",
+            "xvector",
+            "yvector",
+            "zvector",
+            "nvector"
+          ],
+          "paramName": "plane normal"
+        },
+        {
+          "paramIndex": 3,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "offset"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "offset_vxgeom requires 1 parameter inside parentheses",
+      "tooFewAfter": "offset_vxgeom requires 4 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in offset_vxgeom"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in offset_vxgeom"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid variable in offset_vxgeom"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter after parentheses must be a valid variable in offset_vxgeom"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fourth parameter after parentheses must be a valid variable in offset_vxgeom"
+        }
+      ]
+    }
+  },
+  "trim_piece": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 5,
+      "maxParamsInside": 5
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profileend",
+            "array"
+          ],
+          "paramName": "input profile end"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "plane point"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "dvector",
+            "xvector",
+            "yvector",
+            "zvector",
+            "nvector"
+          ],
+          "paramName": "plane normal"
+        },
+        {
+          "paramIndex": 3,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "offset"
+        },
+        {
+          "paramIndex": 4,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "mode"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in trim_piece"
+      },
+      "tooFewInside": "trim_piece requires 5 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter must be a valid variable in trim_piece"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter must be a valid variable in trim_piece"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter must be a valid variable in trim_piece"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fourth parameter must be a valid variable in trim_piece"
+        },
+        {
+          "index": 4,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fifth parameter must be a valid variable in trim_piece"
+        }
+      ]
+    }
+  },
+  "get_piece_localp": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 3,
+      "maxParamsOutside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profile",
+            "array"
+          ],
+          "paramName": "input profile"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "point name"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "mode"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_piece_localp requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_piece_localp requires 3 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in get_piece_localp"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in get_piece_localp"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid string in get_piece_localp"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter after parentheses must be a valid variable in get_piece_localp"
+        }
+      ]
+    }
+  },
+  "get_piece_point": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 3,
+      "maxParamsOutside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profile",
+            "array"
+          ],
+          "paramName": "input profile"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "input position vector"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "input local point"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_piece_point requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_piece_point requires 3 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in get_piece_point"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in get_piece_point"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid variable in get_piece_point"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter after parentheses must be a valid variable in get_piece_point"
+        }
+      ]
+    }
+  },
+  "copy_object": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "macro"
+          ],
+          "paramName": "input macro"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "copy_object requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in copy_object"
+      },
+      "tooFewInside": "copy_object requires 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter must be a valid variable in copy_object"
+        }
+      ]
+    }
+  },
+  "get_ultimate_pnt": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profileend",
+            "array"
+          ],
+          "paramName": "input profile end"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_ultimate_pnt requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_ultimate_pnt requires 1 parameter after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in get_ultimate_pnt"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter after parentheses must be a valid variable in get_ultimate_pnt"
+        }
+      ]
+    }
+  },
+  "point_to_piece": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 2,
+      "maxParamsOutside": 2
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profile",
+            "array"
+          ],
+          "paramName": "input profile"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "input position vector"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "point_to_piece requires 1 parameter inside parentheses",
+      "tooFewAfter": "point_to_piece requires 2 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Parameter inside parentheses must be a valid variable in point_to_piece"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "First parameter after parentheses must be a valid variable in point_to_piece"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Second parameter after parentheses must be a valid variable in point_to_piece"
         }
       ]
     }

@@ -8,7 +8,7 @@
 
 namespace vertexadt::catalog::generated {
 
-inline constexpr std::size_t kCommandCount = 245;
+inline constexpr std::size_t kCommandCount = 258;
 inline constexpr std::size_t kKeywordCount = 1336;
 inline constexpr std::size_t kReturnTypeCount = 360;
 inline constexpr std::size_t kInputParamTypeCount = 87;

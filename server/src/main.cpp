@@ -198,8 +198,8 @@ auto main() -> int
   try
   {
     const auto catalogs = vertexadt::catalog::linkIntoExecutable();
-    if (catalogs.commandCount != 245
-        || catalogs.tableValidatorCount != 240
+    if (catalogs.commandCount != 258
+        || catalogs.tableValidatorCount != 253
         || catalogs.customValidatorCount != 5
         || catalogs.keywordCount != 1336)
     {

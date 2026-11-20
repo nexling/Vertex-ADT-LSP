@@ -116,6 +116,19 @@ int main()
     "dbgetactrow accepts at most 0 parameters after parentheses",
     "parameter after parentheses");
 
+  std::cout << "dblopensort: string variable after parentheses (vxbd320 corpus)\n";
+  checkEq(messages("Lid = 1\nOrder$ = \"x\"\ndblopensort(Lid) Order$", "dblopensort"), "", "string variable");
+  checkEq(
+    messages("Lid = 1\nOrder = 1\ndblopensort(Lid) Order", "dblopensort"),
+    "Parameter outside parentheses must be a valid string variable in dblopensort",
+    "normal variable");
+  checkEq(
+    messages("Lid = 1\ndblopensort(Lid) \"NAME\"", "dblopensort"),
+    "Parameter outside parentheses must be a valid string variable in dblopensort",
+    "string literal");
+  checkEq(
+    insertText("dblopensort"), "dblopensort(${1:in_DBLID}) ${2:in_Order$}", "snippet uses a string variable");
+
   if (failures > 0)
   {
     std::cout << failures << " failure(s)\n";

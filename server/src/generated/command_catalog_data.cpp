@@ -554,6 +554,37 @@ const TableValidator kTable_change_sheet{
   .inside = kInside_change_sheet,
 };
 
+const std::string_view kStrictTypes_check_walljnts_input_0[] = {
+  std::string_view{"wall"},
+};
+const StrictTypeSlot kStrictSlots_check_walljnts_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_check_walljnts_input_0,
+    .paramName = std::string_view{"input wall"},
+  },
+};
+const StrictMode kStrict_check_walljnts{
+  .enabled = true,
+  .inputTypes = kStrictSlots_check_walljnts_input,
+};
+
+const AssignmentCheck kAssign_check_walljnts{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Invalid assignment variable in check_walljnts",
+};
+const Slot kInside_check_walljnts[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter must be a valid variable in check_walljnts"}},
+};
+const TableValidator kTable_check_walljnts{
+  .assignment = &kAssign_check_walljnts,
+  .tooFewInside = "check_walljnts requires 1 parameter",
+  .inside = kInside_check_walljnts,
+};
+
 const Slot kInside_close[] = {
   {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in close"}},
 };
@@ -768,6 +799,38 @@ const TableValidator kTable_connect{
   .tooFewAfter = "connect requires at least 1 parameter outside parentheses",
   .inside = kInside_connect,
   .after = kAfter_connect,
+};
+
+const std::string_view kStrictTypes_copy_object_input_0[] = {
+  std::string_view{"macro"},
+};
+const StrictTypeSlot kStrictSlots_copy_object_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_copy_object_input_0,
+    .paramName = std::string_view{"input macro"},
+  },
+};
+const StrictMode kStrict_copy_object{
+  .enabled = true,
+  .inputTypes = kStrictSlots_copy_object_input,
+};
+
+const AssignmentCheck kAssign_copy_object{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "copy_object requires an assignment variable",
+  .invalid = "Invalid assignment variable in copy_object",
+};
+const Slot kInside_copy_object[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter must be a valid variable in copy_object"}},
+};
+const TableValidator kTable_copy_object{
+  .assignment = &kAssign_copy_object,
+  .tooFewInside = "copy_object requires 1 parameter",
+  .inside = kInside_copy_object,
 };
 
 const std::string_view kStrictTypes_copy_piece_pres_input_0[] = {
@@ -2618,7 +2681,7 @@ const Slot kInside_dblopensort[] = {
   {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in dblopensort"}},
 };
 const Slot kAfter_dblopensort[] = {
-  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter outside parentheses must be a valid variable in dblopensort"}},
+  {.index = 0, .kind = SlotKind::StringVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter outside parentheses must be a valid string variable in dblopensort"}},
 };
 const TableValidator kTable_dblopensort{
   .tooFewInside = "dblopensort requires 1 parameter inside parentheses",
@@ -4120,6 +4183,47 @@ const TableValidator kTable_get_joint_param{
   .inside = kInside_get_joint_param,
 };
 
+const std::string_view kStrictTypes_get_log_wall_param_input_0[] = {
+  std::string_view{"wall"},
+};
+const std::string_view kStrictTypes_get_log_wall_param_input_1[] = {
+  std::string_view{"string"},
+};
+const StrictTypeSlot kStrictSlots_get_log_wall_param_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_log_wall_param_input_0,
+    .paramName = std::string_view{"input wall"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_log_wall_param_input_1,
+    .paramName = std::string_view{"parameter name"},
+  },
+};
+const StrictMode kStrict_get_log_wall_param{
+  .enabled = true,
+  .inputTypes = kStrictSlots_get_log_wall_param_input,
+};
+
+const AssignmentCheck kAssign_get_log_wall_param{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "get_log_wall_param requires an assignment variable",
+  .invalid = "Invalid assignment variable in get_log_wall_param",
+};
+const Slot kInside_get_log_wall_param[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter must be a valid variable in get_log_wall_param"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter must be a valid string in get_log_wall_param"}},
+};
+const TableValidator kTable_get_log_wall_param{
+  .assignment = &kAssign_get_log_wall_param,
+  .tooFewInside = "get_log_wall_param requires 2 parameters",
+  .inside = kInside_get_log_wall_param,
+};
+
 const std::string_view kStrictTypes_get_macro_param_input_0[] = {
   std::string_view{"macro"},
   std::string_view{"array"},
@@ -4621,6 +4725,100 @@ const TableValidator kTable_get_piece_end_trims{
   .inside = kInside_get_piece_end_trims,
 };
 
+const std::string_view kStrictTypes_get_piece_localp_after_0[] = {
+  std::string_view{"profile"},
+  std::string_view{"array"},
+};
+const std::string_view kStrictTypes_get_piece_localp_after_1[] = {
+  std::string_view{"string"},
+};
+const std::string_view kStrictTypes_get_piece_localp_after_2[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_get_piece_localp_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_piece_localp_after_0,
+    .paramName = std::string_view{"input profile"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_piece_localp_after_1,
+    .paramName = std::string_view{"point name"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_get_piece_localp_after_2,
+    .paramName = std::string_view{"mode"},
+  },
+};
+const StrictMode kStrict_get_piece_localp{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_get_piece_localp_after,
+};
+
+const Slot kInside_get_piece_localp[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in get_piece_localp"}},
+};
+const Slot kAfter_get_piece_localp[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in get_piece_localp"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid string in get_piece_localp"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter after parentheses must be a valid variable in get_piece_localp"}},
+};
+const TableValidator kTable_get_piece_localp{
+  .tooFewInside = "get_piece_localp requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_piece_localp requires 3 parameters after parentheses",
+  .inside = kInside_get_piece_localp,
+  .after = kAfter_get_piece_localp,
+};
+
+const std::string_view kStrictTypes_get_piece_point_after_0[] = {
+  std::string_view{"profile"},
+  std::string_view{"array"},
+};
+const std::string_view kStrictTypes_get_piece_point_after_1[] = {
+  std::string_view{"pvector"},
+};
+const std::string_view kStrictTypes_get_piece_point_after_2[] = {
+  std::string_view{"pvector"},
+};
+const StrictTypeSlot kStrictSlots_get_piece_point_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_piece_point_after_0,
+    .paramName = std::string_view{"input profile"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_piece_point_after_1,
+    .paramName = std::string_view{"input position vector"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_get_piece_point_after_2,
+    .paramName = std::string_view{"input local point"},
+  },
+};
+const StrictMode kStrict_get_piece_point{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_get_piece_point_after,
+};
+
+const Slot kInside_get_piece_point[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in get_piece_point"}},
+};
+const Slot kAfter_get_piece_point[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in get_piece_point"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid variable in get_piece_point"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter after parentheses must be a valid variable in get_piece_point"}},
+};
+const TableValidator kTable_get_piece_point{
+  .tooFewInside = "get_piece_point requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_piece_point requires 3 parameters after parentheses",
+  .inside = kInside_get_piece_point,
+  .after = kAfter_get_piece_point,
+};
+
 const std::string_view kStrictTypes_get_piece_tan_after_0[] = {
   std::string_view{"profile"},
   std::string_view{"array"},
@@ -4749,6 +4947,51 @@ const TableValidator kTable_get_poly_lim{
   .assignment = &kAssign_get_poly_lim,
   .tooFewInside = "get_poly_lim requires 4 parameters inside parentheses",
   .inside = kInside_get_poly_lim,
+};
+
+const std::string_view kStrictTypes_get_reactor_pos_input_0[] = {
+  std::string_view{"joint"},
+  std::string_view{"array"},
+};
+const std::string_view kStrictTypes_get_reactor_pos_input_1[] = {
+  std::string_view{"wall"},
+};
+const StrictTypeSlot kStrictSlots_get_reactor_pos_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_reactor_pos_input_0,
+    .paramName = std::string_view{"input joint"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_reactor_pos_input_1,
+    .paramName = std::string_view{"input wall"},
+  },
+};
+const StrictMode kStrict_get_reactor_pos{
+  .enabled = true,
+  .inputTypes = kStrictSlots_get_reactor_pos_input,
+};
+
+const AssignmentCheck kAssign_get_reactor_pos{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Invalid assignment variable in get_reactor_pos",
+};
+const Slot kInside_get_reactor_pos[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter must be a valid variable in get_reactor_pos"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter must be a valid variable in get_reactor_pos"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter must be a valid variable in get_reactor_pos"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fourth parameter must be a valid variable in get_reactor_pos"}},
+  {.index = 4, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fifth parameter must be a valid variable in get_reactor_pos"}},
+  {.index = 5, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Sixth parameter must be a valid variable in get_reactor_pos"}},
+};
+const TableValidator kTable_get_reactor_pos{
+  .assignment = &kAssign_get_reactor_pos,
+  .tooFewInside = "get_reactor_pos requires 6 parameters",
+  .inside = kInside_get_reactor_pos,
 };
 
 const std::string_view kStrictTypes_get_section_param_input_0[] = {
@@ -4892,6 +5135,35 @@ const TableValidator kTable_get_struct_core{
   .assignment = &kAssign_get_struct_core,
   .tooFewInside = "get_struct_core requires 1 parameter",
   .inside = kInside_get_struct_core,
+};
+
+const std::string_view kStrictTypes_get_ultimate_pnt_input_0[] = {
+  std::string_view{"profileend"},
+  std::string_view{"array"},
+};
+const StrictTypeSlot kStrictSlots_get_ultimate_pnt_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_ultimate_pnt_input_0,
+    .paramName = std::string_view{"input profile end"},
+  },
+};
+const StrictMode kStrict_get_ultimate_pnt{
+  .enabled = true,
+  .inputTypes = kStrictSlots_get_ultimate_pnt_input,
+};
+
+const Slot kInside_get_ultimate_pnt[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in get_ultimate_pnt"}},
+};
+const Slot kAfter_get_ultimate_pnt[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter after parentheses must be a valid variable in get_ultimate_pnt"}},
+};
+const TableValidator kTable_get_ultimate_pnt{
+  .tooFewInside = "get_ultimate_pnt requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_ultimate_pnt requires 1 parameter after parentheses",
+  .inside = kInside_get_ultimate_pnt,
+  .after = kAfter_get_ultimate_pnt,
 };
 
 const std::string_view kStrictTypes_get_vxgeom_after_0[] = {
@@ -5102,6 +5374,52 @@ const TableValidator kTable_get_wall_from_wpnl{
   .assignment = &kAssign_get_wall_from_wpnl,
   .tooFewInside = "get_wall_from_wpnl requires 1 parameter inside parentheses",
   .inside = kInside_get_wall_from_wpnl,
+};
+
+const std::string_view kStrictTypes_get_wall_localp_after_0[] = {
+  std::string_view{"wall"},
+};
+const std::string_view kStrictTypes_get_wall_localp_after_1[] = {
+  std::string_view{"string"},
+};
+const std::string_view kStrictTypes_get_wall_localp_after_2[] = {
+  std::string_view{"string"},
+};
+const StrictTypeSlot kStrictSlots_get_wall_localp_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_wall_localp_after_0,
+    .paramName = std::string_view{"input wall"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_wall_localp_after_1,
+    .paramName = std::string_view{"line name"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_get_wall_localp_after_2,
+    .paramName = std::string_view{"height"},
+  },
+};
+const StrictMode kStrict_get_wall_localp{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_get_wall_localp_after,
+};
+
+const Slot kInside_get_wall_localp[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in get_wall_localp"}},
+};
+const Slot kAfter_get_wall_localp[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in get_wall_localp"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid string in get_wall_localp"}},
+  {.index = 2, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter after parentheses must be a valid string in get_wall_localp"}},
+};
+const TableValidator kTable_get_wall_localp{
+  .tooFewInside = "get_wall_localp requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_wall_localp requires 3 parameters after parentheses",
+  .inside = kInside_get_wall_localp,
+  .after = kAfter_get_wall_localp,
 };
 
 const std::string_view kStrictTypes_get_wall_type_input_0[] = {
@@ -6448,6 +6766,65 @@ const TableValidator kTable_numeric_string{
   .inside = kInside_numeric_string,
 };
 
+const std::string_view kStrictTypes_offset_vxgeom_after_0[] = {
+  std::string_view{"vxgeom"},
+};
+const std::string_view kStrictTypes_offset_vxgeom_after_1[] = {
+  std::string_view{"pvector"},
+};
+const std::string_view kStrictTypes_offset_vxgeom_after_2[] = {
+  std::string_view{"dvector"},
+  std::string_view{"xvector"},
+  std::string_view{"yvector"},
+  std::string_view{"zvector"},
+  std::string_view{"nvector"},
+};
+const std::string_view kStrictTypes_offset_vxgeom_after_3[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_offset_vxgeom_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_offset_vxgeom_after_0,
+    .paramName = std::string_view{"input vxgeom"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_offset_vxgeom_after_1,
+    .paramName = std::string_view{"plane point"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_offset_vxgeom_after_2,
+    .paramName = std::string_view{"plane normal"},
+  },
+  {
+    .paramIndex = 3,
+    .allowedTypes = kStrictTypes_offset_vxgeom_after_3,
+    .paramName = std::string_view{"offset"},
+  },
+};
+const StrictMode kStrict_offset_vxgeom{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_offset_vxgeom_after,
+};
+
+const Slot kInside_offset_vxgeom[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in offset_vxgeom"}},
+};
+const Slot kAfter_offset_vxgeom[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in offset_vxgeom"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid variable in offset_vxgeom"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter after parentheses must be a valid variable in offset_vxgeom"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fourth parameter after parentheses must be a valid variable in offset_vxgeom"}},
+};
+const TableValidator kTable_offset_vxgeom{
+  .tooFewInside = "offset_vxgeom requires 1 parameter inside parentheses",
+  .tooFewAfter = "offset_vxgeom requires 4 parameters after parentheses",
+  .inside = kInside_offset_vxgeom,
+  .after = kAfter_offset_vxgeom,
+};
+
 const Slot kInside_open[] = {
   {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in open"}},
 };
@@ -6541,6 +6918,44 @@ const StrictTypeSlot kStrictSlots_pnt_to_plane_input[] = {
 const StrictMode kStrict_pnt_to_plane{
   .enabled = true,
   .inputTypes = kStrictSlots_pnt_to_plane_input,
+};
+
+const std::string_view kStrictTypes_point_to_piece_after_0[] = {
+  std::string_view{"profile"},
+  std::string_view{"array"},
+};
+const std::string_view kStrictTypes_point_to_piece_after_1[] = {
+  std::string_view{"pvector"},
+};
+const StrictTypeSlot kStrictSlots_point_to_piece_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_point_to_piece_after_0,
+    .paramName = std::string_view{"input profile"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_point_to_piece_after_1,
+    .paramName = std::string_view{"input position vector"},
+  },
+};
+const StrictMode kStrict_point_to_piece{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_point_to_piece_after,
+};
+
+const Slot kInside_point_to_piece[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in point_to_piece"}},
+};
+const Slot kAfter_point_to_piece[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in point_to_piece"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid variable in point_to_piece"}},
+};
+const TableValidator kTable_point_to_piece{
+  .tooFewInside = "point_to_piece requires 1 parameter inside parentheses",
+  .tooFewAfter = "point_to_piece requires 2 parameters after parentheses",
+  .inside = kInside_point_to_piece,
+  .after = kAfter_point_to_piece,
 };
 
 const std::string_view kStrictTypes_point_to_vxgeom_after_0[] = {
@@ -6684,6 +7099,70 @@ const TableValidator kTable_proj_to_piece{
   .assignment = &kAssign_proj_to_piece,
   .tooFewInside = "proj_to_piece requires 7 parameters",
   .inside = kInside_proj_to_piece,
+};
+
+const std::string_view kStrictTypes_proj_vxgeom_after_0[] = {
+  std::string_view{"vxgeom"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_after_1[] = {
+  std::string_view{"value"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_after_2[] = {
+  std::string_view{"value"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_after_3[] = {
+  std::string_view{"value"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_after_4[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_proj_vxgeom_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_proj_vxgeom_after_0,
+    .paramName = std::string_view{"input vxgeom"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_proj_vxgeom_after_1,
+    .paramName = std::string_view{"plane coefficient a"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_proj_vxgeom_after_2,
+    .paramName = std::string_view{"plane coefficient b"},
+  },
+  {
+    .paramIndex = 3,
+    .allowedTypes = kStrictTypes_proj_vxgeom_after_3,
+    .paramName = std::string_view{"plane coefficient c"},
+  },
+  {
+    .paramIndex = 4,
+    .allowedTypes = kStrictTypes_proj_vxgeom_after_4,
+    .paramName = std::string_view{"plane coefficient d"},
+  },
+};
+const StrictMode kStrict_proj_vxgeom{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_proj_vxgeom_after,
+};
+
+const Slot kInside_proj_vxgeom[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in proj_vxgeom"}},
+};
+const Slot kAfter_proj_vxgeom[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter after parentheses must be a valid variable in proj_vxgeom"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter after parentheses must be a valid variable in proj_vxgeom"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter after parentheses must be a valid variable in proj_vxgeom"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fourth parameter after parentheses must be a valid variable in proj_vxgeom"}},
+  {.index = 4, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fifth parameter after parentheses must be a valid variable in proj_vxgeom"}},
+};
+const TableValidator kTable_proj_vxgeom{
+  .tooFewInside = "proj_vxgeom requires 1 parameter inside parentheses",
+  .tooFewAfter = "proj_vxgeom requires 5 parameters after parentheses",
+  .inside = kInside_proj_vxgeom,
+  .after = kAfter_proj_vxgeom,
 };
 
 const AssignmentCheck kAssign_read{
@@ -7665,6 +8144,78 @@ const TableValidator kTable_trim{
   .inside = kInside_trim,
 };
 
+const std::string_view kStrictTypes_trim_piece_input_0[] = {
+  std::string_view{"profileend"},
+  std::string_view{"array"},
+};
+const std::string_view kStrictTypes_trim_piece_input_1[] = {
+  std::string_view{"pvector"},
+};
+const std::string_view kStrictTypes_trim_piece_input_2[] = {
+  std::string_view{"dvector"},
+  std::string_view{"xvector"},
+  std::string_view{"yvector"},
+  std::string_view{"zvector"},
+  std::string_view{"nvector"},
+};
+const std::string_view kStrictTypes_trim_piece_input_3[] = {
+  std::string_view{"value"},
+};
+const std::string_view kStrictTypes_trim_piece_input_4[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_trim_piece_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_trim_piece_input_0,
+    .paramName = std::string_view{"input profile end"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_trim_piece_input_1,
+    .paramName = std::string_view{"plane point"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_trim_piece_input_2,
+    .paramName = std::string_view{"plane normal"},
+  },
+  {
+    .paramIndex = 3,
+    .allowedTypes = kStrictTypes_trim_piece_input_3,
+    .paramName = std::string_view{"offset"},
+  },
+  {
+    .paramIndex = 4,
+    .allowedTypes = kStrictTypes_trim_piece_input_4,
+    .paramName = std::string_view{"mode"},
+  },
+};
+const StrictMode kStrict_trim_piece{
+  .enabled = true,
+  .inputTypes = kStrictSlots_trim_piece_input,
+};
+
+const AssignmentCheck kAssign_trim_piece{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Invalid assignment variable in trim_piece",
+};
+const Slot kInside_trim_piece[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter must be a valid variable in trim_piece"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter must be a valid variable in trim_piece"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter must be a valid variable in trim_piece"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fourth parameter must be a valid variable in trim_piece"}},
+  {.index = 4, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Fifth parameter must be a valid variable in trim_piece"}},
+};
+const TableValidator kTable_trim_piece{
+  .assignment = &kAssign_trim_piece,
+  .tooFewInside = "trim_piece requires 5 parameters",
+  .inside = kInside_trim_piece,
+};
+
 const Slot kAfter_unset[] = {
   {.index = 0, .kind = SlotKind::StringOrVariable, .variableKind = VariableKind::AnyVariable, .required = true, .invalid = std::string_view{"Parameter must be a valid variable or string in unset"}},
 };
@@ -8377,6 +8928,39 @@ const TableValidator kTable_vxsettings_key_value{
   .inside = kInside_vxsettings_key_value,
 };
 
+const std::string_view kStrictTypes_wall_end_points_input_0[] = {
+  std::string_view{"wall"},
+};
+const StrictTypeSlot kStrictSlots_wall_end_points_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_wall_end_points_input_0,
+    .paramName = std::string_view{"input wall"},
+  },
+};
+const StrictMode kStrict_wall_end_points{
+  .enabled = true,
+  .inputTypes = kStrictSlots_wall_end_points_input,
+};
+
+const AssignmentCheck kAssign_wall_end_points{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Invalid assignment variable in wall_end_points",
+};
+const Slot kInside_wall_end_points[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"First parameter must be a valid variable in wall_end_points"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Second parameter must be a valid variable in wall_end_points"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Third parameter must be a valid variable in wall_end_points"}},
+};
+const TableValidator kTable_wall_end_points{
+  .assignment = &kAssign_wall_end_points,
+  .tooFewInside = "wall_end_points requires 3 parameters",
+  .inside = kInside_wall_end_points,
+};
+
 } // namespace
 
 const CommandCatalogEntry kCommands[kCommandCount] = {
@@ -8480,6 +9064,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_change_sheet,
 },
 {
+  .name = std::string_view{"check_walljnts"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_check_walljnts,
+  .tableValidator = &kTable_check_walljnts,
+},
+{
   .name = std::string_view{"close"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .tableValidator = &kTable_close,
@@ -8529,6 +9119,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_connect,
   .tableValidator = &kTable_connect,
+},
+{
+  .name = std::string_view{"copy_object"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_copy_object,
+  .tableValidator = &kTable_copy_object,
 },
 {
   .name = std::string_view{"copy_piece_pres"},
@@ -9110,6 +9706,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_get_joint_param,
 },
 {
+  .name = std::string_view{"get_log_wall_param"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_log_wall_param,
+  .tableValidator = &kTable_get_log_wall_param,
+},
+{
   .name = std::string_view{"get_macro_param"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_get_macro_param,
@@ -9186,6 +9788,18 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_get_piece_end_trims,
 },
 {
+  .name = std::string_view{"get_piece_localp"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(3), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_piece_localp,
+  .tableValidator = &kTable_get_piece_localp,
+},
+{
+  .name = std::string_view{"get_piece_point"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(3), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_piece_point,
+  .tableValidator = &kTable_get_piece_point,
+},
+{
   .name = std::string_view{"get_piece_tan"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_get_piece_tan,
@@ -9202,6 +9816,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(4), .maxParamsInside = Arity::finite(4), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_get_poly_lim,
   .tableValidator = &kTable_get_poly_lim,
+},
+{
+  .name = std::string_view{"get_reactor_pos"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(6), .maxParamsInside = Arity::finite(6), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_reactor_pos,
+  .tableValidator = &kTable_get_reactor_pos,
 },
 {
   .name = std::string_view{"get_section_param"},
@@ -9226,6 +9846,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_get_struct_core,
   .tableValidator = &kTable_get_struct_core,
+},
+{
+  .name = std::string_view{"get_ultimate_pnt"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(1), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_ultimate_pnt,
+  .tableValidator = &kTable_get_ultimate_pnt,
 },
 {
   .name = std::string_view{"get_vxgeom"},
@@ -9262,6 +9888,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_get_wall_from_wpnl,
   .tableValidator = &kTable_get_wall_from_wpnl,
+},
+{
+  .name = std::string_view{"get_wall_localp"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(3), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_get_wall_localp,
+  .tableValidator = &kTable_get_wall_localp,
 },
 {
   .name = std::string_view{"get_wall_type"},
@@ -9498,6 +10130,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_numeric_string,
 },
 {
+  .name = std::string_view{"offset_vxgeom"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(4), .maxParamsOutside = Arity::finite(4), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_offset_vxgeom,
+  .tableValidator = &kTable_offset_vxgeom,
+},
+{
   .name = std::string_view{"open"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .tableValidator = &kTable_open,
@@ -9513,6 +10151,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(5), .maxParamsInside = Arity::finite(5), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_pnt_to_plane,
   .customValidator = CustomValidatorId::PntToPlane,
+},
+{
+  .name = std::string_view{"point_to_piece"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_point_to_piece,
+  .tableValidator = &kTable_point_to_piece,
 },
 {
   .name = std::string_view{"point_to_vxgeom"},
@@ -9531,6 +10175,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(7), .maxParamsInside = Arity::finite(7), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .strictMode = &kStrict_proj_to_piece,
   .tableValidator = &kTable_proj_to_piece,
+},
+{
+  .name = std::string_view{"proj_vxgeom"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(5), .maxParamsOutside = Arity::finite(5), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_proj_vxgeom,
+  .tableValidator = &kTable_proj_vxgeom,
 },
 {
   .name = std::string_view{"read"},
@@ -9691,6 +10341,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_trim,
 },
 {
+  .name = std::string_view{"trim_piece"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(5), .maxParamsInside = Arity::finite(5), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_trim_piece,
+  .tableValidator = &kTable_trim_piece,
+},
+{
   .name = std::string_view{"unset"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::finite(0), .maxParamsInside = Arity::finite(0), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(1), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .tableValidator = &kTable_unset,
@@ -9795,6 +10451,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .name = std::string_view{"vxsettings_key_value"},
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
   .tableValidator = &kTable_vxsettings_key_value,
+},
+{
+  .name = std::string_view{"wall_end_points"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(3), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false},
+  .strictMode = &kStrict_wall_end_points,
+  .tableValidator = &kTable_wall_end_points,
 },
 };
 

@@ -84,7 +84,8 @@
   {
     "label": "find_roof_slope",
     "detail": "finds the slope/pitch of the given roof",
-    "documentation": "Example:\n\n```vertexadt\nSlope= find_roof_slope(P)\n```"
+    "documentation": "Example:\n\n```vertexadt\nSlope= find_roof_slope(P)\n```",
+    "insertText": "find_roof_slope(${1:in_P})"
   },
   {
     "label": "mirror_piece",
@@ -287,7 +288,8 @@
   {
     "label": "convchars",
     "detail": " StrOut$=... Old$: substring to be replaced. New$: replacing substring",
-    "documentation": "Example:\n\n```vertexadt\nDoc_path_b$ = convchars(Doc_path$, \"/\", \"\\\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nDoc_path_b$ = convchars(Doc_path$, \"/\", \"\\\")\n```",
+    "insertText": "convchars(${1:in_Str$},\"${2:in_Old}\",\"${3:in_New}\")"
   },
   {
     "label": "copy_elem",
@@ -332,7 +334,8 @@
   {
     "label": "complib_value",
     "detail": "",
-    "documentation": "no example in system"
+    "documentation": "no example in system",
+    "insertText": "complib_value(${1:in_Library$},\"${2:PARAM}\")"
   },
   {
     "label": "command_to_stack",
@@ -472,7 +475,8 @@
   {
     "label": "add_aux_task",
     "detail": "adds a Source code task to be run on the given object.\n\nsome tasks takes parameters as well: add_aux_task(Ptr) \"TASK\",\"PARAM1= VAL1\",\"PARAM2= VAL2\"\nTasks: GENFRM (generate framing), GENSHT (generate sheathing), ADAPT, COMMON:UPD_PUNCH (creates hole/punch with given object), SETEDET (undocumented), COMMON:EXEC_MACRO (executes the given macro)",
-    "documentation": "Example:\n\n```vertexadt\nadd_aux_task(Area) \"GENFRM\"\n```\nExample2:\n\n```vertexadt\nadd_aux_task(0) \"ADAPT\" ;! calls MACROS section of WP_COMMON and feeds it some data from active macro. must be ran from macro.prg. can't be run from secondary framing.\n```\nExample3:\n\n```vertexadt\nadd_aux_task(Tool) \"COMMON:UPD_PUNCH\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nadd_aux_task(Area) \"GENFRM\"\n```\nExample2:\n\n```vertexadt\nadd_aux_task(0) \"ADAPT\" ;! calls MACROS section of WP_COMMON and feeds it some data from active macro. must be ran from macro.prg. can't be run from secondary framing.\n```\nExample3:\n\n```vertexadt\nadd_aux_task(Tool) \"COMMON:UPD_PUNCH\"\n```",
+    "insertText": "add_aux_task(${1:in_Obj}) \"${2:TASK}\""
   },
   {
     "label": "add_poly",
@@ -497,7 +501,8 @@
   {
     "label": "check_walljnts",
     "detail": "",
-    "documentation": "No example in system"
+    "documentation": "Example:\n\n```vertexadt\nOk=check_walljnts(Wall1)\n```",
+    "insertText": "check_walljnts(${1:in_Wallobj})"
   },
   {
     "label": "actmacsearch",
@@ -512,7 +517,8 @@
   {
     "label": "is_connected_to",
     "detail": "checks if two objects are connected to each other, returns 1 if they are, 0 if not.",
-    "documentation": "Example:\n\n```vertexadt\nConnected = is_connected_to(Pce,Plate)\n```"
+    "documentation": "Example:\n\n```vertexadt\nConnected = is_connected_to(Pce,Plate)\n```",
+    "insertText": "is_connected_to(${1:in_Obj1},${2:in_Obj2})"
   },
   {
     "label": "get_pnt_param",
@@ -539,22 +545,26 @@
   {
     "label": "set_capa_param",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nset_capa_param(Data2) \"FastenerCount\",NumScrews$\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_capa_param(Data2) \"FastenerCount\",NumScrews$\n```",
+    "insertText": "set_capa_param(${1:in_Data}) \"${2:PARAM}\",${3:in_Value$}"
   },
   {
     "label": "make_dependent",
     "detail": "used with hatch symbols. not sure of function",
-    "documentation": "Example:\n\n```vertexadt\nmake_dependent(This) Lay,Feat\n```"
+    "documentation": "Example:\n\n```vertexadt\nmake_dependent(This) Lay,Feat\n```",
+    "insertText": "make_dependent(${1:in_Obj}) ${2:in_Layer},${3:in_Feat}"
   },
   {
     "label": "set_joint_punch",
     "detail": "used with hatch symbols. not sure of function",
-    "documentation": "Example:\n\n```vertexadt\nset_joint_punch(This) Dx,Dy,SearchZ\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_joint_punch(This) Dx,Dy,SearchZ\n```",
+    "insertText": "set_joint_punch(${1:in_Joint}) ${2:in_Dx},${3:in_Dy},${4:in_SearchZ}"
   },
   {
     "label": "add_capacity_data",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nData1 = add_capacity_data(Set$,CCode$,Library$,Piece)\n```"
+    "documentation": "Example:\n\n```vertexadt\nData1 = add_capacity_data(Set$,CCode$,Library$,Piece)\n```",
+    "insertText": "add_capacity_data(${1:in_Set$},${2:in_CCode$},${3:in_Library$},${4:in_Pce})"
   },
   {
     "label": "set_macro_param(M) \"TASK\",\"DIG_ORIGIN_PNT\"",
@@ -789,7 +799,8 @@
   {
     "label": "access",
     "detail": " Ok=... R: 1=file has tested access mode, 0=not have. Mode: 0=existence, 2=write, 4=read, 6=write and read. Returns 1 if access exists according to given mode.",
-    "documentation": "Example:\n\n```vertexadt\nOk= access(FileName$, Mode)\n```\n\nExample2:\n\n```vertexadt\nOk = access(FileName$, 0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= access(FileName$, Mode)\n```\n\nExample2:\n\n```vertexadt\nOk = access(FileName$, 0)\n```",
+    "insertText": "access(${1:in_Path$},${2:in_Mode})"
   },
   {
     "label": "access_custom",
@@ -799,7 +810,8 @@
   {
     "label": "acos",
     "detail": "Trigonometric function that returns the arccosine of the given number",
-    "documentation": "Example:\n\n```vertexadt\nValue = acos(Var)\n```"
+    "documentation": "Example:\n\n```vertexadt\nValue = acos(Var)\n```",
+    "insertText": "acos(${1:value})"
   },
   {
     "label": "add_comp_member",
@@ -810,7 +822,8 @@
   {
     "label": "arc",
     "detail": "draws a circular arc, first point is center, second two points are start and end points of the arc. Returns the index of the arc.",
-    "documentation": "Example:\n\n```vertexadt\narc(Ind) PointinXY,PXY,PXY\n```"
+    "documentation": "Example:\n\n```vertexadt\narc(Ind) PointinXY,PXY,PXY\n```",
+    "insertText": "arc(${1:index}) ${2:centerpoint},${3:point1},${4:point2}"
   },
   {
     "label": "arc_2pr",
@@ -820,22 +833,26 @@
   {
     "label": "ascii",
     "detail": " C$=... R: Character of ascii number \"No\". No: Ascii number (e.g. some special chars: 9=Tab, 10=Lined feed, 13=Carriage return,34 = \", 65 = A, 66 = B)",
-    "documentation": "Example:\n\n```vertexadt\nESC_code$=ascii(27)&”E”\n```"
+    "documentation": "Example:\n\n```vertexadt\nESC_code$=ascii(27)&”E”\n```",
+    "insertText": "ascii(${1:in_No})"
   },
   {
     "label": "asin",
     "detail": "Returns the arcsine of the given number",
-    "documentation": "Example:\n\n```vertexadt\ndegrees = asin(Var)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndegrees = asin(Var)\n```",
+    "insertText": "asin(${1:value})"
   },
   {
     "label": "atan",
     "detail": "Returns the arctangent of the given number",
-    "documentation": "Example:\n\n```vertexadt\nAngle = atan(Pitch)\n```"
+    "documentation": "Example:\n\n```vertexadt\nAngle = atan(Pitch)\n```",
+    "insertText": "atan(${1:value})"
   },
   {
     "label": "atan2",
     "detail": "returns the arctanget of the given y and x directions",
-    "documentation": "Example:\n\n```vertexadt\nA=atan2(Y,X)+90\n```"
+    "documentation": "Example:\n\n```vertexadt\nA=atan2(Y,X)+90\n```",
+    "insertText": "atan2(${1:y},${2:x})"
   },
   {
     "label": "ax_point",
@@ -845,7 +862,8 @@
   {
     "label": "base_to_dwg",
     "detail": "converts ADT numeric values to native drawing length, used for imperial/metric situations.",
-    "documentation": "Example:\n\n```vertexadt\ndwg_Length = base_to_dwg(Length)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndwg_Length = base_to_dwg(Length)\n```",
+    "insertText": "base_to_dwg(${1:in_Value})"
   },
   {
     "label": "bdschartselect",
@@ -890,7 +908,8 @@
   {
     "label": "build",
     "detail": "runs math logic on the given mathematical expression. Val=... R solved value of the mathematical expression Str$.",
-    "documentation": "Example:\n\n```vertexadt\nAnswer = build(Str$), \n!Where Str$ may be:\nStr$= \"50+50/3-30+500\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nAnswer = build(Str$), \n!Where Str$ may be:\nStr$= \"50+50/3-30+500\"\n```",
+    "insertText": "build(${1:in_Expr$})"
   },
   {
     "label": "build ;! math is not a command",
@@ -911,7 +930,8 @@
   {
     "label": "circle",
     "detail": "Draws a circle. The parameters specify the center and circumference points (2D) or center point        and two circumference points (3D). Returns the index of the circle.",
-    "documentation": "Example 2D:\n\n```vertexadt\ncircle(Ind) PXY,PXY\n```\n\nExample 3D:\n\n```vertexadt\ncircle(Ind) PXYZ,PXYZ,PXYZ\n```"
+    "documentation": "Example 2D:\n\n```vertexadt\ncircle(Ind) PXY,PXY\n```\n\nExample 3D:\n\n```vertexadt\ncircle(Ind) PXYZ,PXYZ,PXYZ\n```",
+    "insertText": "circle(${1:out_Index}) ${2:in_CenterP},${3:in_P}"
   },
   {
     "label": "circled",
@@ -921,7 +941,8 @@
   {
     "label": "cline",
     "detail": "Draws a closed polyline. The system will automatically draw a straight line between the first and last         points.",
-    "documentation": "Example:\n\n```vertexadt\ncline(Ind) PXY,PXY,PXY,PXY\n```"
+    "documentation": "Example:\n\n```vertexadt\ncline(Ind) PXY,PXY,PXY,PXY\n```",
+    "insertText": "cline(${1:Index}) ${2:Points}"
   },
   {
     "label": "clipcyl",
@@ -931,17 +952,20 @@
   {
     "label": "close",
     "detail": " Closes file. Fno: file number used in 'open' command.",
-    "documentation": "Example:\n\n```vertexadt\nclose(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nclose(1)\n```",
+    "insertText": "close(${1:in_FileNo})"
   },
   {
     "label": "cmp",
     "detail": " Ok=... R: 1='A$' and 'B$' are identical, 0=not identical. See also 'strmatch', 'strcmp' and 'strancmp'.",
-    "documentation": "Example:\n\n```vertexadt\nok = cmp(strvar1$,strvar2$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = cmp(strvar1$,strvar2$)\n```",
+    "insertText": "cmp(${1:in_Str1$},${2:in_Str2$})"
   },
   {
     "label": "cmpi",
     "detail": " Ok=... Case insensitive version of 'Ok=cmp(A$,B$)'. See also 'strmatch', 'strcmp' and 'strancmp'.",
-    "documentation": "Example:\n\n```vertexadt\nok = cmpi(strvar1$,strvar2$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = cmpi(strvar1$,strvar2$)\n```",
+    "insertText": "cmpi(${1:in_Str1$},${2:in_Str2$})"
   },
   {
     "label": "color",
@@ -976,27 +1000,32 @@
   {
     "label": "connect",
     "detail": "Used to connect object to another object, typically used inside joint programs to connect newly created objects to active joint.\n\n* ROLE is optional name for detailing member of joint\n* can be used also while adding joint detailing\n* -Mode  0 connect as detailing member\n* +1 connect as optional detailing member\n* +2 connect as optional member\n* +4 make it public to other connections",
-    "documentation": "Example:\n\n```vertexadt\nconnect(joint) obj,\"PNC\"\n```\n\nExample2:\n\n```vertexadt\nconnect(jointoconnectto) objtoconnect,\"ROLENAME\"\n```\n\nExample3:\n\n```vertexadt\nconnect(This) Punch,\"P\",1+4\n```"
+    "documentation": "Example:\n\n```vertexadt\nconnect(joint) obj,\"PNC\"\n```\n\nExample2:\n\n```vertexadt\nconnect(jointoconnectto) objtoconnect,\"ROLENAME\"\n```\n\nExample3:\n\n```vertexadt\nconnect(This) Punch,\"P\",1+4\n```",
+    "insertText": "connect(${1:Joint}) ${2:Obj},\"${3:ROLE}\""
   },
   {
     "label": "copy_feat_data",
     "detail": "copies data and position from feature Feat2 to feature Feat -is implemented only for holes and notches",
-    "documentation": "Example:\n\n```vertexadt\ncopy_feat_data(Feat) Feat2\n```"
+    "documentation": "Example:\n\n```vertexadt\ncopy_feat_data(Feat) Feat2\n```",
+    "insertText": "copy_feat_data(${1:in_Feat}) ${2:in_Feat2}"
   },
   {
     "label": "copy_object",
     "detail": "creates copy Obj2 from object Obj1 with substructures",
-    "documentation": "Example:\n\n```vertexadt\nCopy = copy_object(Notch)\n```"
+    "documentation": "Example:\n\n```vertexadt\nCopy = copy_object(Notch)\n```",
+    "insertText": "copy_object(${1:in_Obj})"
   },
   {
     "label": "copy_piece_pres",
     "detail": "copies piece.setup presentation parameters from Source to Target, can only apply presentation to ADT created profiles. see set_piece_set for modifying existing profiles.",
-    "documentation": "Example:\n\n```vertexadt\ncopy_piece_pres(Target) Source\n```"
+    "documentation": "Example:\n\n```vertexadt\ncopy_piece_pres(Target) Source\n```",
+    "insertText": "copy_piece_pres(${1:in_Target}) ${2:in_Source}"
   },
   {
     "label": "cos",
     "detail": "Returns the cosine of an angle.",
-    "documentation": "Example:\n\n```vertexadt\nB=cos(A)\n```"
+    "documentation": "Example:\n\n```vertexadt\nB=cos(A)\n```",
+    "insertText": "cos(${1:angle})"
   },
   {
     "label": "create_guid",
@@ -1006,7 +1035,8 @@
   {
     "label": "current_user",
     "detail": "This command returns the user name of the current user",
-    "documentation": "Example:\n\n```vertexadt\nUser$=current_user()\n```"
+    "documentation": "Example:\n\n```vertexadt\nUser$=current_user()\n```",
+    "insertText": "current_user()"
   },
   {
     "label": "cut_wlmprof",
@@ -1141,17 +1171,20 @@
   {
     "label": "del_joint_det",
     "detail": "Deletes joint's Joint details. Removing detailing parts/features etc of given joint.",
-    "documentation": "Example:\n\n```vertexadt\ndel_joint_det(This)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndel_joint_det(This)\n```",
+    "insertText": "del_joint_det(${1:in_Joint})"
   },
   {
     "label": "del_macro_param",
     "detail": "removes parameter \"PARAM\" from macro Macro, if there is no \"PARAM\"         all parameters will be removed",
-    "documentation": "Example:\n\n```vertexadt\ndel_macro_param(Macro) \"PARAM\"\n```\nExample2:\n\n```vertexadt\ndel_macro_param(Macro)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndel_macro_param(Macro) \"PARAM\"\n```\nExample2:\n\n```vertexadt\ndel_macro_param(Macro)\n```",
+    "insertText": "del_macro_param(${1:in_Mac}) \"${2:PARAM}\""
   },
   {
     "label": "del_object",
     "detail": "Use this carefully, removes the assigned object completely. It's wise to use disconnect(Obj) on the object before deleting it as it may be connected to other objects and this may cause unwanted results such as crashing.",
-    "documentation": "Example:\n\n```vertexadt\ndel_object(Obj)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndel_object(Obj)\n```",
+    "insertText": "del_object(${1:in_Obj})"
   },
   {
     "label": "del_obj_param",
@@ -1171,7 +1204,8 @@
   {
     "label": "dig",
     "detail": "Returns the coordinates of the selected point in point(x)        Options:        None Returns the coordinates of the selected point.        1 Returns the coordinates.        2,PN Displays a stretching cursor which is anchored at point N.",
-    "documentation": "Example:\n\n```vertexadt\npoint(1) dig(\"Select point 1\", 1)\npoint(Ind) dig(Question[,Options])\n```"
+    "documentation": "Example:\n\n```vertexadt\npoint(1) dig(\"Select point 1\", 1)\npoint(Ind) dig(Question[,Options])\n```",
+    "insertText": "dig(\"${1:in_Prompt}\")"
   },
   {
     "label": "digconstrain",
@@ -1181,7 +1215,8 @@
   {
     "label": "dighit",
     "detail": "Checks if special keys were hit during dig command, options: CURSOR, LOPETUS=Esc, VALMIS=V, VIRHE(undocumented), EXIT(undocumented, probably same as esc)",
-    "documentation": "Example:\n\n```vertexadt\nif dighit(\"CURSOR\") then\nif dighit(\"LOPETUS\") then exit\n```"
+    "documentation": "Example:\n\n```vertexadt\nif dighit(\"CURSOR\") then\nif dighit(\"LOPETUS\") then exit\n```",
+    "insertText": "dighit(\"${1:CURSOR}\")"
   },
   {
     "label": "digsnapmode",
@@ -1221,7 +1256,8 @@
   {
     "label": "dircreate",
     "detail": "Creates a new directory at the specified path. the toplevel folder will be created.",
-    "documentation": "Example:\n\n```vertexadt\ndircreate Path$\n```"
+    "documentation": "Example:\n\n```vertexadt\ndircreate Path$\n```",
+    "insertText": "dircreate ${1:in_Path$}"
   },
   {
     "label": "dirremove",
@@ -1231,7 +1267,8 @@
   {
     "label": "disconnect",
     "detail": "Disconnects object from all parents it has such as joint/punch/panel. Should be done before removing objects connected to joints.",
-    "documentation": "Example:\n\n```vertexadt\ndisconnect(ObjToDisconnect)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndisconnect(ObjToDisconnect)\n```",
+    "insertText": "disconnect(${1:in_Obj})"
   },
   {
     "label": "displayimages",
@@ -1271,7 +1308,8 @@
   {
     "label": "drop_poly",
     "detail": "drops contour from PolyMain to Poly.         Mode +1 ->clears Poly before getting new contours",
-    "documentation": "Example:\n\n```vertexadt\nOk= drop_poly(Poly,PolyMain,Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= drop_poly(Poly,PolyMain,Mode)\n```",
+    "insertText": "drop_poly(${1:out_Poly},${2:in_PolyMain},${3:in_Mode})"
   },
   {
     "label": "dr_to_part",
@@ -1291,7 +1329,8 @@
   {
     "label": "dwgactivate",
     "detail": " Ok=... R: 1=ok, 0=failed. Activates given drawing/model-drawing by name used with dwgopen/dwgopen_bg/modelopen commands, or from archive. (20.0)",
-    "documentation": "Example:\n\n```vertexadt\ndwgactivate \"wallset\"\n```"
+    "documentation": "Example:\n\n```vertexadt\ndwgactivate \"wallset\"\n```",
+    "insertText": "dwgactivate(\"${1:in_Port}\")"
   },
   {
     "label": "dwgbgopen",
@@ -1351,22 +1390,26 @@
   {
     "label": "dwgmultishtact",
     "detail": " Activate sheet of the multi sheet dwg. R=... 0 failed, 1 ok. PageN: 0 whole dwg, &gt;0 1-based page index. OnOff: 0 deactivate, 1 activate. UpdLimits: 0 no update, 1 update limits. (29.0)",
-    "documentation": "Example:\n\n```vertexadt\nSheetActivated = dwgmultishtact(LoopCount, 1, 1) \n```"
+    "documentation": "Example:\n\n```vertexadt\nSheetActivated = dwgmultishtact(LoopCount, 1, 1) \n```",
+    "insertText": "dwgmultishtact(${1:in_PageN},${2:in_OnOff},${3:in_UpdLimits})"
   },
   {
     "label": "dwgmultishtget",
     "detail": " Get sheet info of the multi sheet dwg. R=... &gt;0 sheet count, 0 not multisheet dwg, &lt;0 error. MapPages$: map of page numbers. MapNames$: map of page names. (29.0)",
-    "documentation": "Example:\n\n```vertexadt\nSheetCount = dwgmultishtget()\n```"
+    "documentation": "Example:\n\n```vertexadt\nSheetCount = dwgmultishtget()\n```",
+    "insertText": "dwgmultishtget()"
   },
   {
     "label": "dwgopen",
     "detail": " Ok=... R: 1=ok, 0=failed. Port$: name and header for window (see also 'windowheader').  File$: '';file.vxp'';, '';&lt;PIC_ID&gt;'';, '';&lt;PIC_ID&gt;:&lt;SHEET_ID&gt;''; or '';'';. Srow,Scol,Nrow,Ncol: position and size in chars. see adt documentation for more",
-    "documentation": "Example:\n\n```vertexadt\nOk = dwgopen(Header$,Pic_id$,2,2,25,60)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = dwgopen(Header$,Pic_id$,2,2,25,60)\n```",
+    "insertText": "dwgopen(\"${1:in_Port}\",${2:in_File$},${3:in_Srow},${4:in_Scol},${5:in_Nrow},${6:in_Ncol})"
   },
   {
     "label": "dwgopen_bg",
     "detail": "Ok=... R: 1=ok, 0=failed. Same as 'dwgopen' but opens drawing at the background.",
-    "documentation": "Example:\n\n```vertexadt\nOk=dwgopen_bg(\"Eff_CS\",File$,1,1,20,108)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk=dwgopen_bg(\"Eff_CS\",File$,1,1,20,108)\n```",
+    "insertText": "dwgopen_bg(\"${1:in_Port}\",${2:in_File$},${3:in_Srow},${4:in_Scol},${5:in_Nrow},${6:in_Ncol})"
   },
   {
     "label": "dwgopen_old",
@@ -1376,12 +1419,14 @@
   {
     "label": "dwgpath",
     "detail": " Path$=... R: full path of archived drawing. File$: '';file.vxp'';, '';&lt;PIC_ID&gt;'';, '';&lt;PIC_ID&gt;:&lt;SHEET_ID&gt;''; or (20.0) '';&lt;PIC_ID&gt;:IND|&lt;Nth&gt;''; e.g. 2nd sheet in sorted order of drawing 123 '';123:IND|2'';",
-    "documentation": "Example:\n\n```vertexadt\nPath$ = dwgpath(PicId$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPath$ = dwgpath(PicId$)\n```",
+    "insertText": "dwgpath(${1:in_File$})"
   },
   {
     "label": "dwgplot",
     "detail": "Plots the active drawing to PDF. Settings$ is a string of settings for how to plot the drawing.        See adt.pdf for more information on the settings.",
-    "documentation": "Example:\n\n```vertexadt\ndwgplot settings$\n```"
+    "documentation": "Example:\n\n```vertexadt\ndwgplot settings$\n```",
+    "insertText": "dwgplot ${1:in_Settings$}"
   },
   {
     "label": "dwgportclose",
@@ -1416,7 +1461,8 @@
   {
     "label": "dwgread",
     "detail": " Error=... R: ok=0, failed&lt;&gt;0. File$: '';file.vxp'';, '';&lt;PIC_ID&gt;''; or '';&lt;PIC_ID&gt;:&lt;SHEET_ID&gt;'';.",
-    "documentation": "Example:\n\n```vertexadt\nRet = dwgread(FilePath$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = dwgread(FilePath$)\n```",
+    "insertText": "dwgread(${1:in_File$})"
   },
   {
     "label": "dwgredo",
@@ -1446,7 +1492,8 @@
   {
     "label": "dwgparamget",
     "detail": " Value$=... R: value of drawing specific parameter. Pset: 0 (not used currently). Par$: name of parameter. Type: type of value, 0=integer, 1=decimal, 2=string. (20.0)",
-    "documentation": "Example:\n\n```vertexadt\nValueTmp$  = dwgparamget(0,\"dwg_type_id\",0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nValueTmp$  = dwgparamget(0,\"dwg_type_id\",0)\n```",
+    "insertText": "dwgparamget(${1:in_Pset},\"${2:in_Par}\",${3:in_Type})"
   },
   {
     "label": "dwgparamset",
@@ -1491,12 +1538,14 @@
   {
     "label": "dwgsheetbyseries",
     "detail": " Get sheet size by current dwg limits and scale. R=... 0 failed, 1 ok. Series$: AX|A4X|ANSIX|ARCHX. InScale: 0 free scale, 1 in scale. (29.0)",
-    "documentation": "Example:\n\n```vertexadt\nokSize = dwgsheetbyseries(\"AX\",0) \n```"
+    "documentation": "Example:\n\n```vertexadt\nokSize = dwgsheetbyseries(\"AX\",0) \n```",
+    "insertText": "dwgsheetbyseries(\"${1:SERIES}\",${2:in_InScale})"
   },
   {
     "label": "dwgstore",
     "detail": " Ret=... R: &lt;0=error, 0=Ok. Mode: 0=no update of parc (default), 1=just raster picture update, 2=interactive, 3=to DWG, 4=to DXF. Setup: for DWG and DXF modes. if no path is given, saving is done interactively.",
-    "documentation": "Example:\n\n```vertexadt\nOk=dwgstore(dir_proj$&\"view_sheets/wallset_RAW.vxp\",0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk=dwgstore(dir_proj$&\"view_sheets/wallset_RAW.vxp\",0)\n```",
+    "insertText": "dwgstore(${1:in_File$})"
   },
   {
     "label": "dwgstretchdims",
@@ -1536,7 +1585,8 @@
   {
     "label": "dwg_to_base",
     "detail": "Unsure, but seems to convert drawing variables suchs as length and width to base/normal format to be used in ADT",
-    "documentation": "Example:\n\n```vertexadt\nPieceWidth = dwg_to_base(#FIELD2#)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPieceWidth = dwg_to_base(#FIELD2#)\n```",
+    "insertText": "dwg_to_base(${1:in_DwgValue})"
   },
   {
     "label": "dwg_to_inch",
@@ -1551,12 +1601,14 @@
   {
     "label": "dwg_to_mm",
     "detail": " mm_value=... R: value in [mm]. dwg_value: value in current units. See also 'inch_mode' and 'mm_to_dwg'",
-    "documentation": "Example:\n\n```vertexadt\nOne = dwg_to_mm(1.0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOne = dwg_to_mm(1.0)\n```",
+    "insertText": "dwg_to_mm(${1:in_DwgValue})"
   },
   {
     "label": "edit_obj_data",
     "detail": "Opens data for editing by form.\n\nMode=0 gets form file from forms directory.\n \nMode=1 gets form from same directory as active file is run in.\n \nReturns 1 if form is found and user exits form with ok, 0 if user cancel and -1 if error occurs.",
-    "documentation": "Example:\n\n```vertexadt\nOk= edit_obj_data(Obj,\"Form\",Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= edit_obj_data(Obj,\"Form\",Mode)\n```",
+    "insertText": "edit_obj_data(${1:Object},\"${2:Form}\",${3:Mode})"
   },
   {
     "label": "edit_wlmprof",
@@ -1596,12 +1648,14 @@
   {
     "label": "empty_string",
     "detail": "Checks if string is empty or not. returns 1 if empty, 0 if not.",
-    "documentation": "Example:\n\n```vertexadt\nok= empty_string(Str$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok= empty_string(Str$)\n```",
+    "insertText": "empty_string(${1:in_Str$})"
   },
   {
     "label": "eof",
     "detail": " Ok=... R: 1=end of file reached, 0=there is still rows to be read. Fno: file number used in 'open' command.",
-    "documentation": "Example:\n\n```vertexadt\nok = eof(fileindex)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = eof(fileindex)\n```",
+    "insertText": "eof(${1:in_FileNo})"
   },
   {
     "label": "error_msgbox",
@@ -1691,7 +1745,8 @@
   {
     "label": "fileaccess",
     "detail": " Ok=... R: 1='FilePath$' or custom copy of it exists, 0=if not",
-    "documentation": "Example:\n\n```vertexadt\nok = fileaccess(Path$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = fileaccess(Path$)\n```",
+    "insertText": "fileaccess(${1:in_Path$})"
   },
   {
     "label": "filecopy",
@@ -1706,17 +1761,20 @@
   {
     "label": "filename_body",
     "detail": " Body$=... R: file name without any file extension or Vertex prefixes.",
-    "documentation": "Example:\n\n```vertexadt\nBody$ = filename_body(FilePath$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nBody$ = filename_body(FilePath$)\n```",
+    "insertText": "filename_body(${1:in_Path$})"
   },
   {
     "label": "filename_ext",
     "detail": " Ext$=... R: file extension ('';.vxp'';, '';.pdf'';, ... ).",
-    "documentation": "Example:\n\n```vertexadt\nExt$ = filename_ext(FilePath$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nExt$ = filename_ext(FilePath$)\n```",
+    "insertText": "filename_ext(${1:in_Path$})"
   },
   {
     "label": "filename_prefix",
     "detail": " Prefix$=... R: Vertex file prefix ('';p_'';, '';m_'';, '';d_'';, '';r_''; or '';f_'';).",
-    "documentation": "Example:\n\nPre$ = filename_prefix(FilePath$)\n```"
+    "documentation": "Example:\n\nPre$ = filename_prefix(FilePath$)\n```",
+    "insertText": "filename_prefix(${1:in_Path$})"
   },
   {
     "label": "filename_validate",
@@ -1736,12 +1794,14 @@
   {
     "label": "filepath_back",
     "detail": "Returns file path with backslashes and also leading slashes for UNC paths.",
-    "documentation": "Example:\n\n```vertexadt\nGsProg$=filepath_back(GsProg$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nGsProg$=filepath_back(GsProg$)\n```",
+    "insertText": "filepath_back(${1:in_Path$})"
   },
   {
     "label": "filepath_custom",
     "detail": " CustomFilePath$=... R: custom file path of given system file.",
-    "documentation": "Example:\n\n```vertexadt\nPath$ = filepath_custom(Path$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPath$ = filepath_custom(Path$)\n```",
+    "insertText": "filepath_custom(${1:in_Path$})"
   },
   {
     "label": "filepath_drive",
@@ -1751,7 +1811,8 @@
   {
     "label": "filepath_file",
     "detail": " File$=... R: file name.",
-    "documentation": "Example:\n\n```vertexadt\nFormat$ = filepath_file(Format$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nFormat$ = filepath_file(Format$)\n```",
+    "insertText": "filepath_file(${1:in_Path$})"
   },
   {
     "label": "filepath_lastdir",
@@ -1761,12 +1822,14 @@
   {
     "label": "filepath_normal",
     "detail": " FilePathOut$=... R: path with normal slashes '/' as folder separators instead of \\.",
-    "documentation": "Example:\n\n```vertexadt\nFile$=filepath_normal(File$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nFile$=filepath_normal(File$)\n```",
+    "insertText": "filepath_normal(${1:in_Path$})"
   },
   {
     "label": "filepath_path",
     "detail": " Path$=...  R: path without file name with folder separator at the end.",
-    "documentation": "Example:\n\n```vertexadt\nPdfPath$ = filepath_path(PdfFile$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPdfPath$ = filepath_path(PdfFile$)\n```",
+    "insertText": "filepath_path(${1:in_Path$})"
   },
   {
     "label": "fileremove",
@@ -1786,7 +1849,8 @@
   {
     "label": "file_exists",
     "detail": " Ok=... R: 1='File$' or custom copy if it exists, 0=if not",
-    "documentation": "Example:\n\n```vertexadt\nCustFileExists = file_exists(DirCst$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nCustFileExists = file_exists(DirCst$)\n```",
+    "insertText": "file_exists(${1:in_Path$})"
   },
   {
     "label": "file_is_open",
@@ -1806,12 +1870,14 @@
   {
     "label": "set_sa_id_rule",
     "detail": "Sets active SA-ID rule for panel. Empty “Library” AND “Code” will clear previous sa id rule. If rule with given “Library” and “Code” does not exist, rule won’t be modified. Updateflag(optional) 0 -> won't update ids during part numbering. 1 -> will update ids during part numbering.",
-    "documentation": "Example:\n\n```vertexadt\nset_sa_id_rule(Selemobj) \"sub_assembly_id_custom\",\"SA_ID_RULES_WEINMANN\",1\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_sa_id_rule(Selemobj) \"sub_assembly_id_custom\",\"SA_ID_RULES_WEINMANN\",1\n```",
+    "insertText": "set_sa_id_rule(${1:in_Panel}) \"${2:in_Library}\",\"${3:in_Code}\""
   },
   {
     "label": "set_ncacc_setup",
     "detail": "Sets active CNC accessories setup for panel. \n Does not check if a setup named “Name” exists \n Mode 0 -> does nothing if setup is already selected. \n Mode 1 -> overwrites previous selection",
-    "documentation": "Example:\n\n```vertexadt\nset_ncacc_setup(Selemobj) \"HH ytterväggar\",1\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_ncacc_setup(Selemobj) \"HH ytterväggar\",1\n```",
+    "insertText": "set_ncacc_setup(${1:in_Panel}) \"${2:in_Name}\",${3:in_Mode}"
   },
   {
     "label": "file_isotoroman8",
@@ -1861,22 +1927,26 @@
   {
     "label": "findstr",
     "detail": " P=... R: 1-based index of position. SubStr$: this is search from 'Str$'.",
-    "documentation": "Example:\n\n```vertexadt\nV = findstr(Param$,\"=\")\n```\nExampl2:\n\n```vertexadt\nif findstr(Param$,\"=\") then\n```"
+    "documentation": "Example:\n\n```vertexadt\nV = findstr(Param$,\"=\")\n```\nExampl2:\n\n```vertexadt\nif findstr(Param$,\"=\") then\n```",
+    "insertText": "findstr(${1:in_Str$},\"${2:in_SubStr}\")"
   },
   {
     "label": "findstri",
     "detail": " P=... Case insensitive version of 'P=findstr(Str$,SubStr$)'.",
-    "documentation": "Example:\n\n```vertexadt\nok = findstri(PicName$,\"stack\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = findstri(PicName$,\"stack\")\n```",
+    "insertText": "findstri(${1:in_Str$},\"${2:in_SubStr}\")"
   },
   {
     "label": "findstrr",
     "detail": " P=... Reverse (find last) version of 'P=findstr(Str$,SubStr$)'.",
-    "documentation": "Example:\n\n```vertexadt\nok = findstrr(PicName$,\"stack\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = findstrr(PicName$,\"stack\")\n```",
+    "insertText": "findstrr(${1:in_Str$},\"${2:in_SubStr}\")"
   },
   {
     "label": "findstrri",
     "detail": " P=... Reverse (find last) and case insensitive version of 'P=findstr(Str$,SubStr$)'.",
-    "documentation": "Example:\n\n```vertexadt\nok = findstrri(PicName$,\"stack\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = findstrri(PicName$,\"stack\")\n```",
+    "insertText": "findstrri(${1:in_Str$},\"${2:in_SubStr}\")"
   },
   {
     "label": "find_3d_macro",
@@ -1896,17 +1966,20 @@
   {
     "label": "find_hatch",
     "detail": "Finds the hatch pattern which is closest to the given point and on a visible layer. see ADT documentation for more info",
-    "documentation": "Example:\n\n```vertexadt\nfind_hatch(Ind) PXY\n```"
+    "documentation": "Example:\n\n```vertexadt\nfind_hatch(Ind) PXY\n```",
+    "insertText": "find_hatch(${1:out_Index}) ${2:in_P}"
   },
   {
     "label": "find_hatch_param",
     "detail": "see adt documentation for more info",
-    "documentation": ""
+    "documentation": "",
+    "insertText": "find_hatch_param(${1:out_Index}) ${2:level}=${3:in_Value}"
   },
   {
     "label": "find_line",
     "detail": "see adt documentation for more info",
-    "documentation": "Example:\n\n```vertexadt\nfind_line(1) P1\n```"
+    "documentation": "Example:\n\n```vertexadt\nfind_line(1) P1\n```",
+    "insertText": "find_line(${1:out_Index}) ${2:in_X},${3:in_Y}"
   },
   {
     "label": "find_line_param",
@@ -1966,7 +2039,8 @@
   {
     "label": "find_text_param",
     "detail": "see adt documentation for more info. Some available filters: level=43, type=1, ass_elem=M1, string=",
-    "documentation": "Example:\n\n```vertexadt\nfind_text_param(1) level=2530\n```"
+    "documentation": "Example:\n\n```vertexadt\nfind_text_param(1) level=2530\n```",
+    "insertText": "find_text_param(${1:out_Index}) ${2:level}=${3:in_Value}"
   },
   {
     "label": "find_truss",
@@ -1986,12 +2060,14 @@
   {
     "label": "folder_files",
     "detail": " Count=... R: count of files in folder. Names of files are returned in: FOLDERFILEn. Filter$: filter with wildcards '*' and 'question mark' (24.0). Map$: map name where files are returned (24.0). Mode: map value mode, 0=local time, 1=UTC time, 2=file size in bytes (24.0).",
-    "documentation": "Example:\n\n```vertexadt\nnumfiles = folder_files(nextpath2$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nnumfiles = folder_files(nextpath2$)\n```",
+    "insertText": "folder_files(${1:in_Path$})"
   },
   {
     "label": "folder_folders",
     "detail": " Count=... R: count of folders in folder. Names of folders are returned in: FOLDERFOLDERn. Filter$: filter with wildcards '*' and 'question mark' (24.0). Map$: map name where folders are returned (24.0). Mode: map value mode, 0=local time, 1=UTC time (24.0).",
-    "documentation": "Example:\n\n```vertexadt\nnumfolders = folder_folders(custompath$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nnumfolders = folder_folders(custompath$)\n```",
+    "insertText": "folder_folders(${1:in_Path$})"
   },
   {
     "label": "fonttolines",
@@ -2036,7 +2112,8 @@
   {
     "label": "get_act_cl_file_path",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nPath$= get_act_cl_file_path(File$\n```"
+    "documentation": "Example:\n\n```vertexadt\nPath$= get_act_cl_file_path(File$\n```",
+    "insertText": "get_act_cl_file_path(${1:in_Path$})"
   },
   {
     "label": "get",
@@ -2051,17 +2128,20 @@
   {
     "label": "getdate",
     "detail": " Date$=... R: current date in format 'YYYY-MM-DD'. See also 'get('';$DATE'';)'.",
-    "documentation": "no example in system"
+    "documentation": "no example in system",
+    "insertText": "getdate()"
   },
   {
     "label": "getenv",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nWhoAmI$= getenv(\"COMPUTERNAME\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nWhoAmI$= getenv(\"COMPUTERNAME\")\n```",
+    "insertText": "getenv(\"${1:VARIABLE}\")"
   },
   {
     "label": "getlevels",
     "detail": "Get's turned on layers from Active drawing, returns as a string with layers separated by commas, if multiple layers in a row is turned on, returned like 1-10, else 1,3,5,7,9. Full Return example: \"0,2,4,6,8,11,13-14,16\"",
-    "documentation": "Example:\n\n```vertexadt\nlevels$ = getlevels(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nlevels$ = getlevels(1)\n```",
+    "insertText": "getlevels(${1:in_Mode})"
   },
   {
     "label": "getpipecompfield",
@@ -2106,7 +2186,8 @@
   {
     "label": "getprompt",
     "detail": " UserPrompt$=... R: user prompt in current language. Key$: symbolic name of user prompt, e.g. '';LAYER'';",
-    "documentation": "Example:\n\n```vertexadt\nPrompt2$ = getprompt(\"SEL_PCE_END_OK\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nPrompt2$ = getprompt(\"SEL_PCE_END_OK\")\n```",
+    "insertText": "getprompt(\"${1:PROMPT_KEY}\")"
   },
   {
     "label": "getrootname",
@@ -2131,7 +2212,8 @@
   {
     "label": "grade_map",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nNewGrade$ = grade_map(\"\",Grade$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nNewGrade$ = grade_map(\"\",Grade$)\n```",
+    "insertText": "grade_map(${1:in_Map$},${2:in_Grade$})"
   },
   {
     "label": "grade_map_refresh",
@@ -2141,27 +2223,32 @@
   {
     "label": "gettime",
     "detail": " Time$=... R: current time in format 'HH:MM:SS'. See also 'get('';$TIME'';)'.",
-    "documentation": "no example in system"
+    "documentation": "no example in system",
+    "insertText": "gettime()"
   },
   {
     "label": "get_actual_area",
     "detail": "Returns the AREAOBJ connected to the given edge or slope.",
-    "documentation": "Example:\n\n```vertexadt\nArea= get_actual_area(Edge)\n```\nExample2:\n\n```vertexadt\nArea= get_actual_area(Slope)\n```"
+    "documentation": "Example:\n\n```vertexadt\nArea= get_actual_area(Edge)\n```\nExample2:\n\n```vertexadt\nArea= get_actual_area(Slope)\n```",
+    "insertText": "get_actual_area(${1:in_Obj})"
   },
   {
     "label": "get_actual_pcend",
     "detail": "Returns the piece-end connected to the given profile, either 0 or 1 for START and END respectively.",
-    "documentation": "Example:\n\n```vertexadt\nEnd= get_actual_pcend(Pce,0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nEnd= get_actual_pcend(Pce,0)\n```",
+    "insertText": "get_actual_pcend(${1:in_Pce},${2:in_EndNum})"
   },
   {
     "label": "get_actual_piece",
     "detail": "Returns the piece that the given end belongs to.",
-    "documentation": "Example:\n\n```vertexadt\nPce= get_actual_piece(End)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPce= get_actual_piece(End)\n```",
+    "insertText": "get_actual_piece(${1:End})"
   },
   {
     "label": "get_actual_railing",
     "detail": "Returns address to railing Railing, which part railing End belongs too.",
-    "documentation": "Example:\n\n```vertexadt\nRlg1 = get_actual_railing(RlgE1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRlg1 = get_actual_railing(RlgE1)\n```",
+    "insertText": "get_actual_railing(${1:in_RlgEnd})"
   },
   {
     "label": "get_actual_railing_end",
@@ -2171,17 +2258,20 @@
   {
     "label": "get_area_param",
     "detail": "Returns value of given parameter of given area/Edge, Can get following values:\n\n* \"NUM\", LAYER NUMBER\n* \"TYPE\", LAYER MAIN TYPE\n* \"CODE\", LAYER CODE(ADB_FIELD)\n* \"THICKNESS\", LAYER THICKNESS (ADB FIELD)\n* \"EDGEPOS\", EDGE POSITION (from edge)\n\nSee ADT documentation for more.",
-    "documentation": "Example:\n\n```vertexadt\nLayerNr$= get_area_param(Pointer,\"NUM\")\n```\nExample2:\n\n```vertexadt\nLayerCode$= get_area_param(Pointer,\"ADB_FIELD\", \"CODE\", 1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLayerNr$= get_area_param(Pointer,\"NUM\")\n```\nExample2:\n\n```vertexadt\nLayerCode$= get_area_param(Pointer,\"ADB_FIELD\", \"CODE\", 1)\n```",
+    "insertText": "get_area_param(${1:in_Areaobj},\"${2:PARAM}\")"
   },
   {
     "label": "get_area_plane",
     "detail": "Returns the plane and normal of the given areaobj. either TOP or BOT can be given as the plane. returns in AreaP and AreaN",
-    "documentation": "Example:\n\n```vertexadt\nget_area_plane(layer) AreaP,AreaN,\"TOP\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_area_plane(layer) AreaP,AreaN,\"TOP\"\n```",
+    "insertText": "get_area_plane(${1:in_Areaobj}) ${2:out_P},${3:out_N},\"${4:TOP}\""
   },
   {
     "label": "get_area_point",
     "detail": "Returns point from given areaobj, currently only handles corners. See ADT documentation for more",
-    "documentation": "Example:\n\n```vertexadt\nget_area_point(Area) P,\"CORNER\",X,Y,\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_area_point(Area) P,\"CORNER\",X,Y,\n```",
+    "insertText": "get_area_point(${1:in_Areaobj}) ${2:out_P},\"${3:CORNER}\",${4:in_X},${5:in_Y}"
   },
   {
     "label": "get_attr_text",
@@ -2206,12 +2296,14 @@
   {
     "label": "get_ctr_edge",
     "detail": "Gets the first edge from Area or the next edge from previous edge, see examples.",
-    "documentation": "Example:\n\n```vertexadt\nEdge= get_ctr_edge(Edge,1) ;!gets next edge in line from given edge.\n```\n\nExample2:\n\n```vertexadt\nEdge= get_ctr_edge(Area,0) ;!gets first edge from area.\n```"
+    "documentation": "Example:\n\n```vertexadt\nEdge= get_ctr_edge(Edge,1) ;!gets next edge in line from given edge.\n```\n\nExample2:\n\n```vertexadt\nEdge= get_ctr_edge(Area,0) ;!gets first edge from area.\n```",
+    "insertText": "get_ctr_edge(${1:in_Obj},${2:in_Mode})"
   },
   {
     "label": "get_current_pid",
     "detail": " Pid=... R: id of the current process.",
-    "documentation": "Example:\n\n```vertexadt\npid= get_current_pid()\n```"
+    "documentation": "Example:\n\n```vertexadt\npid= get_current_pid()\n```",
+    "insertText": "get_current_pid()"
   },
   {
     "label": "get_cyl_point",
@@ -2226,7 +2318,8 @@
   {
     "label": "get_drawing_type",
     "detail": "Returns type of active drawing\n\n* 0     : Model or drawing in xy-plane\n* 1-999 : Face drawings, 1-> Log wall face drawing\n* 1000  : View drawings ",
-    "documentation": "Example:\n\n```vertexadt\nType= get_drawing_type()\n```"
+    "documentation": "Example:\n\n```vertexadt\nType= get_drawing_type()\n```",
+    "insertText": "get_drawing_type()"
   },
   {
     "label": "get_coolprop_name",
@@ -2241,7 +2334,8 @@
   {
     "label": "get_edge_dir",
     "detail": "returns edge Edge normal direction ED in point P",
-    "documentation": "Example:\n\n```vertexadt\nget_edge_dir(Edge) P,ED\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_edge_dir(Edge) P,ED\n```",
+    "insertText": "get_edge_dir(${1:in_Edge}) ${2:out_P},${3:out_Dir}"
   },
   {
     "label": "get_feat_ctype",
@@ -2261,7 +2355,8 @@
   {
     "label": "get_gravity_pnt",
     "detail": "Returns gravity point of panel. (3d vector point)",
-    "documentation": "Example:\n\n```vertexadt\nget_gravity_pnt(COG) Pnl\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_gravity_pnt(COG) Pnl\n```",
+    "insertText": "get_gravity_pnt(${1:out_P}) ${2:in_Panel}"
   },
   {
     "label": "get_hasp_id",
@@ -2276,7 +2371,8 @@
   {
     "label": "get_hatch_line",
     "detail": "Finds perimeter line(s) of given hatch element.",
-    "documentation": "Example:\n\n```vertexadt\nget_hatch_line(1001) H1,1,\"\" ;!finds first perimeter line of hatch H1.\nget_hatch_line(1001) H1,1,\"HOLE\" ;!finds first hole line of hatch H1.\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_hatch_line(1001) H1,1,\"\" ;!finds first perimeter line of hatch H1.\nget_hatch_line(1001) H1,1,\"HOLE\" ;!finds first hole line of hatch H1.\n```",
+    "insertText": "get_hatch_line(${1:out_Index}) ${2:in_Hatch},${3:in_No},\"${4:in_Type}\""
   },
   {
     "label": "get_hole_contour",
@@ -2291,7 +2387,8 @@
   {
     "label": "get_joint_preview_path",
     "detail": "get_joint_preview_path",
-    "documentation": "Example:\n\n```vertexadt\nThumbnailBmp$= get_joint_preview_path(SubPath$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nThumbnailBmp$= get_joint_preview_path(SubPath$)\n```",
+    "insertText": "get_joint_preview_path(${1:in_SubPath$})"
   },
   {
     "label": "get_io_point",
@@ -2301,17 +2398,20 @@
   {
     "label": "get_joint_param",
     "detail": "returns parameter \"PARAM\" value from given joint",
-    "documentation": "Example:\n\n```vertexadt\nTol$ = get_joint_param(Joint,\"TOL\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nTol$ = get_joint_param(Joint,\"TOL\")\n```",
+    "insertText": "get_joint_param(${1:Joint},\"${2:PARAM}\")"
   },
   {
     "label": "get_joint_pnt",
     "detail": "sets given joint's position to point Pnt. See get_origin_pnt/get_origin_pos.",
-    "documentation": "Example:\n\n```vertexadt\nget_joint_pnt(Pnt) Joint\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_joint_pnt(Pnt) Joint\n```",
+    "insertText": "get_joint_pnt(${1:out_P}) ${2:in_Joint}"
   },
   {
     "label": "get_joint_pos",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nget_joint_pos(This) P,X,Y,Z\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_joint_pos(This) P,X,Y,Z\n```",
+    "insertText": "get_joint_pos(${1:in_Joint}) ${2:out_P},${3:out_X},${4:out_Y},${5:out_Z}"
   },
   {
     "label": "hatch_add_holes",
@@ -2321,12 +2421,14 @@
   {
     "label": "get_line_point",
     "detail": "get's the given line's point position(X,Y) and returns in point variable. See adt documentation for more info",
-    "documentation": "Example:\n\n```vertexadt\nget_line_point(1) L1,0,\"CENTER\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_line_point(1) L1,0,\"CENTER\"\n```",
+    "insertText": "get_line_point(${1:out_P}) ${2:in_Line},${3:in_PntNo}"
   },
   {
     "label": "get_log_wall_param",
     "detail": "get_log_wall_param",
-    "documentation": "Example:\n\n```vertexadt\nBottomHeight  = get_log_wall_param(Wall2,\"BOTTOMHEIGHT\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nBottomHeight  = get_log_wall_param(Wall2,\"BOTTOMHEIGHT\")\n```",
+    "insertText": "get_log_wall_param(${1:in_Wallobj},\"${2:PARAM}\")"
   },
   {
     "label": "get_lwmater",
@@ -2336,17 +2438,20 @@
   {
     "label": "get_macro_param",
     "detail": "returns parameter PARAM value from macro",
-    "documentation": "Example:\n\n```vertexadt\nSide$= get_macro_param(Macro,\"SIDE\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nSide$= get_macro_param(Macro,\"SIDE\")\n```",
+    "insertText": "get_macro_param(${1:in_Mac},\"${2:PARAM}\")"
   },
   {
     "label": "get_macro_point",
     "detail": "see adt documentation for more info",
-    "documentation": "Example:\n\n```vertexadt\nget_macro_point(3) M1,\"CENTER\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_macro_point(3) M1,\"CENTER\"\n```",
+    "insertText": "get_macro_point(${1:out_P}) ${2:in_Mac},\"${3:POINT}\""
   },
   {
     "label": "get_material_param",
     "detail": "returns asked material parameter from given piece's library profprop mat_param values (LIBRARY, SHSAPE, MATER.CODE, etc.)",
-    "documentation": "Example:\n\n```vertexadt\nShp$= get_material_param(Pce,\"SHAPE\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nShp$= get_material_param(Pce,\"SHAPE\")\n```",
+    "insertText": "get_material_param(${1:in_Pce},\"${2:PARAM}\")"
   },
   {
     "label": "get_model_alfa",
@@ -2401,22 +2506,26 @@
   {
     "label": "get_vxtype_sub",
     "detail": "Returns sub type of the object",
-    "documentation": "Example:\n\n```vertexadt\nsub$ = get_vxtype_sub(Ptr)\n```"
+    "documentation": "Example:\n\n```vertexadt\nsub$ = get_vxtype_sub(Ptr)\n```",
+    "insertText": "get_vxtype_sub(${1:in_Obj})"
   },
   {
     "label": "get_vxtype_main",
     "detail": "Returns main type of the object",
-    "documentation": "Example:\n\n```vertexadt\nmain$ = get_vxtype_main(Ptr)\n```"
+    "documentation": "Example:\n\n```vertexadt\nmain$ = get_vxtype_main(Ptr)\n```",
+    "insertText": "get_vxtype_main(${1:in_Obj})"
   },
   {
     "label": "get_vxtype_group",
     "detail": "Returns vxtype group of object",
-    "documentation": "Example:\n\n```vertexadt\ngroup$ = get_vxtype_group(Ptr)\n```"
+    "documentation": "Example:\n\n```vertexadt\ngroup$ = get_vxtype_group(Ptr)\n```",
+    "insertText": "get_vxtype_group(${1:in_Obj})"
   },
   {
     "label": "get_object_type",
     "detail": "Returns the object type of the given object.\n\nif type is not defined or there isn't object the value is \"\"\n\ntypes which can be used:\n\n* WALLOBJ  -> wall\n* PROFOBJ  -> profile\n* PROFEND  -> profile's end\n* MACROBJ  -> macro\n* EDGEOBJ  -> area edge\n* SLOPEOBJ -> slope",
-    "documentation": "Example:\n\n```vertexadt\ntype$ = get_object_type(Obj)\n```"
+    "documentation": "Example:\n\n```vertexadt\ntype$ = get_object_type(Obj)\n```",
+    "insertText": "get_object_type(${1:in_Obj})"
   },
   {
     "label": "get_obj_param",
@@ -2427,17 +2536,20 @@
   {
     "label": "get_obj_reflector",
     "detail": "Return object Obj based on object reflection ObjRef",
-    "documentation": "Example:\n\n```vertexadt\nWall1= get_obj_reflector(Wall1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nWall1= get_obj_reflector(Wall1)\n```",
+    "insertText": "get_obj_reflector(${1:in_ObjRef})"
   },
   {
     "label": "get_obj_size",
     "detail": "Returns the given objects minimum and maximum points, size can be calculated from this. Returns 1 if successful, 0 if not. MINP and MAXP is given from AP in directions AX, AY and AZ.",
-    "documentation": "Example:\n\n```vertexadt\nok = get_obj_size(Obj,MINP,MAXP,AP,AX,AY,AZ)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = get_obj_size(Obj,MINP,MAXP,AP,AX,AY,AZ)\n```",
+    "insertText": "get_obj_size(${1:in_Obj},${2:out_MinP},${3:out_MaxP},${4:in_P},${5:in_X},${6:in_Y},${7:in_Z})"
   },
   {
     "label": "get_origin",
     "detail": "Gets the origin from the given area/layer, either SHEETORIG or AREAORIG. Returns the pointer to the origin. If there are multiple origins they can be retrieved by tickering up index.",
-    "documentation": "Example:\n\n```vertexadt\nOrigin= get_origin(Area,\"AREAORIG\",0)\n```\nExample2:\n\n```vertexadt\nOrigin= get_origin(Ptr,\"TYPE\",index)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOrigin= get_origin(Area,\"AREAORIG\",0)\n```\nExample2:\n\n```vertexadt\nOrigin= get_origin(Ptr,\"TYPE\",index)\n```",
+    "insertText": "get_origin(${1:in_Areaobj},\"${2:AREAORIG}\",${3:in_Index})"
   },
   {
     "label": "get_origin_pnt",
@@ -2483,12 +2595,14 @@
   {
     "label": "get_piece_end_trims",
     "detail": "Get profile trim planes from piece end End.         Returns first plane normal to PN, point on first plane to PN+1. make sure PN+(as many as expected, are free numbers in ADT Code)         Example, if PN=50, make sure 51,52,53,54 are not set in ADT code already.",
-    "documentation": "Example:\n\n```vertexadt\nTrim0 = get_piece_end_trims(End1,PN)\n```"
+    "documentation": "Example:\n\n```vertexadt\nTrim0 = get_piece_end_trims(End1,PN)\n```",
+    "insertText": "get_piece_end_trims(${1:in_PceEnd},${2:out_PN})"
   },
   {
     "label": "get_piece_localp",
     "detail": "See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nget_piece_localp(LP) Pce,\"IP\",2\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_piece_localp(LP) Pce,\"IP\",2\n```",
+    "insertText": "get_piece_localp(${1:outPoint}) ${2:Piece},\"${3:inPoint}\",${4:Mode}"
   },
   {
     "label": "get_piece_param",
@@ -2499,12 +2613,14 @@
   {
     "label": "get_piece_point",
     "detail": "sets profile Obj location point to address Pnt. location point's number is PntP and its location in local coordinates PntL",
-    "documentation": "Example:\n\n```vertexadt\nget_piece_point(Pnt) Obj,PntP,PntL\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_piece_point(Pnt) Obj,PntP,PntL\n```",
+    "insertText": "get_piece_point(${1:out_P}) ${2:in_Pce},${3:in_P},${4:in_LocalP}"
   },
   {
     "label": "get_piece_pos",
     "detail": "sets local coordinates of given piece to points P,X,Y and Z. RP is reference point (optional)",
-    "documentation": "Example:\n\n```vertexadt\nget_piece_pos(Piece) P,X,Y,Z,RP\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_piece_pos(Piece) P,X,Y,Z,RP\n```",
+    "insertText": "get_piece_pos(${1:in_Pce}) ${2:out_P},${3:out_X},${4:out_Y},${5:out_Z}"
   },
   {
     "label": "get_piece_tan",
@@ -2526,7 +2642,8 @@
   {
     "label": "get_reactor_pos",
     "detail": "Writes joint Jnt reactor coordinates of Part to points P,X,Y,Z. Returns 1 if ok, otherwise 0",
-    "documentation": "Example:\n\n```vertexadt\nOk= get_reactor_pos(Jnt,Part,P,X,Y,Z)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= get_reactor_pos(Jnt,Part,P,X,Y,Z)\n```",
+    "insertText": "get_reactor_pos(${1:in_Joint},${2:in_Obj},${3:out_P},${4:out_X},${5:out_Y},${6:out_Z})"
   },
   {
     "label": "get_section_param",
@@ -2553,12 +2670,14 @@
   {
     "label": "get_sheet_type",
     "detail": "Returns the sheet type of the given sheet object, either 0 for sheets or 1 for insulation.",
-    "documentation": "Example:\n\n```vertexadt\nsheettype = get_sheet_type(sheet),\n```"
+    "documentation": "Example:\n\n```vertexadt\nsheettype = get_sheet_type(sheet),\n```",
+    "insertText": "get_sheet_type(${1:in_Sheet})"
   },
   {
     "label": "get_pipe_ends",
     "detail": "get the points and vector directions of both ends of given pipe object.",
-    "documentation": "Example:\n\n```vertexadt\nget_pipe_ends(Pipe) Pend1,Pend1X,Pend1Y,Pend1Z,Pend2,Pend2X,Pend2Y,Pend2Z\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_pipe_ends(Pipe) Pend1,Pend1X,Pend1Y,Pend1Z,Pend2,Pend2X,Pend2Y,Pend2Z\n```",
+    "insertText": "get_pipe_ends(${1:in_Pipe}) ${2:out_P1},${3:out_X1},${4:out_Y1},${5:out_Z1},${6:out_P2},${7:out_X2},${8:out_Y2},${9:out_Z2}"
   },
   {
     "label": "get_truss",
@@ -2583,7 +2702,8 @@
   {
     "label": "get_vxgeom_overlap",
     "detail": "gets the overlap from two vxgeoms and returns start and end of that overlap in SP,EP. Returns 1 if succcessful and there was overlap, else 0.",
-    "documentation": "Example:\n\n```vertexadt\nOk = get_vxgeom_overlap(GeomA,GeomB,SP,EP)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = get_vxgeom_overlap(GeomA,GeomB,SP,EP)\n```",
+    "insertText": "get_vxgeom_overlap(${1:in_Geom1},${2:in_Geom2},${3:out_StartP},${4:out_EndP})"
   },
   {
     "label": "get_surf_sizes",
@@ -2598,7 +2718,8 @@
   {
     "label": "get_wall_bot_and_top",
     "detail": "Get's wall's bottom and top points at given point Pnt. Returns 1 if successful, 0 if not. Always calculated mainframe bottom and top, not other layers.\n\nOk = 1 if points found, 0 otherwise\n\n* I: Wall wallobj\n* I: Pnt  get heights at this point\n* O: Bot  bottom point (on point Pnt)\n* O: Top  top point    (on point Pnt)",
-    "documentation": "Example:\n\n```vertexadt\nOk = get_wall_bot_and_top(Wall,Pnt,Bot,Top)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = get_wall_bot_and_top(Wall,Pnt,Bot,Top)\n```",
+    "insertText": "get_wall_bot_and_top(${1:in_Wallobj},${2:in_P},${3:out_Bot},${4:out_Top})"
   },
   {
     "label": "get_text_point",
@@ -2609,27 +2730,32 @@
   {
     "label": "get_trs_ctr",
     "detail": "return shape information of truss\n\n*P0 is quantity of points\n*P is pointer to first point\n*Ctr is order number of contour chain. 0 is exterior contour\n*Mode 1 -> complete shape\n- 2 -> top chord shape\n- 4 -> bottom chord shape\n- 8 -> also previous and next shapes are returned (2+8 or 4+8)\n*Tole is tolerance for corner points (optional)",
-    "documentation": "Example:\n\n```vertexadt\nP0= get_trs_ctr(Truss,P,Ctr,Mode,Tole)\n```"
+    "documentation": "Example:\n\n```vertexadt\nP0= get_trs_ctr(Truss,P,Ctr,Mode,Tole)\n```",
+    "insertText": "get_trs_ctr(${1:in_Truss},${2:out_P},${3:in_Ctr},${4:in_Mode})"
   },
   {
     "label": "get_trs_dir",
     "detail": "sets truss direction data to points P,T and N                 P is point from line of truss                 T is direction or truss                 N is normal of truss plane",
-    "documentation": "Example:\n\n```vertexadt\nget_trs_dir(Truss) P,T,N\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_trs_dir(Truss) P,T,N\n```",
+    "insertText": "get_trs_dir(${1:in_Truss}) ${2:out_P},${3:out_Dir},${4:out_N}"
   },
   {
     "label": "get_trs_param",
     "detail": "Returns value of the given parameter of given truss object.",
-    "documentation": "Example:\n\n```vertexadt\nthickness = get_trs_param(Pointer,\"THICK\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nthickness = get_trs_param(Pointer,\"THICK\")\n```",
+    "insertText": "get_trs_param(${1:in_Truss},\"${2:PARAM}\")"
   },
   {
     "label": "get_trs_supports",
     "detail": "Returns the truss supports objects of the given truss object. SUP0 is amount of supports, SUP is pointer to first support object, tickers up from there.",
-    "documentation": "Example:\n\n```vertexadt\nSup0 = get_trs_supports(Trs,Sup)\n```"
+    "documentation": "Example:\n\n```vertexadt\nSup0 = get_trs_supports(Trs,Sup)\n```",
+    "insertText": "get_trs_supports(${1:in_Truss},${2:out_Sup})"
   },
   {
     "label": "get_ultimate_pnt",
     "detail": "gets profile end farest point into point Pnt",
-    "documentation": "Example:\n\n```vertexadt\nget_ultimate_pnt(PceEnd) Pnt\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_ultimate_pnt(PceEnd) Pnt\n```",
+    "insertText": "get_ultimate_pnt(${1:in_PceEnd}) ${2:out_P}"
   },
   {
     "label": "get_vxgeom",
@@ -2640,7 +2766,8 @@
   {
     "label": "get_vxgeom_clips",
     "detail": "check if Geom1 clashes with Geom2 or point and direction, returns the intersection points. Check ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nPnt0= get_vxgeom_clips(Geom1,PeP,PeN,PntFirst)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPnt0= get_vxgeom_clips(Geom1,PeP,PeN,PntFirst)\n```",
+    "insertText": "get_vxgeom_clips(${1:in_Geom},${2:in_PlaneP},${3:in_PlaneN},${4:out_P})"
   },
   {
     "label": "get_vxgeom_len",
@@ -2674,7 +2801,8 @@
   {
     "label": "get_wall_from_wpnl",
     "detail": "Returns arch wall's WALLOBJ from given wallpanel",
-    "documentation": "Example:\n\n```vertexadt\nWallobj = get_wall_from_wpnl(Wpnl)\n```"
+    "documentation": "Example:\n\n```vertexadt\nWallobj = get_wall_from_wpnl(Wpnl)\n```",
+    "insertText": "get_wall_from_wpnl(${1:in_Wpnl})"
   },
   {
     "label": "get_wall_jntpnts",
@@ -2684,7 +2812,8 @@
   {
     "label": "get_wall_localp",
     "detail": "sets wall's local coordinates to point Pnt\n\nreturn value is 1 if function OK, otherwise 0\n\n* LINE_NAME is used line name (wall line name)\n* HEIGHT is wall's logical height:\n- FRAME_TOP -> wall frame's top edge\n- FRAME_BOT -> wall frame's bottom edge\n- BASE      -> wall base height\n- FRAME_TOP_FROM_GEOM -> get wall frame's top edge from geometry in given point P\n* P is point, where the height is searched. Used only, if HEIGHT=FRAME_TOP_FROM_GEOM, otherwise optional",
-    "documentation": "Example:\n\n```vertexadt\nget_wall_localp(Pnt) Obj,\"LINE_NAME\",\"HEIGHT\",P\n```"
+    "documentation": "Example:\n\n```vertexadt\nget_wall_localp(Pnt) Obj,\"LINE_NAME\",\"HEIGHT\",P\n```",
+    "insertText": "get_wall_localp(${1:Pnt}) ${2:Obj},\"${3:LINE_NAME}\",\"${4:HEIGHT}\""
   },
   {
     "label": "get_wall_trim",
@@ -2715,7 +2844,8 @@
   {
     "label": "groupf",
     "detail": "Adds a group to the drawing by calling it with a file name. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\ngroupf(1) File$\n```"
+    "documentation": "Example:\n\n```vertexadt\ngroupf(1) File$\n```",
+    "insertText": "groupf(${1:out_Index}) ${2:in_File$}"
   },
   {
     "label": "groupm",
@@ -2740,7 +2870,8 @@
   {
     "label": "groupv",
     "detail": "Can be used like groupf for .3d files, with variable definitions being given like in example",
-    "documentation": "Example:\n\n```vertexadt\ngroupv(1) File$\n```\nExample2:\n\n```vertexadt\ngroupv(1) File$, \"VAR1\", \"VALUE1\", \"VAR2\", \"VALUE2\"\n```\nExample3:\n\n```vertexadt\ngroupv(1) model.vxm, \"HEIGHT\", \"500\", \"LABEL\", \"TEST\"\n```"
+    "documentation": "Example:\n\n```vertexadt\ngroupv(1) File$\n```\nExample2:\n\n```vertexadt\ngroupv(1) File$, \"VAR1\", \"VALUE1\", \"VAR2\", \"VALUE2\"\n```\nExample3:\n\n```vertexadt\ngroupv(1) model.vxm, \"HEIGHT\", \"500\", \"LABEL\", \"TEST\"\n```",
+    "insertText": "groupv(${1:index}) ${2:File$}"
   },
   {
     "label": "handlesize",
@@ -2775,7 +2906,8 @@
   {
     "label": "hatch",
     "detail": "Adds a hatch pattern to a drawing. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nhatch(1) L1,L2,L3,L4\n```"
+    "documentation": "Example:\n\n```vertexadt\nhatch(1) L1,L2,L3,L4\n```",
+    "insertText": "hatch(${1:out_Index}) ${2:in_Lines}"
   },
   {
     "label": "hatch_angle",
@@ -2785,7 +2917,8 @@
   {
     "label": "hatch_area",
     "detail": "Calculates the area of a hatch pattern.",
-    "documentation": "Example:\n\n```vertexadt\nArea=hatch_area(Ind)\n```"
+    "documentation": "Example:\n\n```vertexadt\nArea=hatch_area(Ind)\n```",
+    "insertText": "hatch_area(${1:in_Index})"
   },
   {
     "label": "hatch_color",
@@ -2795,7 +2928,8 @@
   {
     "label": "hatch_found",
     "detail": "Returns next hatch found with find_hatch or find_hatch_param commands.",
-    "documentation": "Example:\n\n```vertexadt\nHatch=hatch_found(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nHatch=hatch_found(1)\n```",
+    "insertText": "hatch_found(${1:in_Index})"
   },
   {
     "label": "hatch_holes",
@@ -2860,7 +2994,8 @@
   {
     "label": "inch_to_dwg",
     "detail": " dwg_value=... R: value in current units. inch_value: value in [inch]. See also 'inch_mode' and 'dwg_to_inch'.",
-    "documentation": "Example:\n\n```vertexadt\nDim1 = inch_to_dwg(3.5)\n```"
+    "documentation": "Example:\n\n```vertexadt\nDim1 = inch_to_dwg(3.5)\n```",
+    "insertText": "inch_to_dwg(${1:in_InchValue})"
   },
   {
     "label": "initgroups",
@@ -2895,7 +3030,8 @@
   {
     "label": "init_iterator",
     "detail": "Initializes the given iterator to start looping tasked objects.\n\nSee new_iterator for parameters.\n\nCan be used to start over looping through the same iterator/objects again.\n\nIs necessary to use over new_iterator to find certain objects such as joints of profiles.",
-    "documentation": "Example:\n\n```vertexadt\ninit_iterator(It) \"PROFOBJ\",0,\"ROLED\",\"PCE\"\n```"
+    "documentation": "Example:\n\n```vertexadt\ninit_iterator(It) \"PROFOBJ\",0,\"ROLED\",\"PCE\"\n```",
+    "insertText": "init_iterator(${1:in_Iterator}) \"${2:TYPE}\",${3:in_Obj},\"${4:TASK}\",\"${5:PARAM}\""
   },
   {
     "label": "insert_det_mem",
@@ -2915,7 +3051,8 @@
   {
     "label": "int",
     "detail": "Converts the given value to an integer",
-    "documentation": "Example:\n\n```vertexadt\nout_value = int(inp_value)\nboxIndex = int(boxIndex$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nout_value = int(inp_value)\nboxIndex = int(boxIndex$)\n```",
+    "insertText": "int(${1:value})"
   },
   {
     "label": "interaction",
@@ -2940,7 +3077,8 @@
   {
     "label": "int_part",
     "detail": " Int=... R: integer part of the decimal value 'A', e.g. 2.1-&gt;2, 2.9-&gt;2, see also 'int()' (NOTE",
-    "documentation": "Example:\n\n```vertexadt\nfeet = int_part(inches/12)\n```"
+    "documentation": "Example:\n\n```vertexadt\nfeet = int_part(inches/12)\n```",
+    "insertText": "int_part(${1:value})"
   },
   {
     "label": "io_label",
@@ -2950,7 +3088,8 @@
   {
     "label": "io_point",
     "detail": "Adds io point in 2d or 3d. See ADT documentation for more information. used for extra framing in walls.",
-    "documentation": "Example:\n\n```vertexadt\nio_point 0,0\n```"
+    "documentation": "Example:\n\n```vertexadt\nio_point 0,0\n```",
+    "insertText": "io_point ${1:in_X},${2:in_Y}"
   },
   {
     "label": "io_text",
@@ -3024,7 +3163,8 @@
   {
     "label": "lastgetvarnotset",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nNotOk = lastgetvarnotset()\n```"
+    "documentation": "Example:\n\n```vertexadt\nNotOk = lastgetvarnotset()\n```",
+    "insertText": "lastgetvarnotset()"
   },
   {
     "label": "last_io_found",
@@ -3034,7 +3174,8 @@
   {
     "label": "last_kbd",
     "detail": " Kbd$=... R: last hitted keyboard key: STOP (Esc), ENTER (Enter), PREV (PageUp), NEXT (PageDown), UP (UpArrow), DOWN (DownArrow), LEFT (LeftArrow), RIGHT (RightArrow). Mode: +1=reset last key, i.e. next calls returns empty until some key is pressed again (20.0).",
-    "documentation": "Example:\n\n```vertexadt\nA$=last_kbd()\n```"
+    "documentation": "Example:\n\n```vertexadt\nA$=last_kbd()\n```",
+    "insertText": "last_kbd()"
   },
   {
     "label": "last_xcoord",
@@ -3075,7 +3216,8 @@
   {
     "label": "layerscheme",
     "detail": " Ok=... Activate given layer scheme in drawing. R: 0=failed, 1=Ok. Scheme$: DEFAULT, COMPLIB, DWG, DWGPARAM, VXPTEMPLATE or VXSETTINGS.",
-    "documentation": "Example:\n\n```vertexadt\ndumOk = layerscheme(\"DEFAULT\")\n```"
+    "documentation": "Example:\n\n```vertexadt\ndumOk = layerscheme(\"DEFAULT\")\n```",
+    "insertText": "layerscheme(\"${1:SCHEME}\")"
   },
   {
     "label": "len",
@@ -3086,12 +3228,14 @@
   {
     "label": "level",
     "detail": "sets layer for new lines, arcs, texts, etc.",
-    "documentation": "Example:\n\n```vertexadt\nlevel 1\n```"
+    "documentation": "Example:\n\n```vertexadt\nlevel 1\n```",
+    "insertText": "level(${1:levelnumber})"
   },
   {
     "label": "line",
     "detail": "Creates a line from XY1 to XY2.",
-    "documentation": "Example:\n\n```vertexadt\nline X0,Y0 , X1,Y1\n```"
+    "documentation": "Example:\n\n```vertexadt\nline X0,Y0 , X1,Y1\n```",
+    "insertText": "line(${1:index}) ${2:startpoint},${3:endpoint}"
   },
   {
     "label": "lineadbget",
@@ -3116,12 +3260,14 @@
   {
     "label": "linewidth",
     "detail": "Sets line width for new lines, arcs, texts, etc.",
-    "documentation": "Example:\n\n```vertexadt\nlinewidth 0.18\n```"
+    "documentation": "Example:\n\n```vertexadt\nlinewidth 0.18\n```",
+    "insertText": "linewidth ${1:in_Width}"
   },
   {
     "label": "line_found",
     "detail": "See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nfound = line_found(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nfound = line_found(1)\n```",
+    "insertText": "line_found(${1:in_Index})"
   },
   {
     "label": "lintersect",
@@ -3146,7 +3292,8 @@
   {
     "label": "log",
     "detail": "Returns the natural logarithm of a value.",
-    "documentation": "Example:\n\n```vertexadt\nResult= log(Value)\n```"
+    "documentation": "Example:\n\n```vertexadt\nResult= log(Value)\n```",
+    "insertText": "log(${1:value})"
   },
   {
     "label": "ltypetolines",
@@ -3156,7 +3303,8 @@
   {
     "label": "lwindex",
     "detail": "See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nPcolor= lwindex(\"PIECE.WOOD\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nPcolor= lwindex(\"PIECE.WOOD\")\n```",
+    "insertText": "lwindex(\"${1:NAME}\")"
   },
   {
     "label": "lwsetmaterial",
@@ -3256,7 +3404,8 @@
   {
     "label": "make_volume",
     "detail": "creates simple 3D volumes. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nmake_volume \"CUBE\" StringLen*Spacing,mm_to_dwg(100),10\n```"
+    "documentation": "Example:\n\n```vertexadt\nmake_volume \"CUBE\" StringLen*Spacing,mm_to_dwg(100),10\n```",
+    "insertText": "make_volume(${1:out_Index}) \"${2:CUBE}\",${3:in_Lx},${4:in_Ly},${5:in_Lz}"
   },
   {
     "label": "mangledef",
@@ -3399,7 +3548,8 @@
   {
     "label": "mm_to_dwg",
     "detail": " dwg_value=... R: value in current units. mm_value: value in [mm]. See also 'inch_mode' and 'dwg_to_mm'. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nLiftHoleLen = mm_to_dwg(200)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLiftHoleLen = mm_to_dwg(200)\n```",
+    "insertText": "mm_to_dwg(${1:in_MmValue})"
   },
   {
     "label": "modelcloseback",
@@ -3424,7 +3574,8 @@
   {
     "label": "modelpath",
     "detail": " Path$=... R: full path of model file. ModId$: model number. Mode: optional, +1 = silent mode.",
-    "documentation": "Example:\n\n```vertexadt\nFilePath$ = modelpath(ModId$,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nFilePath$ = modelpath(ModId$,1)\n```",
+    "insertText": "modelpath(${1:in_ModId$})"
   },
   {
     "label": "modelportclose",
@@ -3449,7 +3600,8 @@
   {
     "label": "modelstore",
     "detail": "Saves active model to other file formats. Supported formats and modes:\n\n* no mode/Mode 0: save as .VXM.\n* Mode 8: 3D .PDF(exports all geometry of active model)\n* Mode 16: .STP/.STEP (exports visible geometry of active model)\n* Mode 32: Light VXM (should be used on part/assembly models, gives error and exports same as 128 for buildings)\n* Mode 64: .IFC (exports all geometry of active model)\n* Mode 128: Reference VXM (exports all geometry of active model, makes objects into plain textured geometries)\n* Mode 1024: .GLB (exports visible geometry of active model)",
-    "documentation": "Example:\n\n```vertexadt\nOk = modelstore(File$,Mode)\n```\nExample2:\n\n```vertexadt\nOk = modelstore(File$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = modelstore(File$,Mode)\n```\nExample2:\n\n```vertexadt\nOk = modelstore(File$)\n```",
+    "insertText": "modelstore(${1:in_Path$})"
   },
   {
     "label": "moveview",
@@ -3464,7 +3616,8 @@
   {
     "label": "ms_volume",
     "detail": " Path$=... R: full path of volume 'Volume$'. Volume$: volume name in 'usersetup'.",
-    "documentation": "Example:\n\n```vertexadt\nProj_path$ = ms_volume(Proj_ms$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nProj_path$ = ms_volume(Proj_ms$)\n```",
+    "insertText": "ms_volume(${1:in_Volume$})"
   },
   {
     "label": "mzdef",
@@ -3489,7 +3642,8 @@
   {
     "label": "new_comp",
     "detail": "Creates new panel. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nElem= new_comp(\"name\",SP,SX,SY,SZ,LP,LX,LY,LZ,Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nElem= new_comp(\"name\",SP,SX,SY,SZ,LP,LX,LY,LZ,Mode)\n```",
+    "insertText": "new_comp(\"${1:in_Name}\",${2:in_SP},${3:in_SX},${4:in_SY},${5:in_SZ},${6:in_LP},${7:in_LX},${8:in_LY},${9:in_LZ},${10:in_Mode})"
   },
   {
     "label": "new_djoint",
@@ -3506,12 +3660,14 @@
   {
     "label": "new_hole_feature",
     "detail": "defines new hole and returns its address to Hole. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nHole= new_hole_feature(\"0\",\"0\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nHole= new_hole_feature(\"0\",\"0\")\n```",
+    "insertText": "new_hole_feature(\"${1:0}\",\"${2:0}\")"
   },
   {
     "label": "new_iterator",
     "detail": "Creates a new iterator that can be looped through to find objects related to given object. \n* TASKS:\n* \"PARTS\"\n* \"CONNECTIONS\"\n* \"CONNECTIONS_HC\"\n* \"CONNECTION_DETPARTS\"\n* \"CONNECTION_PARTS\"\n* \"CONNECTION_ROLEPARTS\" , \"PARAM\" is role name\n* \"ROLED\" , \"PARAM\" is role name\n* \"WALL_CONNECTIONS\"\n* \"PARENT\"\n* \"PNL_MEMBERS\" \"PARAM\": 0 = direct members, +1 also assembly, +2 also jointmembers\n* \"OPENING\" , must be iterated on main AREAOBJ of structural-panel.\n* \"TRS_MEMBERS\" \"PARAM\": TOPC = top chords, BOTC = bottom chords, WEB = Webs, ENDWEB = End webs\n* \"NEXT_LAYER\" \"PARAM\": TOP = next top layer, BOT = next bottom layer\n* \"NEARBY_STRUCTURES\" , \"PARAM\" is \"MAIN_VXTYPE|DISTANCE\" Returns Slopeobj's of close structures or raw object if using misccomp/electrical etc. object must have 3d volume to be found.\n* -VXTYPE can be: \nSlopes: FLOOR,CEILING,TRUSS,ROOF,LAYERSTRUCTURE\nMACROS: MACHINING,MISCCOMPONENT,ELECTRICAL,WINDOW_EXT,DOOR_INT,DOOR_EXT,WINDOW_INT,PROPS,JOISTHANGER,ANGLECONNECTOR,STRUCTACCESSORY,SERVICEHOLELINE,INTLIGHT,EXTLIGHT,PANELANCHOR,FASTENER,STRAP,ENDCAP,PLYCLIP,STAIR,OPENING,SKYLIGHT,ROOFACCESSORY,HEIGHTMACRO,FIREPLACE,CHIMNEY,COLUMN,VOLJAR,PLUMBINGFIXTURE,INTACCESSORY,EXTACCESSORY,PANELBREAK,TOOL,INTFIXTURE,INTAPPLIANCE\nPLUMBING: WATERWASTE,WATERHOT,WATERCOLD,VENTILATING,MISCPIPE,HEATING,GAS,DRAINAGE,CENTRALVACUUM,AIRCONDITIONING\nAREAS: SIDING,SUBFRAME,FRAME,COVERING\nPROFILES: FRAMEPIECE,STIFFENER,SQUASHBLOCK,FLOORMOLDING,ROOFMOLDING,CORNERBOARD,EAVETRIM,WALLTRIM,OPENINGTRIM\nSHEET/INSULATION: SHEET,INSULATION_MAT\n* -not working: WALLINT,WALLEXT(can't be found as walls are lines only in theory). COORDMACRO(can't be found cause its 2d only). RIDGE,HIP,VALLEY,GABLE,EAVE(they are not 3d objects)\nSee ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nIt = new_iterator(\"TYPETOFIND\",objecttofindin,\"whattosearchfor\",\"extraparamusedwithsometypes\")\n```\nExample2:\n\n```vertexadt\nIt = new_iterator(\"PROFOBJ\",Area,\"PARTS\",\"\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nIt = new_iterator(\"TYPETOFIND\",objecttofindin,\"whattosearchfor\",\"extraparamusedwithsometypes\")\n```\nExample2:\n\n```vertexadt\nIt = new_iterator(\"PROFOBJ\",Area,\"PARTS\",\"\")\n```",
+    "insertText": "new_iterator(\"${1:TYPE}\",${2:in_Obj},\"${3:TASK}\",\"${4:PARAM}\")"
   },
   {
     "label": "new_macro",
@@ -3522,7 +3678,8 @@
   {
     "label": "new_notch_feature",
     "detail": "Example: Notch= new_notch_feature(\"TYPE\",\"FEATURE_CUSTOMTYPE\",\"FEATURE_HANDLER\")",
-    "documentation": "Example:\n\n```vertexadt\nSwage= new_notch_feature(\"SWAGE\",SWAGE_TYPE$,\"0\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nSwage= new_notch_feature(\"SWAGE\",SWAGE_TYPE$,\"0\")\n```",
+    "insertText": "new_notch_feature(\"${1:TYPE}\",\"${2:0}\",\"${3:0}\")"
   },
   {
     "label": "new_origin",
@@ -3580,7 +3737,8 @@
   {
     "label": "new_sheet",
     "detail": "Add new sheet by giving corner points of the sheet or add new sheet and set origin/direction/shape afterwards.",
-    "documentation": "Example:\n\n```vertexadt\nsheet = new_sheet(Library,SHTCODE,P1,P2,P3,P4)\n```\nExample2:\n\n```vertexadt\nsheet = new_sheet(Library,SHTCODE)\n```"
+    "documentation": "Example:\n\n```vertexadt\nsheet = new_sheet(Library,SHTCODE,P1,P2,P3,P4)\n```\nExample2:\n\n```vertexadt\nsheet = new_sheet(Library,SHTCODE)\n```",
+    "insertText": "new_sheet(${1:in_Library$},${2:in_Code$})"
   },
   {
     "label": "nextpartnumber",
@@ -3620,7 +3778,8 @@
   {
     "label": "next_item",
     "detail": "returns next item from list",
-    "documentation": "Example:\n\n```vertexadt\nItem = next_item(Iterator)\n```"
+    "documentation": "Example:\n\n```vertexadt\nItem = next_item(Iterator)\n```",
+    "insertText": "next_item(${1:in_Iterator})"
   },
   {
     "label": "next_object",
@@ -3635,37 +3794,44 @@
   {
     "label": "note",
     "detail": " Show message 'Msg$' on status bar. Row: 1=first position, 2=second position.",
-    "documentation": "Example:\n\n```vertexadt\nnote(1) Note$,3\n```"
+    "documentation": "Example:\n\n```vertexadt\nnote(1) Note$,3\n```",
+    "insertText": "note(${1:in_Row}) \"${2:in_Message}\""
   },
   {
     "label": "notewinclear",
     "detail": "Clears note window",
-    "documentation": "Example:\n\n```vertexadt\nnotewinclear(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nnotewinclear(1)\n```",
+    "insertText": "notewinclear(${1:in_Index})"
   },
   {
     "label": "notewinclose",
     "detail": "Closes the note window",
-    "documentation": "Example:\n\n```vertexadt\nnotewinclose(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nnotewinclose(1)\n```",
+    "insertText": "notewinclose(${1:in_Index})"
   },
   {
     "label": "notewinopen",
     "detail": "Opens note window. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nnotewinopen(1) Header$,3,50\n```"
+    "documentation": "Example:\n\n```vertexadt\nnotewinopen(1) Header$,3,50\n```",
+    "insertText": "notewinopen(${1:in_Index}) \"${2:in_Header}\",${3:in_Rows},${4:in_Cols}"
   },
   {
     "label": "numeric_string",
     "detail": "Checks if string is numberic or not. Returns 1 if it is numeric.",
-    "documentation": "Example:\n\n```vertexadt\nIsNum = numeric_string(Code$[i,i])\n```"
+    "documentation": "Example:\n\n```vertexadt\nIsNum = numeric_string(Code$[i,i])\n```",
+    "insertText": "numeric_string(${1:in_Str$})"
   },
   {
     "label": "objadbclose",
     "detail": "Closes Objects ADB database.",
-    "documentation": "Example:\n\n```vertexadt\nobjadbclose(IdAdb) 0\n```"
+    "documentation": "Example:\n\n```vertexadt\nobjadbclose(IdAdb) 0\n```",
+    "insertText": "objadbclose(${1:in_DBID}) ${2:in_Mode}"
   },
   {
     "label": "objadbopen",
     "detail": "Opens Objects ADB database.",
-    "documentation": "Example:\n\n```vertexadt\nobjadbopen(IdAdb) L101,Adbtype\n```"
+    "documentation": "Example:\n\n```vertexadt\nobjadbopen(IdAdb) L101,Adbtype\n```",
+    "insertText": "objadbopen(${1:in_DBID}) ${2:in_DBLID},${3:in_AdbType}"
   },
   {
     "label": "objfindoff",
@@ -3680,17 +3846,20 @@
   {
     "label": "offset_line",
     "detail": "Copies line with given offset. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\noffset_line(3) L1, Offset\n```"
+    "documentation": "Example:\n\n```vertexadt\noffset_line(3) L1, Offset\n```",
+    "insertText": "offset_line(${1:out_Index}) ${2:in_Line},${3:in_Offset}"
   },
   {
     "label": "offset_vxgeom",
     "detail": "Offsets shape line GeomA in plane Pnt, N using dimension Offset",
-    "documentation": "Example:\n\n```vertexadt\noffset_vxgeom(GeomB) GeomA,Pnt,N,Offset\n```"
+    "documentation": "Example:\n\n```vertexadt\noffset_vxgeom(GeomB) GeomA,Pnt,N,Offset\n```",
+    "insertText": "offset_vxgeom(${1:out_Geom}) ${2:in_Geom},${3:in_PlaneP},${4:in_PlaneN},${5:in_Offset}"
   },
   {
     "label": "open",
     "detail": "Opens a file that can be looped through row by row or processed in other ways.",
-    "documentation": "Example:\n\n```vertexadt\nopen(1) File_name$\n```\nExample2:\n\n```vertexadt\nopen(FileId) Path$,\"utf8\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nopen(1) File_name$\n```\nExample2:\n\n```vertexadt\nopen(FileId) Path$,\"utf8\"\n```",
+    "insertText": "open(${1:in_FileNo}) ${2:in_Path$}"
   },
   {
     "label": "open_ascii",
@@ -3730,7 +3899,8 @@
   {
     "label": "optbitset",
     "detail": " Ret=... R: 1=optbit number 'Optbit' is set, 0=is not set.",
-    "documentation": "Example:\n\n```vertexadt\nIgs = optbitset(67)\n```"
+    "documentation": "Example:\n\n```vertexadt\nIgs = optbitset(67)\n```",
+    "insertText": "optbitset(${1:in_Optbit})"
   },
   {
     "label": "or",
@@ -3775,7 +3945,8 @@
   {
     "label": "pdfmarkstr",
     "detail": " PdfmarkStr$=... R: valid string for pdfmark parameter e.g. '';(ABC)''; or '';&lt;FEFF004200430044&gt;'';. Str$: normal string. Mode: +1 for PDFA, +2 don't wrap with () of &lt;&gt; (27.0), +4 don't add FEFF (27.0).",
-    "documentation": "Example:\n\n```vertexadt\nDocInfo$=DocInfo$&\" /Title \"&pdfmarkstr(Title$,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nDocInfo$=DocInfo$&\" /Title \"&pdfmarkstr(Title$,1)\n```",
+    "insertText": "pdfmarkstr(${1:in_Str$},${2:in_Mode})"
   },
   {
     "label": "pdfmarkstrinv",
@@ -3820,7 +3991,8 @@
   {
     "label": "pdm_get_itemdata",
     "detail": "not in adt command list but used?",
-    "documentation": "Example:\n\n```vertexadt\nok= pdm_get_itemdata(ItemId$,Code$,DbIdComp)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok= pdm_get_itemdata(ItemId$,Code$,DbIdComp)\n```",
+    "insertText": "pdm_get_itemdata(${1:in_ItemId$},${2:in_Code$},${3:in_DBID})"
   },
   {
     "label": "pdm_get_metadata",
@@ -3830,7 +4002,8 @@
   {
     "label": "pdm_new_code",
     "detail": "not in adt command list but used?",
-    "documentation": "Example:\n\n```vertexadt\nItemCode$=pdm_new_code(-1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nItemCode$=pdm_new_code(-1)\n```",
+    "insertText": "pdm_new_code(${1:in_DocType})"
   },
   {
     "label": "pdm_send_notific",
@@ -3860,7 +4033,8 @@
   {
     "label": "piece_move_end",
     "detail": "Moves piece end to new position. Return value is 1 if move is valid, otherwise 0. End is reference to piece end (PROF_END).\nPnt is new piece end point\nTrimMode 1 -> returns piece end to normal shape (removes trim planes)\n0 -> do not touch end to shapes",
-    "documentation": "Example:\n\n```vertexadt\nok = piece_move_end(End,Pnt,TrimMode)\nok = piece_move_end(loStart,loStartP,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = piece_move_end(End,Pnt,TrimMode)\nok = piece_move_end(loStart,loStartP,1)\n```",
+    "insertText": "piece_move_end(${1:end},${2:point},${3:trimmode})"
   },
   {
     "label": "pipe_angles",
@@ -3875,7 +4049,8 @@
   {
     "label": "plane",
     "detail": "Creates a plane from the given line(s). See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nplane(1) L1\n```"
+    "documentation": "Example:\n\n```vertexadt\nplane(1) L1\n```",
+    "insertText": "plane(${1:index}) ${2:lines}"
   },
   {
     "label": "plane_autodir",
@@ -3921,7 +4096,8 @@
   {
     "label": "point",
     "detail": "Creates a 2d or 3d point, See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\npoint(3) X,Y\n```\nExample2:\n\n```vertexadt\npoint(3) X,Y,Z\n```"
+    "documentation": "Example:\n\n```vertexadt\npoint(3) X,Y\n```\nExample2:\n\n```vertexadt\npoint(3) X,Y,Z\n```",
+    "insertText": "point(${1:out_Index}) ${2:in_X},${3:in_Y}"
   },
   {
     "label": "pointadbget",
@@ -3974,7 +4150,8 @@
   {
     "label": "pow",
     "detail": "pow(A,B) raise A to the power of B",
-    "documentation": "Example:\n\n```vertexadt\npow(A,B)\n```"
+    "documentation": "Example:\n\n```vertexadt\npow(A,B)\n```",
+    "insertText": "pow(${1:base},${2:exponent})"
   },
   {
     "label": "presolve_settings",
@@ -4009,7 +4186,8 @@
   {
     "label": "projectpath",
     "detail": " Path$=... R: full path of project folder. ProjId$: project name.",
-    "documentation": "Example:\n\n```vertexadt\nProjectPath$= projectpath(Proj_id$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nProjectPath$= projectpath(Proj_id$)\n```",
+    "insertText": "projectpath(${1:in_ProjId$})"
   },
   {
     "label": "proj_to_piece",
@@ -4020,12 +4198,14 @@
   {
     "label": "proj_vxgeom",
     "detail": "creates projection of shape line GeomA to plane A,B,C,D and sets result to address GeomB",
-    "documentation": "Example:\n\n```vertexadt\nproj_vxgeom(GeomB) GeomA,A,B,C,D\n```"
+    "documentation": "Example:\n\n```vertexadt\nproj_vxgeom(GeomB) GeomA,A,B,C,D\n```",
+    "insertText": "proj_vxgeom(${1:outgeom}) ${2:ingeom},${3:a},${4:b},${5:c},${6:d}"
   },
   {
     "label": "proj_vxgeom_dir",
     "detail": "creates projection of shape line GeomA to plane PeP,PeN in direction on Dir",
-    "documentation": "Example:\n\n```vertexadt\nproj_vxgeom_dir(GeomB) GeomA,PeP,PeN,Dir\n```"
+    "documentation": "Example:\n\n```vertexadt\nproj_vxgeom_dir(GeomB) GeomA,PeP,PeN,Dir\n```",
+    "insertText": "proj_vxgeom_dir(${1:out_Geom}) ${2:in_Geom},${3:in_PlaneP},${4:in_PlaneN},${5:in_Dir}"
   },
   {
     "label": "ptol",
@@ -4075,17 +4255,20 @@
   {
     "label": "read",
     "detail": "reads the next line of given list/open file with given index.",
-    "documentation": "Example:\n\n```vertexadt\nRow$ = read(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRow$ = read(1)\n```",
+    "insertText": "read(${1:in_FileNo})"
   },
   {
     "label": "really",
     "detail": " Yes=... R: 1=Yes, 0=No. Question: question string. YesLabel: User label for 'Yes'  button. NoLabel: User label for 'No' button. DefaultButton: 1=Yes is default, 0=No is default.",
-    "documentation": "Example:\n\n```vertexadt\nOk = really(Prompt3$,0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = really(Prompt3$,0)\n```",
+    "insertText": "really(${1:in_Question$},${2:in_DefaultButton})"
   },
   {
     "label": "reallycancel",
     "detail": " Ret=... R: 1=Yes, 0=No, 256=Cancel. Header$: header text. Question: question string. YesLabel: User label for 'Yes'  button. NoLabel: User label for 'No' button. CancelLabel: User label for 'Cancel' button. DefaultButton: 1=Yes is default, 0=No is default.",
-    "documentation": "Example:\n\n```vertexadt\nRet = reallycancel(Prompt$,Quest$,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = reallycancel(Prompt$,Quest$,1)\n```",
+    "insertText": "reallycancel(${1:in_Prompt$},${2:in_Question$},${3:in_Mode})"
   },
   {
     "label": "refdwgadd",
@@ -4236,7 +4419,8 @@
   {
     "label": "section_to_poly",
     "detail": "add piece Pce cross section shape to polygon Poly from point Pnt in direction Dir. See ADT documentation for more information",
-    "documentation": "Example1:\n\n```vertexadt\nsection_to_poly(Poly) Pce,Pnt,Dir,Mode,Vec\n```\n\nExample2:\n\n```vertexadt\nsection_to_poly(Poly) Pce,PP,PZ,2+4+8,D\n```"
+    "documentation": "Example1:\n\n```vertexadt\nsection_to_poly(Poly) Pce,Pnt,Dir,Mode,Vec\n```\n\nExample2:\n\n```vertexadt\nsection_to_poly(Poly) Pce,PP,PZ,2+4+8,D\n```",
+    "insertText": "section_to_poly(${1:out_Poly}) ${2:in_Pce},${3:in_P},${4:in_Dir},${5:in_Mode}"
   },
   {
     "label": "select",
@@ -4266,7 +4450,8 @@
   {
     "label": "select_file",
     "detail": "Makes a list of files found in the specified directory and shows them for selection. See ADT documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nFile$ = select_file(TIT$,Dir$,2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nFile$ = select_file(TIT$,Dir$,2)\n```",
+    "insertText": "select_file(${1:in_Title$},${2:in_Dir$},${3:in_Mode})"
   },
   {
     "label": "select_label",
@@ -4286,7 +4471,8 @@
   {
     "label": "savebrowserpict",
     "detail": "PDMfilegen command to save browser preview picture.",
-    "documentation": "Example:\n\n```vertexadt\nRet = savebrowserpict(PdfFile$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = savebrowserpict(PdfFile$)\n```",
+    "insertText": "savebrowserpict(${1:in_Path$})"
   },
   {
     "label": "select_winposx",
@@ -4317,7 +4503,8 @@
   {
     "label": "setgetval",
     "detail": " Val$=... R: value of './SETUP' keyword 'set.xxx.yyy=' or empty if not found.",
-    "documentation": "Example:\n\n```vertexadt\nVal$ = setgetval(\"dwg\",\"convert\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nVal$ = setgetval(\"dwg\",\"convert\")\n```",
+    "insertText": "setgetval(\"${1:in_Section}\",\"${2:in_Key}\")"
   },
   {
     "label": "setglabel",
@@ -4352,7 +4539,8 @@
   {
     "label": "setwaitcursor",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nsetwaitcursor(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nsetwaitcursor(1)\n```",
+    "insertText": "setwaitcursor(${1:in_Mode})"
   },
   {
     "label": "set_area_mater",
@@ -4362,7 +4550,8 @@
   {
     "label": "set_frm_tool",
     "detail": "Sets framing tool(s) for given AreaObj. Removes any previous framing tool of the area/layer.\nYou can string together multiple framing tools to add multiple ones. \nlike this: {[2]WA|EXT-45x120-PY|WALL_FRAMING_CUS}{[28]CL|CEIL_MF_PP|FRMTOOL_PREPROCESSOR_SYS}\nThis would add mainframe wall framing tool and preprocessor tool.\n\nToolNumbers + Shortnames:\n* 1. Wall Sheathing: {[13]CL\n* 2. Common Sheathing: {[4]CL\n* 3. Wall Framing: {[2]WA\n* 4. Horizontal/subframe Framing: {[3]CL\n* 5. Battens: {[11]CL\n* 6. Profile Extender: {[23]CL\n* 7. Siding/Cladding: {[5]CL\n* 8. Preprocessor: {[28]CL\n* 9. Framing post-processor: {[24000]CL\n* 10. batten post-processor: {[25000]CL\n* 11. sheathing post-processor: {[26000]CL\n* 12. insulation post-processor: {[27000]CL\n\n--- There could be more, these are the ones found so far.\n\nCommand does not care which layer you add framing tools to, nor does it care what type that layer is. there is no safeguards here.\nExample, you can add cladding framing tool to mainframe layer of wall. You can add wall framing tool to horizontal mainframe etc. These odd combinations may not generate/work as you want however.\n",
-    "documentation": "Example:\n\n```vertexadt\nset_frm_tool(Area) \"{[2]WA|EXT-45x120-PY|WALL_FRAMING_CUS}{[28]CL|CEIL_MF_PP|FRMTOOL_PREPROCESSOR_SYS}{[23]CL|ProfExt|FRMTOOL_PROF_EXT_CUS}{[24000]CL|PROF_HOR|FRMTOOL_PROFCOLORING_FRAME}\"\nset_frm_tool(Area) \"{[2]WA|EXT-45x120-PY|WALL_FRAMING_CUS}\"\nset_frm_tool(Area) \"{FrmToolNumber]FrmToolShortWord|Code/NameOfFramingTool|FolderNameOfFramingToolLibrary}\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_frm_tool(Area) \"{[2]WA|EXT-45x120-PY|WALL_FRAMING_CUS}{[28]CL|CEIL_MF_PP|FRMTOOL_PREPROCESSOR_SYS}{[23]CL|ProfExt|FRMTOOL_PROF_EXT_CUS}{[24000]CL|PROF_HOR|FRMTOOL_PROFCOLORING_FRAME}\"\nset_frm_tool(Area) \"{[2]WA|EXT-45x120-PY|WALL_FRAMING_CUS}\"\nset_frm_tool(Area) \"{FrmToolNumber]FrmToolShortWord|Code/NameOfFramingTool|FolderNameOfFramingToolLibrary}\"\n```",
+    "insertText": "set_frm_tool(${1:in_Areaobj}) \"${2:in_FrmTool}\""
   },
   {
     "label": "set_attr_text2",
@@ -4377,7 +4566,8 @@
   {
     "label": "set_djmaster",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nset_djmaster(Jnt) Parent\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_djmaster(Jnt) Parent\n```",
+    "insertText": "set_djmaster(${1:in_Joint}) ${2:in_Parent}"
   },
   {
     "label": "set_djdependent",
@@ -4386,7 +4576,7 @@
   },
   {
     "label": "set_clipboard",
-    "detail": "",
+    "detail": "used to set clipboard content from replacement array. uses replacement array variables: set \"$CLIPB_ROWS\"  \"1\"\nset \"$CLIPB_COLS\"  \"1\"\nset \"$CLIPB_1_1\"  InclPath$\nset_clipboard",
     "documentation": "Example:\n\n```vertexadt\nset_clipboard\n```"
   },
   {
@@ -4410,7 +4600,8 @@
   {
     "label": "set_feat_param",
     "detail": "sets to feature's parameter PARAM value VALUE",
-    "documentation": "Example:\n\n```vertexadt\nset_feat_param(Feature) \"PARAM\",\"VALUE\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_feat_param(Feature) \"PARAM\",\"VALUE\"\n```",
+    "insertText": "set_feat_param(${1:Feature}) \"${2:PARAM}\",${3:VALUE}"
   },
   {
     "label": "set_find_param",
@@ -4430,7 +4621,8 @@
   {
     "label": "set_joint_param",
     "detail": "adds parameter PARAM to joint and sets its value VALUE",
-    "documentation": "Example:\n\n```vertexadt\nset_joint_param(Joint) \"PARAM\",\"VALUE\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_joint_param(Joint) \"PARAM\",\"VALUE\"\n```",
+    "insertText": "set_joint_param(${1:Joint}) \"${2:PARAM}\",${3:VALUE}"
   },
   {
     "label": "set_joint_pos",
@@ -4440,7 +4632,8 @@
   {
     "label": "set_lbl_param",
     "detail": "sets parameters for object label\n\n*LBLTYPE is type of label      MACLBL -> macro label\n*PARAM is parameter to set     POS    -> position (POINT)\nSYM    -> visible symbol, \"A\" is reference to macros XX parameter\nMSYM   -> visible symbol, \"A\" is reference to macro parameter which value symbol is\nGPROP  -> reference to geomprop setup file\n*Value is parameter value",
-    "documentation": "Example:\n\n```vertexadt\nset_lbl_param(Obj) \"LBLTYPE\",\"PARAM\",Value\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_lbl_param(Obj) \"LBLTYPE\",\"PARAM\",Value\n```",
+    "insertText": "set_lbl_param(${1:in_Obj}) \"${2:LBLTYPE}\",\"${3:PARAM}\",${4:in_Value}"
   },
   {
     "label": "set_line_param",
@@ -4450,12 +4643,14 @@
   {
     "label": "set_log_pnl_org",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nOk= set_log_pnl_org(Wall2,Wall1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= set_log_pnl_org(Wall2,Wall1)\n```",
+    "insertText": "set_log_pnl_org(${1:in_Wallobj1},${2:in_Wallobj2})"
   },
   {
     "label": "set_macro_form",
     "detail": "Sets form file to be used for the macro, forms are searched in macro's directory and forms directory",
-    "documentation": "Example:\n\n```vertexadt\nset_macro_form(Mac) \"Form_name\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_macro_form(Mac) \"Form_name\"\n```",
+    "insertText": "set_macro_form(${1:in_Mac}) \"${2:in_FormName}\""
   },
   {
     "label": "set_macro_name",
@@ -4486,7 +4681,8 @@
   {
     "label": "set_piece_inst",
     "detail": "set_piece_inst(Ptr) \"PROP\",Value\n\n* sets instance property to piece\n* Prop can be INST2D, LINEPROP2D, LAYER, FILL, ADD_DESCR, PEN\n* See set_piece_set for more options and flexibility.\n* INST2D can be: SECTWC(section with cross), SECTWD(section with dash) at least.",
-    "documentation": "Example:\n\n```vertexadt\nset_piece_inst(PceBot) \"LAYER\",\"179\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_piece_inst(PceBot) \"LAYER\",\"179\"\n```",
+    "insertText": "set_piece_inst(${1:in_Pce}) \"${2:PROP}\",${3:in_Value$}"
   },
   {
     "label": "set_obj_param",
@@ -4519,12 +4715,14 @@
   {
     "label": "set_primary_mem",
     "detail": "",
-    "documentation": "Example:\n\n```vertexadt\nset_primary_mem(This) Pce\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_primary_mem(This) Pce\n```",
+    "insertText": "set_primary_mem(${1:in_Joint}) ${2:in_Pce}"
   },
   {
     "label": "set_regenerable",
     "detail": "Set the object status to be updated in generate framing or not\n\n* 0 → Is not updated in generate parts\n* 1 → Is updated in generate parts",
-    "documentation": "Example:\n\n```vertexadt\nset_regenerable(Sheet) 0\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_regenerable(Sheet) 0\n```",
+    "insertText": "set_regenerable(${1:in_Obj}) ${2:in_Mode}"
   },
   {
     "label": "set_part_data",
@@ -4534,7 +4732,8 @@
   {
     "label": "set_piece_enddir",
     "detail": "sets piece's end to direction Normal. Sloping the end of the piece.",
-    "documentation": "Example:\n\n```vertexadt\nOk = set_piece_enddir(End,D)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = set_piece_enddir(End,D)\n```",
+    "insertText": "set_piece_enddir(${1:in_PceEnd},${2:in_Dir})"
   },
   {
     "label": "set_piece_end_trims",
@@ -4555,7 +4754,8 @@
   {
     "label": "set_poly_pleq",
     "detail": "sets plane equation for polygon",
-    "documentation": "Example:\n\n```vertexadt\nset_poly_pleq(Poly) P,N\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_poly_pleq(Poly) P,N\n```",
+    "insertText": "set_poly_pleq(${1:in_Poly}) ${2:in_PlaneP},${3:in_PlaneN}"
   },
   {
     "label": "set_same_tlink",
@@ -4577,7 +4777,8 @@
   {
     "label": "set_text_ass",
     "detail": "Associates a text with a drawing element.",
-    "documentation": "Example:\n\n```vertexadt\nset_text_ass(1) L2\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_text_ass(1) L2\n```",
+    "insertText": "set_text_ass(${1:in_Index}) ${2:in_Elem}"
   },
   {
     "label": "set_text_param",
@@ -4597,7 +4798,8 @@
   {
     "label": "set_vxtype",
     "detail": "Sets VXTYPE of given profile. A different type than FPTYPE. Piece properties window holds all available options that can be set.",
-    "documentation": "Example:\n\n```vertexadt\nset_vxtype(PceWeb) \"STIFFENER\",\"WEB_STIFFENER\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_vxtype(PceWeb) \"STIFFENER\",\"WEB_STIFFENER\"\n```",
+    "insertText": "set_vxtype(${1:in_Pce}) \"${2:MAIN}\",\"${3:SUB}\""
   },
   {
     "label": "set_visibility",
@@ -4608,7 +4810,8 @@
   {
     "label": "set_vol_param",
     "detail": "Sets parameter to given volume index",
-    "documentation": "Example:\n\n```vertexadt\nset_vol_param(1) \"LEVEL\",\"111\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nset_vol_param(1) \"LEVEL\",\"111\"\n```",
+    "insertText": "set_vol_param(${1:in_Index}) \"${2:PARAM}\",${3:in_Value$}"
   },
   {
     "label": "set_wall_org",
@@ -4628,7 +4831,8 @@
   {
     "label": "set_wall_pos",
     "detail": "Sets given wall's start and end position. Returns 1 if successful.",
-    "documentation": "Example:\n\n```vertexadt\nOk= set_wall_pos(Wall2,P,WJ2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= set_wall_pos(Wall2,P,WJ2)\n```",
+    "insertText": "set_wall_pos(${1:in_Wallobj},${2:in_StartP},${3:in_EndP})"
   },
   {
     "label": "show_error",
@@ -4644,7 +4848,8 @@
   {
     "label": "sin",
     "detail": "Returns the sine of an angle.",
-    "documentation": "Example:\n\n```vertexadt\nResult = sin(AngD)\n```"
+    "documentation": "Example:\n\n```vertexadt\nResult = sin(AngD)\n```",
+    "insertText": "sin(${1:angle})"
   },
   {
     "label": "sort",
@@ -4659,7 +4864,8 @@
   {
     "label": "special_command",
     "detail": "Executes special internal C-program.",
-    "documentation": "Example:\n\n```vertexadt\nspecial_command hide_2d\nspecial_command dwgsaveasraster File1$,Resolution,BitsPerPixel,Compression\nspecial_command \"set_ge_attr_3d\", 0, 34, \"long\", 1\nOk= special_command(\"replarray\",\"save\",\"\",\"./repl_array.txt\")\nspecial_command \"toexcel\",TmpFileA$\nspecial_command \"parse_line\",Db,L$\nspecial_command \"parse_init\",Fline$(1),KeyField1$,Fline$(2),Fline$(3),Fline$(4),Fline$(5),Fline$(6)\nspecial_command \"dumpdbrow\",Dbase,rid,1\nok= special_command(\"adb_to_db\",type$)\nspecial_command clipoutsideline,L(i),80\n```"
+    "documentation": "Example:\n\n```vertexadt\nspecial_command hide_2d\nspecial_command dwgsaveasraster File1$,Resolution,BitsPerPixel,Compression\nspecial_command \"set_ge_attr_3d\", 0, 34, \"long\", 1\nOk= special_command(\"replarray\",\"save\",\"\",\"./repl_array.txt\")\nspecial_command \"toexcel\",TmpFileA$\nspecial_command \"parse_line\",Db,L$\nspecial_command \"parse_init\",Fline$(1),KeyField1$,Fline$(2),Fline$(3),Fline$(4),Fline$(5),Fline$(6)\nspecial_command \"dumpdbrow\",Dbase,rid,1\nok= special_command(\"adb_to_db\",type$)\nspecial_command clipoutsideline,L(i),80\n```",
+    "insertText": "special_command(\"${1:COMMAND}\")"
   },
   {
     "label": "spmacro",
@@ -4669,7 +4875,8 @@
   {
     "label": "sqrt",
     "detail": "Returns the square root of the given value/equation",
-    "documentation": "Example:\n\n```vertexadt\nResult=sqrt(Value or equation)\n```"
+    "documentation": "Example:\n\n```vertexadt\nResult=sqrt(Value or equation)\n```",
+    "insertText": "sqrt(${1:value})"
   },
   {
     "label": "strancmp",
@@ -4679,7 +4886,8 @@
   {
     "label": "strcmp",
     "detail": " Ret=... R: &lt;0 Str1$ is less than Str2$, 0 Str1$ is identical to Str2$, &gt;0 Str1$ is greater Str2$. IgnoreCase: 0=match case (default), 1=ignore case. See also 'strancmp'. (20.0).",
-    "documentation": "Example:\n\n```vertexadt\n(strcmp(Class$, \"CPBW\") = 0)\n```"
+    "documentation": "Example:\n\n```vertexadt\n(strcmp(Class$, \"CPBW\") = 0)\n```",
+    "insertText": "strcmp(${1:in_Str1$},${2:in_Str2$})"
   },
   {
     "label": "stretch",
@@ -4720,7 +4928,8 @@
   {
     "label": "strmatch",
     "detail": " Ok=... R: 0=no match, 1='Str$' matches to expression 'Exp$'. Str$: String to be tested. Exp$: Wildcard expression; '*'=nothing or anything, 'question mark'=one character, '#'=one digit, ''=escape character. IgnoreCase: 0=match case (default), 1=ignore case. Wildcards$: string of wildcard characters to be used, default is all except '$' (a-z or A-Z) and '¤' (not digit) (27.0.10). (20.0).",
-    "documentation": "Example:\n\n```vertexadt\n(strmatch(Topic$(R),StrMatchExp$)==0)\n```"
+    "documentation": "Example:\n\n```vertexadt\n(strmatch(Topic$(R),StrMatchExp$)==0)\n```",
+    "insertText": "strmatch(${1:in_Str$},\"${2:in_Exp}\")"
   },
   {
     "label": "strparams",
@@ -4730,7 +4939,8 @@
   {
     "label": "strtoks",
     "detail": " Val$=... R: value of field number 'FieldNo'. TokenStr$: token string. Sep$: separators of token string (every char of 'Sep$' acts as separator).",
-    "documentation": "Example:\n\n```vertexadt\nP$ = strtoks(Pclass$,I,\"|\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nP$ = strtoks(Pclass$,I,\"|\")\n```",
+    "insertText": "strtoks(${1:in_TokenStr$},${2:in_FieldNo},\"${3:in_Sep}\")"
   },
   {
     "label": "strtoxml",
@@ -4780,7 +4990,8 @@
   {
     "label": "tan",
     "detail": "Returns the tangent of an angle.",
-    "documentation": "Example:\n\n```vertexadt\nResult = tan(0.5*Alfa)\n```"
+    "documentation": "Example:\n\n```vertexadt\nResult = tan(0.5*Alfa)\n```",
+    "insertText": "tan(${1:angle})"
   },
   {
     "label": "target_dbclose",
@@ -4790,7 +5001,8 @@
   {
     "label": "touch_joint",
     "detail": "Runs given joints UPDATE_JOINT and JOINT_DETAILING sections.",
-    "documentation": "Example:\n\n```vertexadt\ntouch_joint(Con)\n```"
+    "documentation": "Example:\n\n```vertexadt\ntouch_joint(Con)\n```",
+    "insertText": "touch_joint(${1:in_Joint})"
   },
   {
     "label": "target_dbopen",
@@ -4800,7 +5012,8 @@
   {
     "label": "text",
     "detail": "Adds a text to a drawing. See ADT documentation for more information.",
-    "documentation": "Example:\n\n```vertexadt\ntext T$,PXY\n```"
+    "documentation": "Example:\n\n```vertexadt\ntext T$,PXY\n```",
+    "insertText": "text(${1:index}) ${2:string},${3:point}"
   },
   {
     "label": "textfromdbtopic",
@@ -4840,7 +5053,8 @@
   {
     "label": "text_found",
     "detail": "Used after find_text_param to get the found text into a variable. See ADT documentation for more information.",
-    "documentation": "Example:\n\n```vertexadt\nfound = text_found(1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nfound = text_found(1)\n```",
+    "insertText": "text_found(${1:in_Index})"
   },
   {
     "label": "text_height",
@@ -4905,7 +5119,8 @@
   {
     "label": "text_string",
     "detail": "Copies the contents of a text element to an ADT string variable. Used with find_text_param and text_found commands.",
-    "documentation": "Example:\n\n```vertexadt\nT$=text_string(Ind)\n```"
+    "documentation": "Example:\n\n```vertexadt\nT$=text_string(Ind)\n```",
+    "insertText": "text_string(${1:in_Index})"
   },
   {
     "label": "text_type",
@@ -4920,12 +5135,14 @@
   {
     "label": "tolower",
     "detail": "returns a lowercase string of the inputted string",
-    "documentation": "Example:\n\n```vertexadt\nPathL$=tolower(Path$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nPathL$=tolower(Path$)\n```",
+    "insertText": "tolower(${1:in_Str$})"
   },
   {
     "label": "toupper",
     "detail": "returns a uppercase string of the inputted string",
-    "documentation": "Example:\n\n```vertexadt\nDefault$ = toupper(Default$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nDefault$ = toupper(Default$)\n```",
+    "insertText": "toupper(${1:in_Str$})"
   },
   {
     "label": "translate",
@@ -4935,7 +5152,8 @@
   {
     "label": "timestamp",
     "detail": "",
-    "documentation": "no example in system"
+    "documentation": "no example in system",
+    "insertText": "timestamp()"
   },
   {
     "label": "transparent",
@@ -4950,17 +5168,20 @@
   {
     "label": "trim",
     "detail": "removes leading and trailing blanks/spaces from a string",
-    "documentation": "Example:\n\n```vertexadt\nCodeOut$= trim(CodeIn$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nCodeOut$= trim(CodeIn$)\n```",
+    "insertText": "trim(${1:in_Str$})"
   },
   {
     "label": "trim_piece",
     "detail": "Trims piece end to plane Pnt & Normal\n\n* End is the piece end to be trimmed.\n* Pnt is the point to trim to.\n* Normal is the normal of the plane to trim to.\n* Offset is the offset from the plane to trim to. (cuts piece end back from point & plane by given value)\n* Mode 0 -> Keeps previous trims. 1 -> Removes previous trims. \n* Returns 1 if successful.\n",
-    "documentation": "Example:\n\n```vertexadt\nOk= trim_piece(End,Pnt,Normal,Offset,Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= trim_piece(End,Pnt,Normal,Offset,Mode)\n```",
+    "insertText": "trim_piece(${1:End},${2:Pnt},${3:Normal},${4:Offset},${5:Mode})"
   },
   {
     "label": "trim_railing",
     "detail": "Trims railing end End to plane Pnt,Normal\n\n* Offset is offset from plane.\n* Mode 0 -> Keeps previous trims. 1 -> Removes previous trims.",
-    "documentation": "Example:\n\n```vertexadt\nOk= trim_railing(End,Pnt,Normal,Offset,Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= trim_railing(End,Pnt,Normal,Offset,Mode)\n```",
+    "insertText": "trim_railing(${1:in_RlgEnd},${2:in_PlaneP},${3:in_PlaneN},${4:in_Offset},${5:in_Mode})"
   },
   {
     "label": "trim_round",
@@ -4975,7 +5196,8 @@
   {
     "label": "trim_wall",
     "detail": "See adt documentation for more information",
-    "documentation": "Example:\n\n```vertexadt\nOk= trim_wall(Wall,End,PntE,NormalE,PntG,NormalG,Mode)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= trim_wall(Wall,End,PntE,NormalE,PntG,NormalG,Mode)\n```",
+    "insertText": "trim_wall(${1:in_Wallobj},${2:in_End},${3:in_PntE},${4:in_NormalE},${5:in_PntG},${6:in_NormalG},${7:in_Mode})"
   },
   {
     "label": "twosided",
@@ -5194,12 +5416,14 @@
   {
     "label": "vxgeom_exists",
     "detail": "Checks if given geometry exists or not. Returns 1 if it exists, 0 if it does not. Good for debugging.",
-    "documentation": "Example:\n\n```vertexadt\nOk= vxgeom_exists(Geom)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= vxgeom_exists(Geom)\n```",
+    "insertText": "vxgeom_exists(${1:in_Geom})"
   },
   {
     "label": "vxsettings_key_value",
     "detail": " Value$=... R: vxsettings data of the key 'Key$'. Respective 'SetupItem' must have attribute: Type='';Tree''; .",
-    "documentation": "Example:\n\n```vertexadt\nPdfCustomGs$ = vxsettings_key_value(\"pdf_custom_gs\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nPdfCustomGs$ = vxsettings_key_value(\"pdf_custom_gs\")\n```",
+    "insertText": "vxsettings_key_value(\"${1:in_Key}\")"
   },
   {
     "label": "vxui_progress",
@@ -5209,12 +5433,14 @@
   {
     "label": "wait",
     "detail": " Stops program execution for a time 'Time'. Time: stop time [ms], 0=until some key is pressed.",
-    "documentation": "Example:\n\n```vertexadt\nwait 0\n```"
+    "documentation": "Example:\n\n```vertexadt\nwait 0\n```",
+    "insertText": "wait ${1:in_Time}"
   },
   {
     "label": "wall_end_points",
     "detail": "Trims wall end points, Pnt1 = start point, Pnt2 = end point",
-    "documentation": "Example:\n\n```vertexadt\nOk= wall_end_points(Wall,Pnt1,Pnt2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= wall_end_points(Wall,Pnt1,Pnt2)\n```",
+    "insertText": "wall_end_points(${1:wall},${2:startpoint},${3:endpoint})"
   },
   {
     "label": "webpublish",
@@ -5244,12 +5470,14 @@
   {
     "label": "write",
     "detail": "writes the given string to the open file with given pointer.",
-    "documentation": "Example:\n\n```vertexadt\nwrite(1) \"OK\"\n```"
+    "documentation": "Example:\n\n```vertexadt\nwrite(1) \"OK\"\n```",
+    "insertText": "write(${1:in_FileNo}) ${2:in_Str$}"
   },
   {
     "label": "xcoord",
     "detail": "Returns the x coordinate of the selected point or a point stored in the point table",
-    "documentation": "Example:\n\n```vertexadt\nstartpointX=xcoord(3)\n```"
+    "documentation": "Example:\n\n```vertexadt\nstartpointX=xcoord(3)\n```",
+    "insertText": "xcoord(${1:pointindex})"
   },
   {
     "label": "Xlimit_max",
@@ -5269,12 +5497,14 @@
   {
     "label": "xtra",
     "detail": "Offsets the current position (whatever it is by given amount). Usually used before a new element is added.",
-    "documentation": "Example:\n\n```vertexadt\nxtra 100\n```"
+    "documentation": "Example:\n\n```vertexadt\nxtra 100\n```",
+    "insertText": "xtra ${1:in_Offset}"
   },
   {
     "label": "ycoord",
     "detail": "returns the y coordinate of the selected point or a point stored in the point table",
-    "documentation": "Example:\n\n```vertexadt\nstartpointY=ycoord(3)\n```"
+    "documentation": "Example:\n\n```vertexadt\nstartpointY=ycoord(3)\n```",
+    "insertText": "ycoord(${1:pointindex})"
   },
   {
     "label": "Ylimit_max",
@@ -5289,7 +5519,8 @@
   {
     "label": "ytra",
     "detail": "Offsets the current position (whatever it is by given amount). Usually used before a new element is added.",
-    "documentation": "Example:\n\n```vertexadt\nytra 100\n```"
+    "documentation": "Example:\n\n```vertexadt\nytra 100\n```",
+    "insertText": "ytra ${1:in_Offset}"
   },
   {
     "label": "zip_dir",
@@ -5304,7 +5535,8 @@
   {
     "label": "ztra",
     "detail": "Offsets the current position (whatever it is by given amount). Usually used before a new element is added.",
-    "documentation": "Example:\n\n```vertexadt\nztra 100\n```"
+    "documentation": "Example:\n\n```vertexadt\nztra 100\n```",
+    "insertText": "ztra ${1:in_Offset}"
   },
   {
     "label": "adbcollect",
@@ -5387,7 +5619,8 @@
   {
     "label": "dbbutton_disable",
     "detail": " Ok=... Sets button of database format disabled before opening dialog. R: 1=ok, 0=errors. Command$: trigger program with possible parameters or action associated to button to be disabled, e.g. '';my_program.prg'';, '';my_program.prg(PAR1,PAR2)'';, '';$OK2'';. See also 'dbfield_disable'. (20.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk = dbbutton_disable(\"dm/savePicRev.prg\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = dbbutton_disable(\"dm/savePicRev.prg\")\n```",
+    "insertText": "dbbutton_disable(\"${1:in_Command}\")"
   },
   {
     "label": "dbchanged",
@@ -5409,7 +5642,8 @@
   {
     "label": "dbcontrol_disable",
     "detail": " Ret=... R: <0 error, 0 had already status to be set, 1 status was changed. Id: db id or -1 with dbdialog -command. Type$: button, pushbutton, option_button, field, text or image. Ind: 1-based control index. Disable: 1=disable, 0=enable. (23.0).",
-    "documentation": "Example:\n\n```vertexadt\nRet = dbcontrol_disable(1,\"button\",2,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = dbcontrol_disable(1,\"button\",2,1)\n```",
+    "insertText": "dbcontrol_disable(${1:in_DBID},\"${2:TYPE}\",${3:in_Index},${4:in_Disable})"
   },
   {
     "label": "dbcontrol_hide",
@@ -5424,7 +5658,8 @@
   {
     "label": "dbcopyrow",
     "detail": " Rid=... R: row id of copied row. Copy row Rid2 only if field 'Field$' remains unique",
-    "documentation": "Example:\n\n```vertexadt\nRidNew= dbcopyrow(10,10,DbRid,0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRidNew= dbcopyrow(10,10,DbRid,0)\n```",
+    "insertText": "dbcopyrow(${1:in_DBID},${2:in_DBID2},${3:in_RowID},${4:in_Mode})"
   },
   {
     "label": "dbcreate",
@@ -5452,17 +5687,20 @@
   {
     "label": "dbdelrow",
     "detail": " Delete row 'Rid' from database 'Id'. DelFiles: 1=delete drawing file also in case of PICREG without sheets (optional).",
-    "documentation": "Example:\n\n```vertexadt\ndbdelrow(1) Row_id\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbdelrow(1) Row_id\n```",
+    "insertText": "dbdelrow(${1:in_DBID}) ${2:in_RowID}"
   },
   {
     "label": "dbdelrowsl",
     "detail": " Delete rows of list 'Lid' from database 'Id'. DelFiles: 1=delete drawing files also in case of PICREG without sheets (optional). (20.0)",
-    "documentation": "Example:\n\n```vertexadt\ndbdelrowsl(1) 2,0\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbdelrowsl(1) 2,0\n```",
+    "insertText": "dbdelrowsl(${1:in_DBID}) ${2:in_DBLID},${3:in_DelFiles}"
   },
   {
     "label": "dbdialog",
     "detail": "Opens form-dialog without any connection to database. allowing user to set variables that can be used later in the program, variables set in form-dialog can be retrieved with 'get' command",
-    "documentation": "Example:\n\n```vertexadt\nRid = dbdialog(Form$,Map$,2,Hdr$)\n```\n\nExample2:\n\n```vertexadt\nok = dbdialog(Form$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRid = dbdialog(Form$,Map$,2,Hdr$)\n```\n\nExample2:\n\n```vertexadt\nok = dbdialog(Form$)\n```",
+    "insertText": "dbdialog(\"${1:in_Form}\")"
   },
   {
     "label": "dbdialog_redraw",
@@ -5477,12 +5715,14 @@
   {
     "label": "dbedit",
     "detail": " Rid=... R: row id of selected row (-200=[Esc]/$CANCEL, -201=$CANCEL2, see also get('';$DBEDIT_EXIT_CODE'';)). Form$: name of database format file, if empty automatically generated format file is used (20.0).",
-    "documentation": "Example:\n\n```vertexadt\nRow_id=dbedit(1,dbaseform$,rights)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRow_id=dbedit(1,dbaseform$,rights)\n```",
+    "insertText": "dbedit(${1:in_DBID},\"${2:in_Form}\",${3:in_Rights})"
   },
   {
     "label": "dbemptyf",
     "detail": " Set contents of field 'Field$' unfilled (full of '-')",
-    "documentation": "Example:\n\n```vertexadt\nR=dbemptyf(10,RidNew,\"CLASS\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nR=dbemptyf(10,RidNew,\"CLASS\")\n```",
+    "insertText": "dbemptyf(${1:in_DBID},${2:in_RowID},\"${3:in_Field}\")"
   },
   {
     "label": "dbequalrows",
@@ -5567,12 +5807,14 @@
   {
     "label": "dbfield_bgcolor",
     "detail": " Ret=... Sets background color to field. R: 1 ok, &lt;=0 errors. Id: database id or -1 with 'dbdialog'. Rid: row id or -1 with 'dbdialog' or for exo field or for all rows. Field$: field name or empty for all fields. R,G,B: color components of RGB color (&gt;=0 and <=255). On: 1=set, 2=set and mark (23.0), 0=remove. (22.0)",
-    "documentation": "Example:\n\n```vertexadt\nR = dbfield_bgcolor(Id,-1,\"\",0,0,0,0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nR = dbfield_bgcolor(Id,-1,\"\",0,0,0,0)\n```",
+    "insertText": "dbfield_bgcolor(${1:in_DBID},${2:in_RowID},\"${3:in_Field}\",${4:in_R},${5:in_G},${6:in_B},${7:in_On})"
   },
   {
     "label": "dbfield_caption",
     "detail": " Ret=... Sets caption of the listview column. R: 1 ok, &lt;=0 errors. Id: database id. Field$: db field name. Caption$: caption that overwrites one defined in a format file. (24.0)",
-    "documentation": "Example:\n\n```vertexadt\nRet = dbfield_caption(Id,\"L1\",\"English\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = dbfield_caption(Id,\"L1\",\"English\")\n```",
+    "insertText": "dbfield_caption(${1:in_DBID},\"${2:in_Field}\",\"${3:in_Caption}\")"
   },
   {
     "label": "dbfield_changed",
@@ -5582,7 +5824,8 @@
   {
     "label": "dbfield_disable",
     "detail": " Ok=... Sets field of database format disabled before opening dialog. R: 1=ok, 0=errors. Field$: Name of the database field. See also 'dbbutton_disable'. See also 'dbfields_enable' and 'dbfenable'. (20.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk = dbfield_disable(\"FIELD1\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = dbfield_disable(\"FIELD1\")\n```",
+    "insertText": "dbfield_disable(\"${1:in_Field}\")"
   },
   {
     "label": "dbfield_freehided",
@@ -5592,7 +5835,8 @@
   {
     "label": "dbfield_hide",
     "detail": " Ok=... Sets field of database format hidden before opening dialog. R: 1=ok, 0=errors. Field$: Name of the database field. If database dialog is not opened 'dbfield_freehided' must be used to clear list.(22.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk=dbfield_hide(Field$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk=dbfield_hide(Field$)\n```",
+    "insertText": "dbfield_hide(\"${1:in_Field}\")"
   },
   {
     "label": "dbfield_mark",
@@ -5637,17 +5881,20 @@
   {
     "label": "dbladd",
     "detail": " Add row 'Rid' at the end of the database list 'Lid'. NOTE",
-    "documentation": "Example:\n\n```vertexadt\ndbladd(Lid3) Rid\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbladd(Lid3) Rid\n```",
+    "insertText": "dbladd(${1:in_DBLID}) ${2:in_RowID}"
   },
   {
     "label": "dbladdl",
     "detail": " Adds list 'Lid2' to list 'Lid'.",
-    "documentation": "Example:\n\n```vertexadt\ndbladdl(DescrLid) DescrLid3\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbladdl(DescrLid) DescrLid3\n```",
+    "insertText": "dbladdl(${1:in_DBLID}) ${2:in_DBLID2}"
   },
   {
     "label": "dblalreadyopen",
     "detail": "  Opens list that is already open in C-program. Lid: list id in ADT-program. Id: see. dbopen(Id) \"ALREADY_OPEN\",Cid. Clid: Clid=get($DATABASE_LID), Clid=get($OPTDB_LID) or Clid=get($MOTHERDB_LID).",
-    "documentation": "Example:\n\n```vertexadt\ndblalreadyopen(1) 1,Lid\n```"
+    "documentation": "Example:\n\n```vertexadt\ndblalreadyopen(1) 1,Lid\n```",
+    "insertText": "dblalreadyopen(${1:in_DBLID}) ${2:in_DBID},${3:in_CLID}"
   },
   {
     "label": "dblastfunction",
@@ -5707,17 +5954,20 @@
   {
     "label": "get_complib_descr",
     "detail": "returns library description by library name",
-    "documentation": "Example:\n\n```vertexadt\nDescr$= get_complib_descr(LibName$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nDescr$= get_complib_descr(LibName$)\n```",
+    "insertText": "get_complib_descr(${1:in_Library$})"
   },
   {
     "label": "dbledit",
     "detail": " Rid=... R: row id of selected row (-200=[Esc]/$CANCEL, -201=$CANCEL2, see also get('';$DBEDIT_EXIT_CODE'';)). Form$: name of database format file, if empty automatically generated format file is used (20.0).",
-    "documentation": "Example:\n\n```vertexadt\nRid2= dbledit(Lid,\"cweight\",1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRid2= dbledit(Lid,\"cweight\",1)\n```",
+    "insertText": "dbledit(${1:in_DBLID},\"${2:in_Form}\",${3:in_Rights})"
   },
   {
     "label": "dbledit2",
     "detail": " Rid=... R: row id of selected row (-200=[Esc]/$CANCEL, -201=$CANCEL2, see also get('';$DBEDIT_EXIT_CODE'';)). Id2: id of sub db. F1$: relation field of parent db. F2$: relation field of sub db. Form$: form file of main db.",
-    "documentation": "Example:\n\n```vertexadt\nRid = dbledit2(Lid,Id2,Field$,Field2$,Form$,2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRid = dbledit2(Lid,Id2,Field$,Field2$,Form$,2)\n```",
+    "insertText": "dbledit2(${1:in_DBLID},${2:in_DBID2},\"${3:in_F1}\",\"${4:in_F2}\",\"${5:in_Form}\",${6:in_Mode})"
   },
   {
     "label": "dbledit2_unrelated",
@@ -5758,7 +6008,8 @@
   {
     "label": "dblist",
     "detail": "Returns Database's row id for given database lists row id-index. if first row in list equals row-id 100 in database, then result will be like this: 100= dblist(Lid,0)",
-    "documentation": "Example:\n\n```vertexadt\nRidProp= dblist(LidProp,I)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRidProp= dblist(LidProp,I)\n```",
+    "insertText": "dblist(${1:in_DBLID},${2:in_Index})"
   },
   {
     "label": "dblistnum",
@@ -5795,7 +6046,8 @@
   {
     "label": "dblopensort",
     "detail": "open database list sorted with Order$ statement",
-    "documentation": "Example:\n\n```vertexadt\ndblopensort(Lid) Order$\n```"
+    "documentation": "Example:\n\n```vertexadt\ndblopensort(Lid) Order$\n```",
+    "insertText": "dblopensort(${1:in_DBLID}) ${2:in_Order$}"
   },
   {
     "label": "dblorphans",
@@ -5805,12 +6057,14 @@
   {
     "label": "dblprint",
     "detail": "exports databaselist to readable text file.",
-    "documentation": "Example:\n\n```vertexadt\ndblprint(DbLid) Format$,OutFile$,\"\",\"latin1\"\n```"
+    "documentation": "Example:\n\n```vertexadt\ndblprint(DbLid) Format$,OutFile$,\"\",\"latin1\"\n```",
+    "insertText": "dblprint(${1:in_DBLID}) ${2:in_Format$},${3:in_OutFile$},${4:in_Selector$},${5:in_Charset$}"
   },
   {
     "label": "dblputf",
     "detail": " Ret=... R: &lt;0 error, &gt;=0 number of changed values (new value wasn't same as old one). Lid: database list id. Field$: name of the field. Value$: new value. (20.0)",
-    "documentation": "no example in system"
+    "documentation": "Example:\n\n```vertexadt\nRet = dblputf(LidUnderFolder,\"SEL\",SelValue$)\n```",
+    "insertText": "dblputf(${1:in_DBLID},\"${2:in_Field}\",${3:in_Value$})"
   },
   {
     "label": "dblridind",
@@ -5820,12 +6074,14 @@
   {
     "label": "dblselect",
     "detail": " Rid=... R: &gt;=0 selected row, &lt;0 error or nothing selected. Lid: selection list of main db. Id2: sub db. F1$: main db relation field. F2$ sub db relation field. Form$: database format. RidD: main db default selection. RidD2: sub db default selection. LidS2: list for selected row of sub db. Mode: +1 no triggers nor buttons (23.0), +2 mark default selection (24.0). LidL: unselectable rows (24.0). (22.0)",
-    "documentation": "Example:\n\n```vertexadt\nRid = dblselect(Lid,Form$[,Hdr$,RidD,Mode,LidL])\n```"
+    "documentation": "Example:\n\n```vertexadt\nRid = dblselect(Lid,Form$[,Hdr$,RidD,Mode,LidL])\n```",
+    "insertText": "dblselect(${1:in_DBLID},\"${2:in_Form}\")"
   },
   {
     "label": "dblselectn",
     "detail": " Len=... R: number of selected rows. LidS: selected rows. Lid: selection list. Form$: database format. Hdr$: dialog header. LidD: default selections. Mode: +1 no triggers nor buttons (23.0), +2 mark default selection (24.0). LidL: unselectable rows (24.0). (22.0)",
-    "documentation": "Example:\n\n```vertexadt\nLkm = dblselectn(2,1,\"pipeclass\",Prompt1$,LidD,3,0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLkm = dblselectn(2,1,\"pipeclass\",Prompt1$,LidD,3,0)\n```",
+    "insertText": "dblselectn(${1:out_DBLID},${2:in_DBLID},\"${3:in_Form}\",\"${4:in_Header}\",${5:in_DefaultDBLID},${6:in_Mode},${7:in_LockedDBLID})"
   },
   {
     "label": "dblselect2",
@@ -5862,12 +6118,14 @@
   {
     "label": "dblvalid",
     "detail": " Ok=... R: 1='Lid' is valid, 0=if not valid.",
-    "documentation": "Example: ok = dblvalid(Lid)"
+    "documentation": "Example: ok = dblvalid(Lid)",
+    "insertText": "dblvalid(${1:in_DBLID})"
   },
   {
     "label": "dbname",
     "detail": "Returns database path or name from given index. \nDb$=... R: name of database 'Id'. Mode: +1 return name without path (20.0).",
-    "documentation": "Example:\n\n```vertexadt\ndbpath$ =dbname(mainDBid)\ndbname$ =dbname(mainDBid,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbpath$ =dbname(mainDBid)\ndbname$ =dbname(mainDBid,1)\n```",
+    "insertText": "dbname(${1:in_DBID})"
   },
   {
     "label": "dbopen",
@@ -5898,12 +6156,14 @@
   {
     "label": "dbprint",
     "detail": "exports database to readable text file.",
-    "documentation": "Example:\n\n```vertexadt\ndbprint(IdTemp) Format$,OutFile$,\"\",\"latin1\"\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbprint(IdTemp) Format$,OutFile$,\"\",\"latin1\"\n```",
+    "insertText": "dbprint(${1:in_DBID}) ${2:in_Format$},${3:in_OutFile$},\"${4:in_Selector}\",\"${5:latin1}\""
   },
   {
     "label": "dbputall",
     "detail": " Set values of database row from replarray. Rid: row id. Prefix$: prefix of field names. Stack: trigger stack index (0=current).",
-    "documentation": "Example:\n\n```vertexadt\ndbputall(DbIdComp) RowNewComp\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbputall(DbIdComp) RowNewComp\n```",
+    "insertText": "dbputall(${1:in_DBID}) ${2:in_RowID}"
   },
   {
     "label": "dbputf",
@@ -5934,17 +6194,20 @@
   {
     "label": "dbsave",
     "detail": " Ok=... R: 1=ok, 0=ok but nothing was changed, &lt;0=error.",
-    "documentation": "Example:\n\n```vertexadt\ndbsave(IdPic)\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbsave(IdPic)\n```",
+    "insertText": "dbsave(${1:in_DBID})"
   },
   {
     "label": "dbselect",
     "detail": " Mode: 0=multi row selection, 1=one row selection (see also 'dbdefsellist')",
-    "documentation": "Example:\n\n```vertexadt\ndbselect(dbaseid) listid,FMT$,1,7,8,info$\n```"
+    "documentation": "Example:\n\n```vertexadt\ndbselect(dbaseid) listid,FMT$,1,7,8,info$\n```",
+    "insertText": "dbselect(${1:in_DBID}) ${2:in_DBLID},\"${3:in_Format}\",${4:in_Mode},${5:in_Srow},${6:in_Scol},\"${7:in_Header}\""
   },
   {
     "label": "dbselector_inp",
     "detail": " Selector$=... R: selector string created with selection format.",
-    "documentation": "Example:\n\n```vertexadt\nSelector$=dbselector_inp(\"Kompot_Edit\",0)\n```"
+    "documentation": "Example:\n\n```vertexadt\nSelector$=dbselector_inp(\"Kompot_Edit\",0)\n```",
+    "insertText": "dbselector_inp(\"${1:in_Form}\",${2:in_Mode})"
   },
   {
     "label": "dbsetactrow",
@@ -5969,7 +6232,8 @@
   {
     "label": "dbvalid",
     "detail": " Ok=... R: 1='Id' is valid, 0=if not valid.",
-    "documentation": "Example:\n\n```vertexadt\nok = dbvalid(DbId)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = dbvalid(DbId)\n```",
+    "insertText": "dbvalid(${1:in_DBID})"
   },
   {
     "label": "ddrevid_last",
@@ -5994,7 +6258,8 @@
   {
     "label": "bgsystem",
     "detail": " Ok=... Command$: system command to be executed on a background.",
-    "documentation": "Example:\n\n```vertexadt\nOk= bgsystem(Com$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk= bgsystem(Com$)\n```",
+    "insertText": "bgsystem(\"${1:in_Command}\")"
   },
   {
     "label": "bgsystemnew",
@@ -6009,7 +6274,8 @@
   {
     "label": "call",
     "detail": "Calls another ADT program. Variables have to be set and get between the programs. or see example 2 where they can be fed into program through $CALLPARAM1,$CALLPARAM2,...",
-    "documentation": "Example:\n\n```vertexadt\ncall $DIR_THIS/beam_web.prg\ncall $DIR_MACROS/triggers/save_building BRACKETSECTION\n```\nExample2:\n\n```vertexadt\nRet$=call(\"$DIR_MACROS/secframing/globalsizeminpmaxp.prg\",checkmac,Panel,iswall)\nfound=call(\"$DIR_COMPLIBS/joint_custom/UPD_FRMTOOLS_funcs SECTION\",\"FRM_NAME\",frmtool$,dbid1)\n```"
+    "documentation": "Example:\n\n```vertexadt\ncall $DIR_THIS/beam_web.prg\ncall $DIR_MACROS/triggers/save_building BRACKETSECTION\n```\nExample2:\n\n```vertexadt\nRet$=call(\"$DIR_MACROS/secframing/globalsizeminpmaxp.prg\",checkmac,Panel,iswall)\nfound=call(\"$DIR_COMPLIBS/joint_custom/UPD_FRMTOOLS_funcs SECTION\",\"FRM_NAME\",frmtool$,dbid1)\n```",
+    "insertText": "call(\"${1:in_Path}\")"
   },
   {
     "label": "call_virtual",
@@ -6076,7 +6342,8 @@
   {
     "label": "map_clear",
     "detail": "Len=... Clear map. R: >=0 size of the map before clear, <0 error. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nLen=map_clear(FldMap1$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLen=map_clear(FldMap1$)\n```",
+    "insertText": "map_clear(${1:in_Map$})"
   },
   {
     "label": "map_cmp",
@@ -6096,7 +6363,8 @@
   {
     "label": "map_edit",
     "detail": "Ret=... Edit contents of the map. R: 1=map was edited, 0=map wasn't edited, <0 error. Header$: header for the dialog, default is name of the map. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nok = map_edit(modded_panels$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nok = map_edit(modded_panels$)\n```",
+    "insertText": "map_edit(${1:in_Map$})"
   },
   {
     "label": "map_find_key",
@@ -6116,72 +6384,86 @@
   {
     "label": "map_from_dblist",
     "detail": "Len=... Get data from rows of db list to map. R: >=0 number of db rows, <0 error. KeyField$: field whose content is used as a key, or '$RID' to use row id as a key, or '$IND' to use 1-based list index as a key (27.0). ValField$: field whose content is used as a value, or empty to leave value empty, or '$RID' to put row id as a value, or '$IND' to put 1-based list as a value (27.0). Mode: see 'dbgetf()'. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nLen=map_from_dblist(MapLid1$,LidD1,Fname$,\"\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nLen=map_from_dblist(MapLid1$,LidD1,Fname$,\"\")\n```",
+    "insertText": "map_from_dblist(${1:in_Map$},${2:in_DBLID},\"${3:in_KeyField}\",\"${4:in_ValField}\")"
   },
   {
     "label": "map_from_dbrow",
     "detail": "Creates map from one database row.",
-    "documentation": "Example:\n\n```vertexadt\nRet = map_from_dbrow(Map$,Id,Rid[,Mode])\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = map_from_dbrow(Map$,Id,Rid[,Mode])\n```",
+    "insertText": "map_from_dbrow(${1:in_Map$},${2:in_DBID},${3:in_RowID})"
   },
   {
     "label": "map_from_repl",
     "detail": "R: >=0 number items got from replarray, <0 error. Prefix$: when given, only keys starting with the value of 'Prefix$' are added to map without prefix. Stack: >=0 replarray stack index, 0=current (default), 1=previous, 2=two back, ... (23.0). Mode: +1=Leave prefix to key, +2=Trim quotes from value (28.0).",
-    "documentation": "Example:\n\n```vertexadt\nLen = map_from_repl(Map$,ReplPrefix$[,Mode])\n```"
+    "documentation": "Example:\n\n```vertexadt\nLen = map_from_repl(Map$,ReplPrefix$[,Mode])\n```",
+    "insertText": "map_from_repl(${1:in_Map$},\"${2:in_Prefix}\")"
   },
   {
     "label": "min",
     "detail": "Ret=... Minimum value of the two given values.",
-    "documentation": "Example:\n\n```vertexadt\nRet = min(Val1,Val2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = min(Val1,Val2)\n```",
+    "insertText": "min(${1:value1},${2:value2})"
   },
   {
     "label": "max",
     "detail": "Ret=... Maximum value of the two given values.",
-    "documentation": "Example:\n\n```vertexadt\nRet = max(Val1,Val2)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = max(Val1,Val2)\n```",
+    "insertText": "max(${1:value1},${2:value2})"
   },
   {
     "label": "map_get",
     "detail": "Returns value from map of given key, must return to string variable.",
-    "documentation": "Example:\n\n```vertexadt\nOGU_MIN$ = map_get(Map$,\"OGU_MIN\")\nreturnedvalue$ = map_get(mapname$,keyname$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOGU_MIN$ = map_get(Map$,\"OGU_MIN\")\nreturnedvalue$ = map_get(mapname$,keyname$)\n```",
+    "insertText": "map_get(${1:in_Map$},${2:in_Key$})"
   },
   {
     "label": "milliseconds_since_1970",
     "detail": "Retrns current time in milliseconds since 1.1.1970. Number presents better in debug as string. but can be used as value of course.",
-    "documentation": "Example:\n\n```vertexadt\nMs = milliseconds_since_1970()\nMs$ = milliseconds_since_1970()\n```"
+    "documentation": "Example:\n\n```vertexadt\nMs = milliseconds_since_1970()\nMs$ = milliseconds_since_1970()\n```",
+    "insertText": "milliseconds_since_1970()"
   },
   {
     "label": "map_get_first",
     "detail": "Ok=... Get first item from the map. R: 1 ok, 0 failed. KeyRelpname$: replarray variable where key is set. ValueRelpname$: replarray variable where value is set. (29.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk = map_get_first(Map$,KeyReplname$,ValueReplname$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = map_get_first(Map$,KeyReplname$,ValueReplname$)\n```",
+    "insertText": "map_get_first(${1:in_Map$},\"${2:in_KeyReplname}\",\"${3:in_ValueReplname}\")"
   },
   {
     "label": "map_get_next",
     "detail": "Ok=... Get next item from the map using static iterator to go through map linearly. R: 1 ok, 0 no more items or failed. KeyRelpname$: replarray variable where key is set. ValueRelpname$: replarray variable where value is set. (29.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk = map_get_next(Map$,KeyReplname$,ValueReplname$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk = map_get_next(Map$,KeyReplname$,ValueReplname$)\n```",
+    "insertText": "map_get_next(${1:in_Map$},\"${2:in_KeyReplname}\",\"${3:in_ValueReplname}\")"
   },
   {
     "label": "map_key_at",
     "detail": "Key$=... Get key of the Nth item. Ind: 1-based item index. See also 'map_value_at' and 'map_size'. See 'map_get_first' and 'map_get_next' to walk through large map faster. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nFname$=map_key_at(FldMapCommon$,I)\n```"
+    "documentation": "Example:\n\n```vertexadt\nFname$=map_key_at(FldMapCommon$,I)\n```",
+    "insertText": "map_key_at(${1:in_Map$},${2:in_Index})"
   },
   {
     "label": "map_read",
     "detail": "Ok=... Read file to map. R:.1=ok, 0=failed. File: file name and path. See also 'map_save'. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nRet = map_read(Map$,File$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = map_read(Map$,File$)\n```",
+    "insertText": "map_read(${1:in_Map$},${2:in_File$})"
   },
   {
     "label": "map_same_keys",
     "detail": "Len=...Get keys of the first map that are also found from the second map. R: >=0 number of found keys, <0 error. SameValues: 1=values must also match, 0=values are ignored (default). (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nCommon0=map_same_keys(FldMapCommon$,FldMap1$,FldMap2$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nCommon0=map_same_keys(FldMapCommon$,FldMap1$,FldMap2$)\n```",
+    "insertText": "map_same_keys(${1:out_Map$},${2:in_Map1$},${3:in_Map2$})"
   },
   {
     "label": "map_save",
     "detail": "Ok=... Save map to file. R:.1=ok, 0=failed. File: file name and path. Mode: +1 save as XML (NOTE",
-    "documentation": "Example:\n\n```vertexadt\nRet = map_save(Map$,File$[,Mode])\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = map_save(Map$,File$[,Mode])\n```",
+    "insertText": "map_save(${1:in_Map$},${2:in_File$})"
   },
   {
     "label": "map_set",
     "detail": "Ret=... Add key to the map. R: 1=new key was added, 0=key already existed (previous value is overwritten), <0 error. See also 'map_unset'. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nOk=map_set(FldMap1$,Fname$,\"\")\n```"
+    "documentation": "Example:\n\n```vertexadt\nOk=map_set(FldMap1$,Fname$,\"\")\n```",
+    "insertText": "map_set(${1:in_Map$},${2:in_Key$},${3:in_Value$})"
   },
   {
     "label": "map_show",
@@ -6191,12 +6473,14 @@
   {
     "label": "map_size",
     "detail": "Returns length of map, returns < 0 if map does not exist.(23.0)",
-    "documentation": "Example:\n\n```vertexadt\nLen = map_size(Map$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLen = map_size(Map$)\n```",
+    "insertText": "map_size(${1:in_Map$})"
   },
   {
     "label": "map_store",
     "detail": "Ret=... Store map to run time memory. Stored maps are not deleted at the end of the ADT program session. R: 1=map status is changed from unstored to stored, 0=map was already stored, <0 error. See also 'map_unstore'. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nR = map_store(Map$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nR = map_store(Map$)\n```",
+    "insertText": "map_store(${1:in_Map$})"
   },
   {
     "label": "map_to_dblist",
@@ -6206,17 +6490,20 @@
   {
     "label": "map_to_dbrow",
     "detail": "Len=... Set values from map to db row with given Row id. R: >=0 number of database fields where data was written to, <0 error. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nRet = map_to_dbrow(Map$,Id,Rid)\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = map_to_dbrow(Map$,Id,Rid)\n```",
+    "insertText": "map_to_dbrow(${1:in_Map$},${2:in_DBID},${3:in_RowID})"
   },
   {
     "label": "map_to_repl",
     "detail": "Len=... Add map to replarray. R: >=0 number items set to replarray, <0 error. Prefix$: prefix for a key added to replarray. Stack: >=0 replarray stack index, 0=current (default), 1=previous, 2=two back, ... (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nLen = map_to_repl(Map$,ReplPrefix$)\n```"
+    "documentation": "Example:\n\n```vertexadt\nLen = map_to_repl(Map$,ReplPrefix$)\n```",
+    "insertText": "map_to_repl(${1:in_Map$},\"${2:in_Prefix}\")"
   },
   {
     "label": "map_unset",
     "detail": "Ret=... Delete keys from the map. R:.>=0 number deleted items, <0 error. Mode: +1 allow wildcards '*' and 'question mark', +2 ignore case. See also 'map_set'. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nRet = map_unset(Map$,Key$[,Mode])\n```"
+    "documentation": "Example:\n\n```vertexadt\nRet = map_unset(Map$,Key$[,Mode])\n```",
+    "insertText": "map_unset(${1:in_Map$},${2:in_Key$})"
   },
   {
     "label": "map_unstore",
@@ -6231,7 +6518,8 @@
   {
     "label": "map_value_at",
     "detail": "Value$=... Get value of the Nth item. Ind: 1-based item index. See also 'map_key_at' and 'map_size'. See 'map_get_first' and 'map_get_next' to walk through large map faster. (23.0)",
-    "documentation": "Example:\n\n```vertexadt\nTime$ = map_value_at(Map$,1)\n```"
+    "documentation": "Example:\n\n```vertexadt\nTime$ = map_value_at(Map$,1)\n```",
+    "insertText": "map_value_at(${1:in_Map$},${2:in_Index})"
   },
   {
     "label": "xl_create_book",
@@ -6750,7 +7038,8 @@
   {
     "label": "copy_feature",
     "detail": "The 'copy_feature' keyword is used to copy a feature from one part to another.\n\nits used like this: Feature=copy_feature(featuretocopy)\n\nis implemented for holes and notches only.",
-    "documentation": "Example:\n\n```vertexadt\nHoleC= copy_feature(Hole)\n```"
+    "documentation": "Example:\n\n```vertexadt\nHoleC= copy_feature(Hole)\n```",
+    "insertText": "copy_feature(${1:in_Feat})"
   },
   {
     "label": "piupdate",
@@ -6760,7 +7049,8 @@
   {
     "label": "is_struct_in_pdm",
     "detail": "asks if structure is in pdm or not.",
-    "documentation": "Example:\n\n```vertexadt\nFlow = is_struct_in_pdm()\n```"
+    "documentation": "Example:\n\n```vertexadt\nFlow = is_struct_in_pdm()\n```",
+    "insertText": "is_struct_in_pdm()"
   },
   {
     "label": "TASK_MARKINGS",
