@@ -265,7 +265,8 @@ bool matchBasicName(std::string_view text)
   return matchBasicVar(text) || matchDigits(text);
 }
 
-// regex_match ^-?\d+(\.\d+)?$
+// regex_match ^-?(\d+(\.\d+)?|\.\d+)$ : `.25` and `-.5` too (`linewidth .25`
+// in the vxbd320 corpus, docs/adr/0020).
 bool matchNumeric(std::string_view text)
 {
   std::size_t i = 0;
@@ -280,7 +281,7 @@ bool matchNumeric(std::string_view text)
   }
   if (i == intStart)
   {
-    return false;
+    return i < text.size() && text[i] == '.' && matchDigits(text.substr(i + 1));
   }
   if (i == text.size())
   {

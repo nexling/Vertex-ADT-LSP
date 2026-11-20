@@ -4,6 +4,7 @@
 #include "catalog/catalog.h"
 #include "catalog/custom_validators.h"
 #include "catalog/table_validator.h"
+#include "line_continuation.h"
 #include "text_util.h"
 
 #include <cctype>
@@ -524,7 +525,39 @@ struct FunctionCallSpan
   std::string fullMatch;
   std::size_t startIndex = 0;
   std::size_t endIndex = 0;
+  // A parenthesesOptional command written as `cmd a, b`: its parameters are
+  // the inside parameters.
+  bool statementForm = false;
 };
+
+// The `;`-separated statement of `line` holding byte `at`: from just past the
+// previous unquoted `;` (or the start) to the next one (or the end).
+auto statementSpanAround(std::string_view line, std::size_t at) -> std::pair<std::size_t, std::size_t>
+{
+  std::size_t begin = 0;
+  std::size_t end = line.size();
+  bool inQuotes = false;
+  for (std::size_t k = 0; k < line.size(); ++k)
+  {
+    if (line[k] == '"')
+    {
+      inQuotes = !inQuotes;
+    }
+    else if (line[k] == ';' && !inQuotes)
+    {
+      if (k < at)
+      {
+        begin = k + 1;
+      }
+      else
+      {
+        end = k;
+        break;
+      }
+    }
+  }
+  return {begin, end};
+}
 
 auto collectParenthesizedCalls(
   std::string_view trimmedLine,
@@ -726,6 +759,29 @@ auto validateCommandSyntax(
   int lineNumber) -> std::vector<SyntaxIssue>
 {
   line = stripValidationComment(line);
+  // `x = 1  ; ! note`: a `;` statement that starts with `!` is a comment to
+  // the end of the line (ADR 0020).
+  {
+    bool inQuotes = false;
+    for (std::size_t k = 0; k < line.size(); ++k)
+    {
+      if (line[k] == '"')
+      {
+        inQuotes = !inQuotes;
+        continue;
+      }
+      if (line[k] != ';' || inQuotes)
+      {
+        continue;
+      }
+      const auto next = line.find_first_not_of(" \t", k + 1);
+      if (next != std::string::npos && line[next] == '!')
+      {
+        line.resize(k);
+        break;
+      }
+    }
+  }
   const auto trimmedLine = trimCopy(line);
   if (trimmedLine.empty() || trimmedLine.front() == '!' || trimmedLine.front() == ';')
   {
@@ -739,6 +795,18 @@ auto validateCommandSyntax(
     if (auto callError = catalog::validateCallCommandSyntax(trimmedLine))
     {
       return {SyntaxIssue{.error = std::move(*callError)}};
+    }
+  }
+
+  // `LineWidth = LineWidth(LineInd)`, `LineWidth(1) = ...`: a name assigned on
+  // this line is a variable here, not the command of the same name (ADR 0020).
+  std::string assignedName;
+  {
+    static const std::regex assignedRe{R"(^([A-Za-z][A-Za-z0-9_]*)(\([^()]*\))?\s*=(?!=))"};
+    std::smatch assignedMatch;
+    if (std::regex_search(trimmedLine, assignedMatch, assignedRe))
+    {
+      assignedName = toLowerAscii(assignedMatch[1].str());
     }
   }
 
@@ -758,6 +826,11 @@ auto validateCommandSyntax(
     }
     const auto ident = trimmedLine.substr(i, j - i);
     const auto commandName = toLowerAscii(ident);
+    if (commandName == assignedName)
+    {
+      i = j;
+      continue;
+    }
     if (isInsideQuotes(trimmedLine, i))
     {
       i = j;
@@ -819,12 +892,16 @@ auto validateCommandSyntax(
 
     if (functionCalls.empty())
     {
-      if (!config->structure.hasParentheses && noParenHit(trimmedLine, commandName))
+      const bool statementForm = config->structure.hasParentheses && config->structure.parenthesesOptional;
+      if ((!config->structure.hasParentheses || statementForm) && noParenHit(trimmedLine, commandName))
       {
+        // Only this command's statement: `linewidth W; level L` stops at `;`.
+        const auto [begin, end] = statementSpanAround(trimmedLine, i);
         functionCalls.push_back(FunctionCallSpan{
-          .fullMatch = trimmedLine,
-          .startIndex = toLowerAscii(trimmedLine).find(commandName),
-          .endIndex = trimmedLine.size(),
+          .fullMatch = trimCopy(std::string_view(trimmedLine).substr(begin, end - begin)),
+          .startIndex = i,
+          .endIndex = end,
+          .statementForm = statementForm,
         });
       }
       if (functionCalls.empty())
@@ -840,13 +917,18 @@ auto validateCommandSyntax(
     for (const auto& funcCall : functionCalls)
     {
       std::optional<catalog::ParsedCommand> parsed;
-      if (!config->structure.hasParentheses)
+      if (!config->structure.hasParentheses || funcCall.statementForm)
       {
         parsed = catalog::parseCommandNoParens(
           funcCall.fullMatch,
           trimmedLine,
           mustHaveAssignment,
           config->structure.acceptSpacesAsSeparators);
+        if (parsed && funcCall.statementForm)
+        {
+          parsed->insideParams = std::move(parsed->afterParams);
+          parsed->afterParams.clear();
+        }
       }
       else
       {
@@ -894,7 +976,7 @@ auto validateCommandSyntax(
       if (ctx.settings.strictModeEnabled && config->strictMode && config->strictMode->enabled)
       {
         const auto lineIndex = lineNumber - 1;
-        const auto columns = config->structure.hasParentheses
+        const auto columns = config->structure.hasParentheses && !funcCall.statementForm
           ? paramColumns(
               trimmedLine, funcCall.startIndex, validatedTextBase(ctx, lineIndex, trimmedLine), *parsed)
           : ParamColumns{};
@@ -997,6 +1079,12 @@ void familyCommandSyntax(ValidateContext& ctx, PerLineState& line)
   else if (line.lowercaseTrimmed.starts_with("if") && hasThenToken(line.stripped))
   {
     validationLine = afterThenFragment(line.stripped);
+  }
+  // A statement still continued with `\` (not a joined dbcreate or if header)
+  // holds only part of its parameters: `groupv(1) Path$,HEIGHT,H1,\` (ADR 0020).
+  if (endsWithContinuation(validationLine))
+  {
+    return;
   }
 
   const auto issues = validateCommandSyntax(ctx, std::move(validationLine), reportLine + 1);

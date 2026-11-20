@@ -286,6 +286,21 @@ if(MSVC)
   target_compile_options(snippet-catalog-corrections-test PRIVATE /utf-8 /bigobj)
 endif()
 
+# Drawing, model and file command entries (docs/adr/0020): parenthesesOptional
+# statement form and `;`-separated statements (not shipped, not in ALL):
+#   cmake --build build --config Release --target drawing-file-commands-test
+#   build\Release\drawing-file-commands-test.exe
+add_executable(drawing-file-commands-test EXCLUDE_FROM_ALL
+  tests/drawing_file_commands_test.cpp
+  ${VERTEX_ADT_LS_CORE_SOURCES}
+)
+target_include_directories(drawing-file-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(drawing-file-commands-test PRIVATE lsp)
+target_compile_features(drawing-file-commands-test PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(drawing-file-commands-test PRIVATE /utf-8 /bigobj)
+endif()
+
 # Control-block pairing: if/else/endif and loop/endloop hover and document
 # highlight (not shipped, not in ALL):
 #   cmake --build build --config Release --target control-block-pairing-test

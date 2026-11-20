@@ -100,6 +100,9 @@ struct CommandStructure
   // Native only (docs/adr/0011): in an assignment, an operator and a math
   // expression after the call's `)` belong to the assigned value.
   bool valueExpression = false;
+  // A hasParentheses command that may also be written as a statement:
+  // `cmd a, b` (and `x = cmd a, b`) is validated as `cmd(a, b)`.
+  bool parenthesesOptional = false;
 };
 
 struct Slot

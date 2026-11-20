@@ -334,7 +334,7 @@
   {
     "label": "complib_value",
     "detail": "",
-    "documentation": "no example in system",
+    "documentation": "Example:\n\n```vertexadt\nForm$ = complib_value(FrmLibrary$,\"SCREEN_FORM\")\n```",
     "insertText": "complib_value(${1:in_Library$},\"${2:PARAM}\")"
   },
   {
@@ -496,7 +496,8 @@
   {
     "label": "add_save_vers",
     "detail": "",
-    "documentation": "No example in system"
+    "documentation": "Example:\n\n```vertexadt\nVersionedPath$ = add_save_vers(UnversionedPath$)\n```",
+    "insertText": "add_save_vers(${1:in_UnversionedPath$})"
   },
   {
     "label": "check_walljnts",
@@ -2128,7 +2129,7 @@
   {
     "label": "getdate",
     "detail": " Date$=... R: current date in format 'YYYY-MM-DD'. See also 'get('';$DATE'';)'.",
-    "documentation": "no example in system",
+    "documentation": "Example:\n\n```vertexadt\nDate$= getdate()\n```",
     "insertText": "getdate()"
   },
   {
@@ -2223,7 +2224,7 @@
   {
     "label": "gettime",
     "detail": " Time$=... R: current time in format 'HH:MM:SS'. See also 'get('';$TIME'';)'.",
-    "documentation": "no example in system",
+    "documentation": "Example:\n\n```vertexadt\nTime$= gettime()\n```",
     "insertText": "gettime()"
   },
   {
@@ -3143,7 +3144,8 @@
   {
     "label": "is_weak",
     "detail": "",
-    "documentation": "no example in system"
+    "documentation": "Example:\n\n```vertexadt\nweak = is_weak(joint,object)\n```",
+    "insertText": "is_weak(${1:in_Joint}, ${2:in_Obj})"
   },
   {
     "label": "kx",
@@ -5604,7 +5606,8 @@
   {
     "label": "dbbtmenable",
     "detail": "",
-    "documentation": "No example in system"
+    "documentation": "Example:\n\n```vertexadt\ndbbtmenable \"FUNCTION=PSD_SETTINGS\",0\n```",
+    "insertText": "dbbtmenable \"${1:in_FUNCTION}\",${2:in_Boolean}"
   },
   {
     "label": "dbdump_to_xml",

@@ -12706,5 +12706,468 @@
         }
       ]
     }
+  },
+  "dwgopen_bg": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 6,
+      "maxParamsInside": 6
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in dwgopen_bg"
+      },
+      "tooFewInside": "dwgopen_bg requires 6 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Window name parameter must be a valid string in dwgopen_bg"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter must be a valid string in dwgopen_bg"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Third parameter must be a valid variable in dwgopen_bg"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fourth parameter must be a valid variable in dwgopen_bg"
+        },
+        {
+          "index": 4,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Fifth parameter must be a valid variable in dwgopen_bg"
+        },
+        {
+          "index": 5,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Sixth parameter must be a valid variable in dwgopen_bg"
+        }
+      ]
+    }
+  },
+  "dwgactivate": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "parenthesesOptional": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in dwgactivate"
+      },
+      "tooFewInside": "dwgactivate requires 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Window name parameter must be a valid string in dwgactivate"
+        }
+      ]
+    }
+  },
+  "dwgempty": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 0,
+      "maxParamsOutside": 0
+    },
+    "tableValidator": {
+      "tooManyAfter": "dwgempty takes no parameters"
+    }
+  },
+  "dwgredraw": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 0,
+      "maxParamsOutside": 0
+    },
+    "tableValidator": {
+      "tooManyAfter": "dwgredraw takes no parameters"
+    }
+  },
+  "dwgupdatetext": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 0,
+      "maxParamsOutside": 0
+    },
+    "tableValidator": {
+      "tooManyAfter": "dwgupdatetext takes no parameters"
+    }
+  },
+  "group_updating": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "group_updating requires 1 parameter",
+      "tooManyAfter": "group_updating accepts 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Mode parameter must be a valid variable in group_updating"
+        }
+      ]
+    }
+  },
+  "groupf": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewInside": "groupf requires a group index inside parentheses",
+      "tooFewAfter": "groupf requires a file after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Group index parameter must be a valid variable in groupf"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter after parentheses must be a valid string in groupf"
+        }
+      ]
+    }
+  },
+  "groupv": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 1,
+      "maxParamsOutside": 99
+    },
+    "tableValidator": {
+      "tooFewInside": "groupv requires a group index inside parentheses",
+      "tooFewAfter": "groupv requires a file after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Group index parameter must be a valid variable in groupv"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter after parentheses must be a valid string in groupv"
+        }
+      ],
+      "afterTail": {
+        "from": 1,
+        "kind": "string-or-variable",
+        "variableKind": "normal variable",
+        "invalid": "Parameter {n} after parentheses must be a valid variable name or value in groupv"
+      }
+    }
+  },
+  "dwgsetscale": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "dwgsetscale requires 1 parameter",
+      "tooManyAfter": "dwgsetscale accepts 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Scale parameter must be a valid variable in dwgsetscale"
+        }
+      ]
+    }
+  },
+  "linewidth": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "linewidth requires 1 parameter",
+      "tooManyAfter": "linewidth accepts 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Width parameter must be a valid variable in linewidth"
+        }
+      ]
+    }
+  },
+  "text_type": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 0,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooManyAfter": "text_type accepts 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Text type parameter must be a valid variable in text_type"
+        }
+      ]
+    }
+  },
+  "dwgsetlimits": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 0,
+      "maxParamsOutside": 4
+    },
+    "tableValidator": {
+      "tooManyAfter": "dwgsetlimits accepts at most 4 parameters (Xmin,Xmax,Ymin,Ymax)",
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "First parameter must be a valid variable in dwgsetlimits"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Second parameter must be a valid variable in dwgsetlimits"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Third parameter must be a valid variable in dwgsetlimits"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Fourth parameter must be a valid variable in dwgsetlimits"
+        }
+      ]
+    }
+  },
+  "dwgstore": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 3
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in dwgstore"
+      },
+      "tooFewInside": "dwgstore requires at least 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter must be a valid string in dwgstore"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter must be a valid variable in dwgstore"
+        },
+        {
+          "index": 2,
+          "kind": "string expression",
+          "required": false,
+          "invalid": "Setup parameter must be a valid string in dwgstore"
+        }
+      ]
+    }
+  },
+  "dwgclose": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "dwgclose requires 1 parameter",
+      "tooManyAfter": "dwgclose accepts 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Window name parameter must be a valid string in dwgclose"
+        }
+      ]
+    }
+  },
+  "modelopen": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 2
+    },
+    "tableValidator": {
+      "tooFewAfter": "modelopen requires a window name",
+      "tooManyAfter": "modelopen accepts at most 2 parameters",
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Window name parameter must be a valid string in modelopen"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": false,
+          "invalid": "Model parameter must be a valid string in modelopen"
+        }
+      ]
+    }
+  },
+  "fileremove": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "parenthesesOptional": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "tableValidator": {
+      "tooFewInside": "fileremove requires a file path",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File path parameter must be a valid string in fileremove"
+        }
+      ]
+    }
+  },
+  "write": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewInside": "write requires a file number inside parentheses",
+      "tooFewAfter": "write requires a string after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "File number parameter must be a valid variable in write"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string-or-variable",
+          "required": true,
+          "invalid": "Text parameter after parentheses must be a valid string or variable in write",
+          "variableKind": "normal variable"
+        }
+      ]
+    }
+  },
+  "modelstore": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 3
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in modelstore"
+      },
+      "tooFewInside": "modelstore requires at least 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter must be a valid string in modelstore"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter must be a valid variable in modelstore"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Third parameter must be a valid variable in modelstore"
+        }
+      ]
+    }
   }
 }
