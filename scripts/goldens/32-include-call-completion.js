@@ -3,8 +3,8 @@
 /**
  * Parity goldens for include/call path and section completion.
  * Assertions from test-fixtures/include-call-sections/TESTING.md (mirrors the
- * Node completion pins in run-include-call-sections-test.js plus the listing
- * fixtures under custom/completion and system/completion).
+ * former Node completion pins plus the listing fixtures under custom/completion
+ * and system/completion).
  */
 
 const fs = require('fs');

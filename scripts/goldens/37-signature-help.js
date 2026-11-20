@@ -11,13 +11,18 @@
  * when a max is unbounded, never keyword-catalog insertText), and
  * parenthesized `call(` labelled `path` plus the callee's buffer-wins
  * remaining-param extract.
+ *
+ * The Node helper results are replayed from
+ * scripts/goldens/oracle-tapes/37-*.json (scripts/oracle-tape.js); the Node
+ * server was removed on 2026-11-20 (ADR 0018).
  */
 
 const fs = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
-const targetSectionSupport = require('../../server/out/targetSectionSupport');
+const { replayModule } = require('../oracle-tape');
+const targetSectionSupport = replayModule('targetSectionSupport', '37');
 const COMMANDS = require('../../server/catalog/commands.json');
 
 const ROOT = path.resolve(__dirname, '../..');

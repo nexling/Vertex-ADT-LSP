@@ -1,0 +1,568 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "FS1",
+     "FS2"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "BATHZONE",
+     "  PADDED  ",
+     "",
+     "SHEET1",
+     "BOTH_CODE",
+     "Tom & Jerry",
+     "FOO\"BAR",
+     "Stairs, Straight",
+     "Åsa"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroLibraries",
+   "payload": {
+    "result": [
+     "CODES_LIB",
+     "EMPTY_CODES",
+     "MACRO_SYS",
+     "MIXED_CASE",
+     "OTHER_XML",
+     "UPPER_EXT"
+    ]
+   }
+  },
+  {
+   "method": "custom/getMacroCodes",
+   "payload": {
+    "result": [
+     "Railings",
+     "Stairs, Straight",
+     "Stairs",
+     "GROOVE_RLINE",
+     "Stairs, U-Shape",
+     "WEBSTIFF",
+     "Stairs, L-Shape",
+     "WSSINGLE",
+     "SC_PATTERN_LBL",
+     "RS_PATTERN1",
+     "JOISTCONN",
+     "ROD_SYM",
+     "Stairs, Y-Shape",
+     "PNC_SYM_HATCH",
+     "EaveBox",
+     "WSROOF",
+     "WALLTIERAIL",
+     "LOGFOUND",
+     "TEK_SCREW",
+     "RS_PATTERN2",
+     "SCREW_CONNECTION",
+     "SCREW",
+     "TRUSSPLATE",
+     "GREENBAR",
+     "GRAVITYPOINT",
+     "CYLINDER",
+     "PNC_SYM_HATCHDIR",
+     "FAST_CONN",
+     "FAST_CONN2",
+     "DUCT_SYM",
+     "DUCT_SYM_R",
+     "LIFTH_SYM",
+     "JOINT_ARROW",
+     "BOLT",
+     "BOX",
+     "I_CLIP",
+     "GRAVITYERROR",
+     "FAST_CONN3",
+     "SC_PATTERN",
+     "ALIGNPNT",
+     "HOLEandSQUARE",
+     "PNC_SYM_HATCH2",
+     "PNC_SYM_SHAFT",
+     "PNC_SYM_ELC",
+     "PNC_SYM_LUCKA",
+     "D3kolltext",
+     "EDGESAWMAC",
+     "CRNSAWMAC",
+     "SNEDBORR",
+     "HOLELINE",
+     "EDGESAWMAC2",
+     "CRNSAWMAC2",
+     "CRNSAWMACT",
+     "CRNSAWMAC2T",
+     "ROD_SYMRED",
+     "TSCHAKTBOX",
+     "GSCHAKTBOX",
+     "sheetboxF",
+     "sheetboxC",
+     "BGtopceil",
+     "hookmac",
+     "HATCHBOX",
+     "JOINT_INFO",
+     "Kfrmtool",
+     "RODHOLE_BLUE",
+     "clt2dhatch",
+     "ROD_SYMREDRT",
+     "TOPPLATECUTTER",
+     "SUBELEMOVERRIDE",
+     "ROD_SYMBLUE",
+     "ROD_SYMBLUERT",
+     "ROD_SYMGREENRT",
+     "ROD_SYMORANGERT",
+     "ROD_SYMYELLOWRT",
+     "ROD_SYMBROWN",
+     "ROD_SYMBROWNRT",
+     "ROD_SYMGREEN",
+     "ROD_SYMYELLOW",
+     "ROD_SYMORANGE"
+    ]
+   }
+  },
+  {
+   "method": "shutdown",
+   "payload": {
+    "result": null
+   }
+  }
+ ]
+]

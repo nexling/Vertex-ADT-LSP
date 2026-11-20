@@ -1,0 +1,1851 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "sheet"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the thickness of the sheet",
+      "detail": "Numeric - Sheet thickness measurement"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the sheet",
+      "detail": "Numeric - Sheet weight calculation"
+     },
+     {
+      "label": "SHT_CODE",
+      "documentation": "Returns the sheet code of the sheet",
+      "detail": "String - Sheet code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "selemobj"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "TYPE",
+      "documentation": "Returns the type of the panel",
+      "detail": "String - Panel type specification"
+     },
+     {
+      "label": "LABEL",
+      "documentation": "Returns the label of the panel",
+      "detail": "String - Panel label specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "area"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "area"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Returns the area code",
+      "detail": "String - Area code specification",
+      "insertText": "\"ADB_FIELD\", \"CODE\", 1"
+     },
+     {
+      "label": "NUM",
+      "documentation": "Returns the area layer number in slope sandwich",
+      "detail": "Numeric - Area layer index"
+     },
+     {
+      "label": "TYPE",
+      "documentation": "Returns the area layer type",
+      "detail": "String - Area layer type identifier"
+     },
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the area layer thickness",
+      "detail": "Numeric - Area layer thickness",
+      "insertText": "\"ADB_FIELD\", \"THICKNESS\", 1"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Returns the area code",
+      "detail": "String - Area code specification",
+      "insertText": "\"ADB_FIELD\", \"CODE\", 1"
+     },
+     {
+      "label": "NUM",
+      "documentation": "Returns the area layer number in slope sandwich",
+      "detail": "Numeric - Area layer index"
+     },
+     {
+      "label": "TYPE",
+      "documentation": "Returns the area layer type",
+      "detail": "String - Area layer type identifier"
+     },
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the area layer thickness",
+      "detail": "Numeric - Area layer thickness",
+      "insertText": "\"ADB_FIELD\", \"THICKNESS\", 1"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "HEIGHT",
+      "documentation": "Returns the section height",
+      "detail": "Numeric - Section height measurement"
+     },
+     {
+      "label": "WIDTH",
+      "documentation": "Returns the section width",
+      "detail": "Numeric - Section width measurement"
+     },
+     {
+      "label": "CODE",
+      "documentation": "Returns the section code",
+      "detail": "String - Section code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "HEIGHT",
+      "documentation": "Returns the section height",
+      "detail": "Numeric - Section height measurement"
+     },
+     {
+      "label": "WIDTH",
+      "documentation": "Returns the section width",
+      "detail": "Numeric - Section width measurement"
+     },
+     {
+      "label": "CODE",
+      "documentation": "Returns the section code",
+      "detail": "String - Section code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "pvector"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "sheet"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "sheet"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the thickness of the sheet",
+      "detail": "Numeric - Sheet thickness measurement"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the sheet",
+      "detail": "Numeric - Sheet weight calculation"
+     },
+     {
+      "label": "SHT_CODE",
+      "documentation": "Returns the sheet code of the sheet",
+      "detail": "String - Sheet code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "sheet"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the thickness of the sheet",
+      "detail": "Numeric - Sheet thickness measurement"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the sheet",
+      "detail": "Numeric - Sheet weight calculation"
+     },
+     {
+      "label": "SHT_CODE",
+      "documentation": "Returns the sheet code of the sheet",
+      "detail": "String - Sheet code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "sheet"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "THICKNESS",
+      "documentation": "Returns the thickness of the sheet",
+      "detail": "Numeric - Sheet thickness measurement"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the sheet",
+      "detail": "Numeric - Sheet weight calculation"
+     },
+     {
+      "label": "SHT_CODE",
+      "documentation": "Returns the sheet code of the sheet",
+      "detail": "String - Sheet code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "profile"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "FPTYPE",
+      "documentation": "Returns the profile type/name (fptype)",
+      "detail": "String - Profile type identifier"
+     },
+     {
+      "label": "WEIGHT",
+      "documentation": "Returns the weight of the profile",
+      "detail": "Numeric - Profile weight calculation"
+     },
+     {
+      "label": "USE",
+      "documentation": "Returns the use/purpose of the profile",
+      "detail": "String - Profile usage specification"
+     },
+     {
+      "label": "SA_ID",
+      "documentation": "Returns the assembly information of the profile",
+      "detail": "String - Profile assembly identifier"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Stairs, Straight",
+      "detail": "Macro field (macro_sys/Stairs, Straight)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Parametric straight stair",
+      "detail": "Macro field (macro_sys/Stairs, Straight)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "MACTYPE",
+      "documentation": "Value in database: 320",
+      "detail": "Macro field (macro_sys/Stairs, Straight)",
+      "insertText": "\"MACTYPE\""
+     },
+     {
+      "label": "ST_WIDTH",
+      "documentation": "PARAMETER RECORD, standard value: 885"
+     },
+     {
+      "label": "ST_TREAD",
+      "documentation": "PARAMETER RECORD, standard value: 250"
+     },
+     {
+      "label": "ST_LANDING_H",
+      "documentation": "PARAMETER RECORD, standard value: 200"
+     },
+     {
+      "label": "ST_LANDING_L",
+      "documentation": "PARAMETER RECORD, standard value: 1000"
+     },
+     {
+      "label": "SQUARE",
+      "documentation": "Value in database: 70",
+      "detail": "Macro field (macro_sys/Stairs, Straight)",
+      "insertText": "\"SQUARE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Stairs",
+      "detail": "Macro field (macro_sys/Stairs)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Parametric stair",
+      "detail": "Macro field (macro_sys/Stairs)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "MACTYPE",
+      "documentation": "Value in database: 454",
+      "detail": "Macro field (macro_sys/Stairs)",
+      "insertText": "\"MACTYPE\""
+     },
+     {
+      "label": "SQUARE",
+      "documentation": "Value in database: 75",
+      "detail": "Macro field (macro_sys/Stairs)",
+      "insertText": "\"SQUARE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Railings",
+      "detail": "Macro field (macro_sys/railings)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Parametric stair railing",
+      "detail": "Macro field (macro_sys/railings)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "MACTYPE",
+      "documentation": "Value in database: 455",
+      "detail": "Macro field (macro_sys/railings)",
+      "insertText": "\"MACTYPE\""
+     },
+     {
+      "label": "SQUARE",
+      "documentation": "Value in database: 76",
+      "detail": "Macro field (macro_sys/railings)",
+      "insertText": "\"SQUARE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: WEBSTIFF",
+      "detail": "Macro field (macro_sys/WEBSTIFF)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Web stiffner",
+      "detail": "Macro field (macro_sys/WEBSTIFF)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "MACTYPE",
+      "documentation": "Value in database: 44",
+      "detail": "Macro field (macro_sys/WEBSTIFF)",
+      "insertText": "\"MACTYPE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Plain",
+      "detail": "Macro field (fresh_lib/Plain)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Tom & Jerry <b> AB",
+      "detail": "Macro field (fresh_lib/Plain)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "A",
+      "documentation": "PARAMETER RECORD, standard value: 1"
+     },
+     {
+      "label": "B",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "C",
+      "documentation": "PARAMETER RECORD, standard value: 2"
+     },
+     {
+      "label": "",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "EMPTY_VALUE",
+      "documentation": "Value in database: ",
+      "detail": "Macro field (fresh_lib/Plain)",
+      "insertText": "\"EMPTY_VALUE\""
+     },
+     {
+      "label": "SELF_CLOSED",
+      "documentation": "Value in database: ",
+      "detail": "Macro field (fresh_lib/Plain)",
+      "insertText": "\"SELF_CLOSED\""
+     },
+     {
+      "label": "Category",
+      "documentation": "Value in database: exact-case exclude only",
+      "detail": "Macro field (fresh_lib/Plain)",
+      "insertText": "\"Category\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: other",
+      "detail": "Macro field (fresh_lib/SheetOnly)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "SHTCODE",
+      "documentation": "Value in database: SheetOnly",
+      "detail": "Macro field (fresh_lib/SheetOnly)",
+      "insertText": "\"SHTCODE\""
+     },
+     {
+      "label": "NOTE",
+      "documentation": "Value in database: cdata <kept>",
+      "detail": "Macro field (fresh_lib/SheetOnly)",
+      "insertText": "\"NOTE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: FS1",
+      "detail": "Macro field (frm_lib/FS1)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "WIDTH",
+      "documentation": "Value in database: 1200",
+      "detail": "Macro field (frm_lib/FS1)",
+      "insertText": "\"WIDTH\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "SHAPE",
+      "documentation": "Returns the material shape",
+      "detail": "String - Material shape specification"
+     },
+     {
+      "label": "LIBRARY",
+      "documentation": "Returns the profile library name",
+      "detail": "String - Material library identifier"
+     },
+     {
+      "label": "MATER.CODE",
+      "documentation": "Returns the material code/grade of profile",
+      "detail": "String - Material code specification"
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "generic"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "joint"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Plain",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Tom & Jerry <b> AB",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "A",
+      "documentation": "PARAMETER RECORD, standard value: 1"
+     },
+     {
+      "label": "B",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "C",
+      "documentation": "PARAMETER RECORD, standard value: 2"
+     },
+     {
+      "label": "",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "EMPTY_VALUE",
+      "documentation": "Value in database: ",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"EMPTY_VALUE\""
+     },
+     {
+      "label": "SELF_CLOSED",
+      "documentation": "Value in database: ",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"SELF_CLOSED\""
+     },
+     {
+      "label": "Category",
+      "documentation": "Value in database: exact-case exclude only",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"Category\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "joint"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "joint"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: Plain",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Tom & Jerry <b> AB",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "A",
+      "documentation": "PARAMETER RECORD, standard value: 1"
+     },
+     {
+      "label": "B",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "C",
+      "documentation": "PARAMETER RECORD, standard value: 2"
+     },
+     {
+      "label": "",
+      "documentation": "PARAMETER RECORD, standard value: undefined"
+     },
+     {
+      "label": "EMPTY_VALUE",
+      "documentation": "Value in database: ",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"EMPTY_VALUE\""
+     },
+     {
+      "label": "SELF_CLOSED",
+      "documentation": "Value in database: ",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"SELF_CLOSED\""
+     },
+     {
+      "label": "Category",
+      "documentation": "Value in database: exact-case exclude only",
+      "detail": "Joint field (fresh_lib/Plain)",
+      "insertText": "\"Category\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "joint"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: FS1",
+      "detail": "Joint field (frm_lib/FS1)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "WIDTH",
+      "documentation": "Value in database: 1200",
+      "detail": "Joint field (frm_lib/FS1)",
+      "insertText": "\"WIDTH\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "joint"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": [
+     {
+      "label": "CODE",
+      "documentation": "Value in database: JOISTCONN",
+      "detail": "Joint field (macro_sys/JOISTCONN)",
+      "insertText": "\"CODE\""
+     },
+     {
+      "label": "DESCRIPTION",
+      "documentation": "Value in database: Joist connector",
+      "detail": "Joint field (macro_sys/JOISTCONN)",
+      "insertText": "\"DESCRIPTION\""
+     },
+     {
+      "label": "MACTYPE",
+      "documentation": "Value in database: 63",
+      "detail": "Joint field (macro_sys/JOISTCONN)",
+      "insertText": "\"MACTYPE\""
+     }
+    ]
+   }
+  },
+  {
+   "method": "custom/getVariableObjectType",
+   "payload": {
+    "result": "macro"
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/getObjectParameters",
+   "payload": {
+    "error": {
+     "code": -32603,
+     "message": "Request custom/getObjectParameters failed with message: ENOENT: no such file or directory, open '@@A0S0@@\\custom\\complibs\\no_such_lib\\d_FRM_SHEET.xml'"
+    }
+   }
+  },
+  {
+   "method": "shutdown",
+   "payload": {
+    "result": null
+   }
+  }
+ ]
+]

@@ -17,7 +17,6 @@ The native server follows paths (`docs/adr/0012-native-path-aware-unclosed-resou
 From the repository root:
 
 ```bash
-node test-fixtures/unclosed-resources/run-unclosed-resources-test.js
 node scripts/goldens/20-unclosed-resources.js
 node scripts/goldens/43-ignore-close-code-action.js
 ```

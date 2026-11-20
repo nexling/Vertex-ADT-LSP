@@ -8,6 +8,10 @@
  * collectWorkspaceFormNames) run through the client host's item mapping
  * (client/out/extension.js), with Node's custom/getFormNames folded into
  * ordinary textDocument/completion.
+ *
+ * The Node helper results are replayed from
+ * scripts/goldens/oracle-tapes/39-*.json (scripts/oracle-tape.js); the Node
+ * server was removed on 2026-11-20 (ADR 0018).
  */
 
 const fs = require('fs');
@@ -16,7 +20,8 @@ const path = require('path');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
 const ranking = require('../completion-ranking');
-const support = require('../../server/out/formNameCompletion');
+const { replayModule } = require('../oracle-tape');
+const support = replayModule('formNameCompletion', '39');
 
 const ROOT = path.resolve(__dirname, '../..');
 const FIXTURE = path.join(ROOT, 'test-fixtures', 'form-name-completion');

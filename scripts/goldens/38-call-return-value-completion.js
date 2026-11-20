@@ -10,6 +10,10 @@
  * buffer-wins). Field comments come from the callee's own variable extract;
  * the oracle takes them from COMMENTS, which were checked once against the
  * live Node server's custom/getCallReturnValues.
+ *
+ * The Node helper results are replayed from
+ * scripts/goldens/oracle-tapes/38-*.json (scripts/oracle-tape.js); the Node
+ * server was removed on 2026-11-20 (ADR 0018).
  */
 
 const fs = require('fs');
@@ -17,7 +21,8 @@ const path = require('path');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
 const ranking = require('../completion-ranking');
-const targetSectionSupport = require('../../server/out/targetSectionSupport');
+const { replayModule } = require('../oracle-tape');
+const targetSectionSupport = replayModule('targetSectionSupport', '38');
 
 const ROOT = path.resolve(__dirname, '../..');
 const FIXTURE = path.join(ROOT, 'test-fixtures', 'call-return-value-completion');

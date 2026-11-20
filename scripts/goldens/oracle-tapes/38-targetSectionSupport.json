@@ -1,0 +1,178 @@
+{
+ "lookupPathFromCallArgument([\" \"])": [
+  {
+   "result": ""
+  }
+ ],
+ "lookupPathFromCallArgument([\"\"])": [
+  {
+   "result": ""
+  }
+ ],
+ "lookupPathFromCallArgument([\"buffer_wins.prg\"])": [
+  {
+   "result": "buffer_wins.prg"
+  },
+  {
+   "result": "buffer_wins.prg"
+  },
+  {
+   "result": "buffer_wins.prg"
+  },
+  {
+   "result": "buffer_wins.prg"
+  },
+  {
+   "result": "buffer_wins.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"crlf.prg\"])": [
+  {
+   "result": "crlf.prg"
+  },
+  {
+   "result": "crlf.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"empty.prg\"])": [
+  {
+   "result": "empty.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"last_exit.prg\"])": [
+  {
+   "result": "last_exit.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"missing.prg\"])": [
+  {
+   "result": "missing.prg"
+  },
+  {
+   "result": "missing.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"no_exit.prg\"])": [
+  {
+   "result": "no_exit.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"no_fields.prg\"])": [
+  {
+   "result": "no_fields.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"packed.prg\"])": [
+  {
+   "result": "packed.prg"
+  },
+  {
+   "result": "packed.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"quirks.prg\"])": [
+  {
+   "result": "quirks.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"return_fields.prg MACROS\"])": [
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"return_fields.prg SECTION\"])": [
+  {
+   "result": "return_fields.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"return_fields.prg\"])": [
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  },
+  {
+   "result": "return_fields.prg"
+  }
+ ],
+ "lookupPathFromCallArgument([\"return_fields.prg\\\" \"])": [
+  {
+   "result": "return_fields.prg\""
+  }
+ ],
+ "lookupPathFromCallArgument([\"sectional.prg MACROS\"])": [
+  {
+   "result": "sectional.prg"
+  }
+ ]
+}

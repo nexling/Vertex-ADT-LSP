@@ -8,7 +8,8 @@
  * `foo` in callee_bad_names.prg, including `set(foo, 1)`, becomes `l19foo`)
  * plus the smoke runner's `l3C` -> `l1C` pair on a non-callee.
  *
- * Oracle: the live Node language server (server/out/server.js --stdio).
+ * Oracle: the removed Node language server, replayed from
+ * scripts/goldens/oracle-tapes (scripts/oracle-tape.js).
  * QuickFix actions must match Node byte for byte. The workspace command is
  * compared to Node's `custom/assignLocalSlotNames` after normalizing URIs (Node
  * lowercases paths). The fixture is copied to a path without spaces: Node's
@@ -18,13 +19,12 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL, fileURLToPath } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 
 const ROOT = path.resolve(__dirname, '../..');
 const SOURCE_FIXTURE = path.join(ROOT, 'test-fixtures', 'local-slot-names');
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 
 const NAMING = 'vertexadt/callee-local-naming';
 const COMMAND = 'vertexadt.assignLocalSlotNames';
@@ -69,13 +69,7 @@ function assertEqual(actual, expected, message) {
 
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        return new NodeOracleSession(child, options);
+        return replayOracle(NodeOracleSession, options, '45');
     }
 
     async initialize() {

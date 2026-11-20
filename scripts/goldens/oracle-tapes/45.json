@@ -1,0 +1,859 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Rename foo to l19foo in file",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "message": "Callee locals in this file should share prefix l19 (e.g. l19foo)",
+        "severity": 2,
+        "code": "vertexadt/callee-local-naming",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1,
+         "varName": "foo",
+         "newName": "l19foo",
+         "sectionName": "",
+         "fileWide": true
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/callee_bad_names.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 3,
+            "character": 9
+           },
+           "end": {
+            "line": 3,
+            "character": 12
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 0
+           },
+           "end": {
+            "line": 1,
+            "character": 3
+           }
+          },
+          "newText": "l19foo"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Rename foo to l19foo in file",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/callee-local-naming",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1,
+         "varName": "foo",
+         "newName": "l19foo",
+         "sectionName": "",
+         "fileWide": true
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/callee_bad_names.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 3,
+            "character": 9
+           },
+           "end": {
+            "line": 3,
+            "character": 12
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 0
+           },
+           "end": {
+            "line": 1,
+            "character": 3
+           }
+          },
+          "newText": "l19foo"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "title": "Rename foo to l19foo in file",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/callee-local-naming",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1,
+         "varName": "foo",
+         "newName": "l19foo",
+         "sectionName": "",
+         "fileWide": true
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/callee_bad_names.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 3,
+            "character": 9
+           },
+           "end": {
+            "line": 3,
+            "character": 12
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 0
+           },
+           "end": {
+            "line": 1,
+            "character": 3
+           }
+          },
+          "newText": "l19foo"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Rename foo to l19foo in file",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/callee-local-naming",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1,
+         "varName": "foo",
+         "newName": "l19foo",
+         "sectionName": "",
+         "fileWide": true
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/rename_probe.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 11,
+            "character": 4
+           },
+           "end": {
+            "line": 11,
+            "character": 7
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 9,
+            "character": 19
+           },
+           "end": {
+            "line": 9,
+            "character": 22
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 9,
+            "character": 6
+           },
+           "end": {
+            "line": 9,
+            "character": 9
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 7,
+            "character": 4
+           },
+           "end": {
+            "line": 7,
+            "character": 7
+           }
+          },
+          "newText": "l19foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 4,
+            "character": 12
+           },
+           "end": {
+            "line": 4,
+            "character": 15
+           }
+          },
+          "newText": "l19fOo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 4,
+            "character": 6
+           },
+           "end": {
+            "line": 4,
+            "character": 9
+           }
+          },
+          "newText": "l19FOO"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 4,
+            "character": 0
+           },
+           "end": {
+            "line": 4,
+            "character": 3
+           }
+          },
+          "newText": "l19Foo"
+         },
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 0
+           },
+           "end": {
+            "line": 1,
+            "character": 3
+           }
+          },
+          "newText": "l19foo"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Rename l3C to l1C in file",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 2,
+          "character": 0
+         },
+         "end": {
+          "line": 2,
+          "character": 3
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/callee-local-naming",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 2,
+         "varName": "l3C",
+         "newName": "l1C",
+         "sectionName": "",
+         "fileWide": true
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/rename_probe.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 2,
+            "character": 0
+           },
+           "end": {
+            "line": 2,
+            "character": 3
+           }
+          },
+          "newText": "l1C"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_bad_names.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 3,
+          "character": 9
+         },
+         "end": {
+          "line": 3,
+          "character": 12
+         }
+        },
+        "newText": "l19foo"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "newText": "l19foo"
+       }
+      ]
+     },
+     "assignedCount": 2
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_bad_names.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 4,
+          "character": 9
+         },
+         "end": {
+          "line": 4,
+          "character": 12
+         }
+        },
+        "newText": "l19foo"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 2,
+          "character": 0
+         },
+         "end": {
+          "line": 2,
+          "character": 3
+         }
+        },
+        "newText": "l19bar"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "newText": "l19foo"
+       }
+      ]
+     },
+     "assignedCount": 3
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_manifest_bad.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 3,
+          "character": 0
+         },
+         "end": {
+          "line": 3,
+          "character": 3
+         }
+        },
+        "newText": "l1C"
+       }
+      ]
+     },
+     "assignedCount": 1
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_bad_names.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 3,
+          "character": 9
+         },
+         "end": {
+          "line": 3,
+          "character": 12
+         }
+        },
+        "newText": "l19foo"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "newText": "l19foo"
+       }
+      ]
+     },
+     "assignedCount": 2
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_manifest_bad.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 3,
+          "character": 0
+         },
+         "end": {
+          "line": 3,
+          "character": 3
+         }
+        },
+        "newText": "l1C"
+       }
+      ]
+     },
+     "assignedCount": 1
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/redeclare.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 2,
+          "character": 0
+         },
+         "end": {
+          "line": 2,
+          "character": 1
+         }
+        },
+        "newText": "l19A"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 1
+         }
+        },
+        "newText": "l19A"
+       }
+      ]
+     },
+     "assignedCount": 2
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S52@@/custom/callee_bad_names.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 3,
+          "character": 9
+         },
+         "end": {
+          "line": 3,
+          "character": 12
+         }
+        },
+        "newText": "l19foo"
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 3
+         }
+        },
+        "newText": "l19foo"
+       }
+      ]
+     },
+     "assignedCount": 2
+    }
+   }
+  },
+  {
+   "method": "custom/assignLocalSlotNames",
+   "payload": {
+    "result": {
+     "changes": {},
+     "assignedCount": 0,
+     "error": "Could not read target file"
+    }
+   }
+  },
+  {
+   "method": "shutdown",
+   "payload": {
+    "result": null
+   }
+  }
+ ]
+]

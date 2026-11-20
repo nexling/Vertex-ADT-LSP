@@ -1,0 +1,713 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Add 1 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 9
+         },
+         "end": {
+          "line": 0,
+          "character": 50
+         }
+        },
+        "message": "call expects 3 parameters but 2 were provided",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0,
+         "insertOffset": 49,
+         "missingCount": 1,
+         "expected": 3,
+         "actual": 2,
+         "calleeDisplayPath": "\"callee_three_params.prg\""
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/caller_missing_one.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 49
+           },
+           "end": {
+            "line": 0,
+            "character": 49
+           }
+          },
+          "newText": ",\"\""
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Add 1 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 4
+         },
+         "end": {
+          "line": 1,
+          "character": 41
+         }
+        },
+        "message": "call expects 2 parameters but 1 were provided",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1,
+         "insertOffset": 40,
+         "missingCount": 1,
+         "expected": 2,
+         "actual": 1,
+         "calleeDisplayPath": "\"sectional_callee.prg OTHER\""
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/caller_sectional.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 40
+           },
+           "end": {
+            "line": 1,
+            "character": 40
+           }
+          },
+          "newText": ",\"\""
+         }
+        ]
+       }
+      }
+     },
+     {
+      "title": "Add 1 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 5,
+          "character": 4
+         },
+         "end": {
+          "line": 5,
+          "character": 35
+         }
+        },
+        "message": "call expects 2 parameters but 1 were provided",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 5,
+         "insertOffset": 34,
+         "missingCount": 1,
+         "expected": 2,
+         "actual": 1,
+         "calleeDisplayPath": "\"sectional_callee.prg\""
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/caller_sectional.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 5,
+            "character": 34
+           },
+           "end": {
+            "line": 5,
+            "character": 34
+           }
+          },
+          "newText": ",\"\""
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Add 3 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0,
+         "insertOffset": 30,
+         "missingCount": 3
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/synthetic.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 30
+           },
+           "end": {
+            "line": 0,
+            "character": 30
+           }
+          },
+          "newText": ",\"\",\"\",\"\""
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Add 3 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0,
+         "insertOffset": 30,
+         "missingCount": 3
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/synthetic.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 30
+           },
+           "end": {
+            "line": 0,
+            "character": 30
+           }
+          },
+          "newText": ",\"\",\"\",\"\""
+         }
+        ]
+       }
+      }
+     },
+     {
+      "title": "Add 2 missing call parameter(s) as \"\"",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 1,
+        "code": "vertexadt/missing-call-params",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0,
+         "insertOffset": 64,
+         "missingCount": 2
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S48@@/custom/synthetic.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 64
+           },
+           "end": {
+            "line": 0,
+            "character": 64
+           }
+          },
+          "newText": ",\"\",\"\""
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "custom/fixMissingCallParameters",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S60@@/custom/caller_extra_one.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 53
+         },
+         "end": {
+          "line": 0,
+          "character": 61
+         }
+        },
+        "newText": ""
+       }
+      ],
+      "@@A0S60@@/custom/caller_missing_one.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 49
+         },
+         "end": {
+          "line": 0,
+          "character": 49
+         }
+        },
+        "newText": ",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/caller_sectional.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 5,
+          "character": 34
+         },
+         "end": {
+          "line": 5,
+          "character": 34
+         }
+        },
+        "newText": ",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 4,
+          "character": 39
+         },
+         "end": {
+          "line": 4,
+          "character": 42
+         }
+        },
+        "newText": ""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 40
+         },
+         "end": {
+          "line": 1,
+          "character": 40
+         }
+        },
+        "newText": ",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/caller_skips.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 40
+         },
+         "end": {
+          "line": 0,
+          "character": 40
+         }
+        },
+        "newText": ",\"\",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/synthetic.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 64
+         },
+         "end": {
+          "line": 0,
+          "character": 64
+         }
+        },
+        "newText": ",\"\",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 30
+         },
+         "end": {
+          "line": 0,
+          "character": 30
+         }
+        },
+        "newText": ",\"\",\"\",\"\""
+       }
+      ]
+     },
+     "fixedCount": 8
+    }
+   }
+  },
+  {
+   "method": "custom/fixMissingCallParameters",
+   "payload": {
+    "result": {
+     "changes": {
+      "@@A0S60@@/custom/caller_extra_one.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 53
+         },
+         "end": {
+          "line": 0,
+          "character": 61
+         }
+        },
+        "newText": ""
+       }
+      ],
+      "@@A0S60@@/custom/caller_missing_one.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 49
+         },
+         "end": {
+          "line": 0,
+          "character": 49
+         }
+        },
+        "newText": ",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/caller_sectional.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 5,
+          "character": 34
+         },
+         "end": {
+          "line": 5,
+          "character": 34
+         }
+        },
+        "newText": ",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 4,
+          "character": 39
+         },
+         "end": {
+          "line": 4,
+          "character": 42
+         }
+        },
+        "newText": ""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 40
+         },
+         "end": {
+          "line": 1,
+          "character": 40
+         }
+        },
+        "newText": ",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/caller_skips.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 6,
+          "character": 44
+         },
+         "end": {
+          "line": 6,
+          "character": 44
+         }
+        },
+        "newText": ",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 4,
+          "character": 44
+         },
+         "end": {
+          "line": 4,
+          "character": 44
+         }
+        },
+        "newText": ",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 49
+         },
+         "end": {
+          "line": 0,
+          "character": 49
+         }
+        },
+        "newText": ",\"\""
+       }
+      ],
+      "@@A0S60@@/custom/synthetic.prg": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 64
+         },
+         "end": {
+          "line": 0,
+          "character": 64
+         }
+        },
+        "newText": ",\"\",\"\""
+       },
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 30
+         },
+         "end": {
+          "line": 0,
+          "character": 30
+         }
+        },
+        "newText": ",\"\",\"\",\"\""
+       }
+      ]
+     },
+     "fixedCount": 10
+    }
+   }
+  },
+  {
+   "method": "shutdown",
+   "payload": {
+    "result": null
+   }
+  }
+ ]
+]

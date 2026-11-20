@@ -2,12 +2,9 @@
 
 In the form slot of `edit_obj_data`, `edit_jnt_data`, `dbedit` (the 2nd argument inside the parentheses) and `set_macro_form` (the argument after the closing parenthesis), `textDocument/completion` adds the top-level file names from Custom `forms/` and System `forms/`. The rules are in [Specify form-name completion](../../scratch/cpp-language-server-spec/issues/51-specify-form-name-completion.md).
 
-Two tests use this fixture:
+`scripts/goldens/39-form-name-completion.js` is the parity golden against `server/vertex-adt-ls.exe`. Run it with `npm run test:goldens`.
 
-- `run-form-name-completion-test.js` is the Node regression test for `server/out/formNameCompletion.js`. Run it with `node`.
-- `scripts/goldens/39-form-name-completion.js` is the parity golden against `server/vertex-adt-ls.exe`. Run it with `npm run test:goldens`.
-
-The golden checks every row twice. First, the native items must equal an oracle: `formNameCompletion.js` (`analyzeFormNameCompletion` and `collectWorkspaceFormNames`) run through the host's item mapping in `client/out/extension.js`. Second, each row pins its expected labels. The cheap keyword-variable list must still be in the response.
+The golden checks every row twice. First, the native items must equal an oracle: the recorded results of the removed Node helper `formNameCompletion.js` (`analyzeFormNameCompletion` and `collectWorkspaceFormNames`, in `scripts/goldens/oracle-tapes/39-formNameCompletion.json`) run through the host's item mapping. Second, each row pins its expected labels. The cheap keyword-variable list must still be in the response.
 
 ## Sites
 

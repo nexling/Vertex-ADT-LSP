@@ -2,8 +2,6 @@
 
 Parity goldens for cheap hover on a `vertexadt` debug dump. The language-server executable parses dump assignment lines (standalone `VAR =`, `if` / `else if … then VAR =`, function output-in-parens) and returns MarkupContent `**{word}** = `{value}`` for the most recent write at or before the hover line.
 
-The Node slice-test `run-debug-then-assignment-test.js` stays Node regression only.
-
 ## Smoke
 
 ```bash

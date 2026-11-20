@@ -7,9 +7,8 @@
  *
  * Assertions for real goldens come from each test-fixtures/ TESTING.md
  * (except header-creator/). Family goldens under scripts/goldens/ run here
- * against server/vertex-adt-ls.exe. Do not harvest a Node JSON dump as the
- * oracle. Do not drive VS Code. Existing test-fixtures run-*-test.js
- * slice-tests stay Node regression only.
+ * against server/vertex-adt-ls.exe. Do not drive VS Code. Goldens that had
+ * the Node server as oracle replay its recorded answers (scripts/oracle-tape.js).
  */
 
 const { spawn } = require('child_process');

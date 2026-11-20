@@ -1,0 +1,581 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": [
+     {
+      "range": {
+       "start": {
+        "line": 0,
+        "character": 0
+       },
+       "end": {
+        "line": 0,
+        "character": 1
+       }
+      },
+      "data": {
+       "kind": "impact",
+       "uri": "@@A0S48@@/custom/shared_callee.prg"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "codeLens/resolve",
+   "payload": {
+    "result": {
+     "range": {
+      "start": {
+       "line": 0,
+       "character": 0
+      },
+      "end": {
+       "line": 0,
+       "character": 1
+      }
+     },
+     "data": {
+      "kind": "impact",
+      "uri": "@@A0S48@@/custom/shared_callee.prg"
+     },
+     "command": {
+      "title": "Impact: 2 calls, 0 includes | Blast radius: 3 instances in 2 program(s)",
+      "command": "vertexadt.showImpactAnalysis",
+      "arguments": [
+       {
+        "uri": "@@A0S48@@/custom/shared_callee.prg",
+        "analysis": {
+         "incoming": {
+          "calls": 2,
+          "includes": 0,
+          "references": [
+           {
+            "fromPath": "@@A0S26@@/custom/caller_a.prg",
+            "fromDisplayPath": "caller_a.prg",
+            "fromUri": "@@A0S60@@/custom/caller_a.prg",
+            "line": 1,
+            "lineText": "ok = call(\"shared_callee.prg\", arg1)",
+            "type": "call",
+            "sourceSection": "",
+            "targetSection": ""
+           },
+           {
+            "fromPath": "@@A0S26@@/custom/caller_b.prg",
+            "fromDisplayPath": "caller_b.prg",
+            "fromUri": "@@A0S60@@/custom/caller_b.prg",
+            "line": 1,
+            "lineText": "ok = call(\"shared_callee.prg\", arg1)",
+            "type": "call",
+            "sourceSection": "",
+            "targetSection": ""
+           }
+          ]
+         },
+         "scopes": [
+          {
+           "rootPath": "@@A0S26@@/custom/caller_a.prg",
+           "rootDisplayPath": "caller_a.prg",
+           "rootUri": "@@A0S60@@/custom/caller_a.prg",
+           "files": [
+            {
+             "path": "@@A0S26@@/custom/caller_a.prg",
+             "displayPath": "caller_a.prg",
+             "uri": "@@A0S60@@/custom/caller_a.prg"
+            },
+            {
+             "path": "@@A0S26@@/custom/shared_callee.prg",
+             "displayPath": "shared_callee.prg",
+             "uri": "@@A0S60@@/custom/shared_callee.prg"
+            }
+           ],
+           "fileCount": 2
+          },
+          {
+           "rootPath": "@@A0S26@@/custom/caller_b.prg",
+           "rootDisplayPath": "caller_b.prg",
+           "rootUri": "@@A0S60@@/custom/caller_b.prg",
+           "files": [
+            {
+             "path": "@@A0S26@@/custom/caller_b.prg",
+             "displayPath": "caller_b.prg",
+             "uri": "@@A0S60@@/custom/caller_b.prg"
+            },
+            {
+             "path": "@@A0S26@@/custom/shared_callee.prg",
+             "displayPath": "shared_callee.prg",
+             "uri": "@@A0S60@@/custom/shared_callee.prg"
+            }
+           ],
+           "fileCount": 2
+          }
+         ],
+         "totalBlastRadiusFiles": 3
+        }
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": [
+     {
+      "range": {
+       "start": {
+        "line": 0,
+        "character": 0
+       },
+       "end": {
+        "line": 0,
+        "character": 1
+       }
+      },
+      "data": {
+       "kind": "impact",
+       "uri": "@@A0S48@@/custom/shared_include.prg"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "codeLens/resolve",
+   "payload": {
+    "result": {
+     "range": {
+      "start": {
+       "line": 0,
+       "character": 0
+      },
+      "end": {
+       "line": 0,
+       "character": 1
+      }
+     },
+     "data": {
+      "kind": "impact",
+      "uri": "@@A0S48@@/custom/shared_include.prg"
+     },
+     "command": {
+      "title": "Impact: 0 calls, 2 includes | Blast radius: 3 instances in 2 program(s)",
+      "command": "vertexadt.showImpactAnalysis",
+      "arguments": [
+       {
+        "uri": "@@A0S48@@/custom/shared_include.prg",
+        "analysis": {
+         "incoming": {
+          "calls": 0,
+          "includes": 2,
+          "references": [
+           {
+            "fromPath": "@@A0S26@@/custom/include_caller_a.prg",
+            "fromDisplayPath": "include_caller_a.prg",
+            "fromUri": "@@A0S60@@/custom/include_caller_a.prg",
+            "line": 0,
+            "lineText": "# include shared_include.prg",
+            "type": "include",
+            "sourceSection": "",
+            "targetSection": ""
+           },
+           {
+            "fromPath": "@@A0S26@@/custom/include_caller_b.prg",
+            "fromDisplayPath": "include_caller_b.prg",
+            "fromUri": "@@A0S60@@/custom/include_caller_b.prg",
+            "line": 0,
+            "lineText": "# include shared_include.prg",
+            "type": "include",
+            "sourceSection": "",
+            "targetSection": ""
+           }
+          ]
+         },
+         "scopes": [
+          {
+           "rootPath": "@@A0S26@@/custom/include_caller_a.prg",
+           "rootDisplayPath": "include_caller_a.prg",
+           "rootUri": "@@A0S60@@/custom/include_caller_a.prg",
+           "files": [
+            {
+             "path": "@@A0S26@@/custom/include_caller_a.prg",
+             "displayPath": "include_caller_a.prg",
+             "uri": "@@A0S60@@/custom/include_caller_a.prg"
+            },
+            {
+             "path": "@@A0S26@@/custom/shared_include.prg",
+             "displayPath": "shared_include.prg",
+             "uri": "@@A0S60@@/custom/shared_include.prg"
+            }
+           ],
+           "fileCount": 2
+          },
+          {
+           "rootPath": "@@A0S26@@/custom/include_caller_b.prg",
+           "rootDisplayPath": "include_caller_b.prg",
+           "rootUri": "@@A0S60@@/custom/include_caller_b.prg",
+           "files": [
+            {
+             "path": "@@A0S26@@/custom/include_caller_b.prg",
+             "displayPath": "include_caller_b.prg",
+             "uri": "@@A0S60@@/custom/include_caller_b.prg"
+            },
+            {
+             "path": "@@A0S26@@/custom/shared_include.prg",
+             "displayPath": "shared_include.prg",
+             "uri": "@@A0S60@@/custom/shared_include.prg"
+            }
+           ],
+           "fileCount": 2
+          }
+         ],
+         "totalBlastRadiusFiles": 3
+        }
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeLens",
+   "payload": {
+    "result": [
+     {
+      "range": {
+       "start": {
+        "line": 0,
+        "character": 0
+       },
+       "end": {
+        "line": 0,
+        "character": 1
+       }
+      },
+      "data": {
+       "kind": "impact",
+       "uri": "@@A0S48@@/custom/sub_included.prg"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "codeLens/resolve",
+   "payload": {
+    "result": {
+     "range": {
+      "start": {
+       "line": 0,
+       "character": 0
+      },
+      "end": {
+       "line": 0,
+       "character": 1
+      }
+     },
+     "data": {
+      "kind": "impact",
+      "uri": "@@A0S48@@/custom/sub_included.prg"
+     },
+     "command": {
+      "title": "Impact: 0 calls, 1 includes | Blast radius: 2 instances in 1 program(s)",
+      "command": "vertexadt.showImpactAnalysis",
+      "arguments": [
+       {
+        "uri": "@@A0S48@@/custom/sub_included.prg",
+        "analysis": {
+         "incoming": {
+          "calls": 0,
+          "includes": 1,
+          "references": [
+           {
+            "fromPath": "@@A0S26@@/custom/main_include.prg",
+            "fromDisplayPath": "main_include.prg",
+            "fromUri": "@@A0S60@@/custom/main_include.prg",
+            "line": 0,
+            "lineText": "# include sub_included.prg",
+            "type": "include",
+            "sourceSection": "",
+            "targetSection": ""
+           }
+          ]
+         },
+         "scopes": [
+          {
+           "rootPath": "@@A0S26@@/custom/main_include.prg",
+           "rootDisplayPath": "main_include.prg",
+           "rootUri": "@@A0S60@@/custom/main_include.prg",
+           "files": [
+            {
+             "path": "@@A0S26@@/custom/main_include.prg",
+             "displayPath": "main_include.prg",
+             "uri": "@@A0S60@@/custom/main_include.prg"
+            },
+            {
+             "path": "@@A0S26@@/custom/sub_included.prg",
+             "displayPath": "sub_included.prg",
+             "uri": "@@A0S60@@/custom/sub_included.prg"
+            }
+           ],
+           "fileCount": 2
+          }
+         ],
+         "totalBlastRadiusFiles": 2
+        }
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "method": "codeLens/resolve",
+   "payload": {
+    "result": {
+     "range": {
+      "start": {
+       "line": 0,
+       "character": 0
+      },
+      "end": {
+       "line": 0,
+       "character": 1
+      }
+     },
+     "data": {
+      "kind": "impact",
+      "uri": "@@A0S48@@/custom/caller_no_common.prg"
+     }
+    }
+   }
+  }
+ ]
+]

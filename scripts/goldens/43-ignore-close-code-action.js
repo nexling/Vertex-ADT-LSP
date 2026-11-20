@@ -6,7 +6,8 @@
  * Assertions from test-fixtures/unclosed-resources/TESTING.md (quick-fix
  * available; scenario 5: the suffix silences the warning).
  *
- * Oracle: the live Node language server (server/out/server.js --stdio)
+ * Oracle: the removed Node language server, replayed from
+ * scripts/goldens/oracle-tapes (scripts/oracle-tape.js)
  * answering the same textDocument/codeAction requests. Node's onCodeAction
  * consumes context.diagnostics without re-walking, so both servers get the
  * same request diagnostics and must return the same actions.
@@ -14,15 +15,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 
 const ROOT = path.resolve(__dirname, '../..');
 const FIXTURE = path.join(ROOT, 'test-fixtures', 'unclosed-resources');
 const CUSTOM = path.join(FIXTURE, 'custom');
 const ROOT_URI = pathToFileURL(FIXTURE).href;
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 
 const TITLE = 'Ignore missing close (;!IGNORE CLOSE)';
 const UNCLOSED = 'vertexadt/unclosed-resource';
@@ -71,13 +71,7 @@ function fixtureText(name) {
 
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        return new NodeOracleSession(child, options);
+        return replayOracle(NodeOracleSession, options, '43');
     }
 
     async initialize() {

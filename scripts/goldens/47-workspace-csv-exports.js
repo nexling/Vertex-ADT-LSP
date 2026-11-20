@@ -12,7 +12,8 @@
  *     file, gone with strict off, no System-twin path; `exportCustomOnly`)
  *   test-fixtures/local-slot-names/ scenario 7 (callee local-slot rows).
  *
- * Oracle: the live Node language server (`custom/export*` requests). Native
+ * Oracle: the removed Node language server's `custom/export*` answers and the
+ * CSV files it wrote, replayed from scripts/goldens/oracle-tapes. Native
  * and Node each get their own no-spaces temp copy of the fixture (Node's
  * findFile does not decode `%20`), and the CSV files they write are compared
  * byte for byte. Two extra temp files exercise the System-only gate and the
@@ -22,13 +23,12 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 
 const ROOT = path.resolve(__dirname, '../..');
 const FIXTURES = path.join(ROOT, 'test-fixtures');
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 
 const REPORTS = 'vertexadt.exportWorkspaceReports';
 const DIAGNOSTICS = 'vertexadt.exportWorkspaceDiagnostics';
@@ -73,13 +73,7 @@ function acceptRefreshes(session) {
 
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        const session = new NodeOracleSession(child, options);
+        const session = replayOracle(NodeOracleSession, options, '47');
         session.settings = { ...BASE_SETTINGS };
         return session;
     }

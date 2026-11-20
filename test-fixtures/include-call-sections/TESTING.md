@@ -1,6 +1,6 @@
 # Include/call path and section completion
 
-`textDocument/completion` adds this family on top of the cheap keyword-variable list, per [Specify include/call path and section completion](../../scratch/cpp-language-server-spec/issues/39-specify-include-call-path-and-section-completion.md). Golden: `scripts/goldens/32-include-call-completion.js` (`npm run test:goldens`). Workspace root is this folder (Custom is `custom/`, System is `system/`). The unknown-section diagnostic on the same fixtures is `scripts/goldens/19-unknown-section.js`; `run-include-call-sections-test.js` stays a Node slice-test.
+`textDocument/completion` adds this family on top of the cheap keyword-variable list, per [Specify include/call path and section completion](../../scratch/cpp-language-server-spec/issues/39-specify-include-call-path-and-section-completion.md). Golden: `scripts/goldens/32-include-call-completion.js` (`npm run test:goldens`). Workspace root is this folder (Custom is `custom/`, System is `system/`). The unknown-section diagnostic on the same fixtures is `scripts/goldens/19-unknown-section.js`.
 
 Every response for `vertexadt` is a `CompletionList` with `isIncomplete: false` that still contains the full cheap list. Family items are the ones with `sortText` (cheap items never set it). Non-`vertexadt` is `null`. Trigger characters: ` `, `,`, `(`, `/`, `"`, `)`.
 

@@ -1,0 +1,1438 @@
+{
+ "extractCallParametersFromText([\"#MACROS#\\nm1 = get($CALLPARAM1)\\nm2$ = get($CALLPARAM2)\\n#MACROS#\\n#EDIT_FORM#\\nform = get($CALLPARAM1)\\n#EDIT_FORM#\\n#SECTION1#\\nkeep = 1\\n#SECTION1#\\ntop = get($CALLPARAM9)\\n\",\"EDIT_FORM\"])": [
+  {
+   "result": [
+    {
+     "variableName": "form",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 5,
+     "sectionName": "EDIT_FORM"
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"#MACROS#\\nm1 = get($CALLPARAM1)\\nm2$ = get($CALLPARAM2)\\n#MACROS#\\n#EDIT_FORM#\\nform = get($CALLPARAM1)\\n#EDIT_FORM#\\n#SECTION1#\\nkeep = 1\\n#SECTION1#\\ntop = get($CALLPARAM9)\\n\",\"MACROS\"])": [
+  {
+   "result": [
+    {
+     "variableName": "m1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 1,
+     "sectionName": "MACROS"
+    },
+    {
+     "variableName": "m2$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 2,
+     "sectionName": "MACROS"
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"#MACROS#\\nm1 = get($CALLPARAM1)\\nm2$ = get($CALLPARAM2)\\n#MACROS#\\n#EDIT_FORM#\\nform = get($CALLPARAM1)\\n#EDIT_FORM#\\n#SECTION1#\\nkeep = 1\\n#SECTION1#\\ntop = get($CALLPARAM9)\\n\",\"NOPE\"])": [
+  {
+   "result": []
+  }
+ ],
+ "extractCallParametersFromText([\"#MACROS#\\nm1 = get($CALLPARAM1)\\nm2$ = get($CALLPARAM2)\\n#MACROS#\\n#EDIT_FORM#\\nform = get($CALLPARAM1)\\n#EDIT_FORM#\\n#SECTION1#\\nkeep = 1\\n#SECTION1#\\ntop = get($CALLPARAM9)\\n\",\"SECTION1\"])": [
+  {
+   "result": []
+  }
+ ],
+ "extractCallParametersFromText([\"#MACROS#\\nm1 = get($CALLPARAM1)\\nm2$ = get($CALLPARAM2)\\n#MACROS#\\n#EDIT_FORM#\\nform = get($CALLPARAM1)\\n#EDIT_FORM#\\n#SECTION1#\\nkeep = 1\\n#SECTION1#\\ntop = get($CALLPARAM9)\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "m1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 1,
+     "sectionName": "MACROS"
+    },
+    {
+     "variableName": "m2$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 2,
+     "sectionName": "MACROS"
+    },
+    {
+     "variableName": "form",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 5,
+     "sectionName": "EDIT_FORM"
+    },
+    {
+     "variableName": "top",
+     "parameterName": "CALLPARAM9",
+     "lineIndex": 10,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "m1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 1,
+     "sectionName": "MACROS"
+    },
+    {
+     "variableName": "m2$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 2,
+     "sectionName": "MACROS"
+    },
+    {
+     "variableName": "form",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 5,
+     "sectionName": "EDIT_FORM"
+    },
+    {
+     "variableName": "top",
+     "parameterName": "CALLPARAM9",
+     "lineIndex": 10,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"buf1 = get($CALLPARAM1) ;!\\\"from buffer\\\"\\nbuf2$ = get($CALLPARAM2)\\nbuf3 = get($CALLPARAM3)\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "buf1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "buf2$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "buf3",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"crlf1 = get($CALLPARAM1) ;!\\\"crlf comment\\\"\\r\\ncrlf2 = get($CALLPARAM2)\\r\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "crlf1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "crlf2",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "crlf1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "crlf2",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"disk1 = get($CALLPARAM1)\\ndisk2 = get($CALLPARAM2)\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "disk1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "disk2",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "disk1",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "disk2",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"obj = get($CALLPARAM1)\\nPanel = get($CALLPARAM2)\\niswall = get($CALLPARAM3)\\nexit\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "obj",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Panel",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "iswall",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"only = get($CALLPARAM1)\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "only",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "extractCallParametersFromText([\"w = get($CALLPARAM1) ;!\\\"plate width\\\"\\nName$ = get($CALLPARAM2) ;! \\\"has spaces\\\"\\ntag = get($CALLPARAM3) ;!\\\"[pvector] keep tag\\\"\\nOther = get($FOO) ;! no quotes\\n!a = get($CALLPARAM4) ;!\\\"\\\"\\nb = get($CALLPARAM5) ; x = 1 ;!\\\"after semicolon\\\"\\nc = get($CALLPARAM6) d = get($CALLPARAM7)\\nx = Get($CALLPARAM8)\\nexit\\n\",null])": [
+  {
+   "result": [
+    {
+     "variableName": "w",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Name$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "tag",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Other",
+     "parameterName": "FOO",
+     "lineIndex": 3,
+     "sectionName": ""
+    },
+    {
+     "variableName": "a",
+     "parameterName": "CALLPARAM4",
+     "lineIndex": 4,
+     "sectionName": ""
+    },
+    {
+     "variableName": "b",
+     "parameterName": "CALLPARAM5",
+     "lineIndex": 5,
+     "sectionName": ""
+    },
+    {
+     "variableName": "c",
+     "parameterName": "CALLPARAM6",
+     "lineIndex": 6,
+     "sectionName": ""
+    },
+    {
+     "variableName": "d",
+     "parameterName": "CALLPARAM7",
+     "lineIndex": 6,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "w",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Name$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "tag",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Other",
+     "parameterName": "FOO",
+     "lineIndex": 3,
+     "sectionName": ""
+    },
+    {
+     "variableName": "a",
+     "parameterName": "CALLPARAM4",
+     "lineIndex": 4,
+     "sectionName": ""
+    },
+    {
+     "variableName": "b",
+     "parameterName": "CALLPARAM5",
+     "lineIndex": 5,
+     "sectionName": ""
+    },
+    {
+     "variableName": "c",
+     "parameterName": "CALLPARAM6",
+     "lineIndex": 6,
+     "sectionName": ""
+    },
+    {
+     "variableName": "d",
+     "parameterName": "CALLPARAM7",
+     "lineIndex": 6,
+     "sectionName": ""
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "variableName": "w",
+     "parameterName": "CALLPARAM1",
+     "lineIndex": 0,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Name$",
+     "parameterName": "CALLPARAM2",
+     "lineIndex": 1,
+     "sectionName": ""
+    },
+    {
+     "variableName": "tag",
+     "parameterName": "CALLPARAM3",
+     "lineIndex": 2,
+     "sectionName": ""
+    },
+    {
+     "variableName": "Other",
+     "parameterName": "FOO",
+     "lineIndex": 3,
+     "sectionName": ""
+    },
+    {
+     "variableName": "a",
+     "parameterName": "CALLPARAM4",
+     "lineIndex": 4,
+     "sectionName": ""
+    },
+    {
+     "variableName": "b",
+     "parameterName": "CALLPARAM5",
+     "lineIndex": 5,
+     "sectionName": ""
+    },
+    {
+     "variableName": "c",
+     "parameterName": "CALLPARAM6",
+     "lineIndex": 6,
+     "sectionName": ""
+    },
+    {
+     "variableName": "d",
+     "parameterName": "CALLPARAM7",
+     "lineIndex": 6,
+     "sectionName": ""
+    }
+   ]
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"\",\"\"])": [
+  {
+   "result": {
+    "filePath": "",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"buffer_wins_callee.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "buffer_wins_callee.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "buffer_wins_callee.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "buffer_wins_callee.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "buffer_wins_callee.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"callee_commented.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "callee_commented.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_commented.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_commented.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"callee_three_params.prg SECTION\",\"\"])": [
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"callee_three_params.prg SECTIONOFFILE\",\"\"])": [
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"callee_three_params.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "callee_three_params.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"crlf_callee.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "crlf_callee.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "crlf_callee.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"empty_callee.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "empty_callee.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"file,callee_three_params.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "file,callee_three_params.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"missing.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "missing.prg",
+    "targetSection": null
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"sectional_callee.prg EDIT_FORM\",\"\"])": [
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": "EDIT_FORM"
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"sectional_callee.prg MACROS\",\"\"])": [
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": "MACROS"
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"sectional_callee.prg NOPE\",\"\"])": [
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": "NOPE"
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"sectional_callee.prg SECTION1\",\"\"])": [
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": "SECTION1"
+   }
+  }
+ ],
+ "parseIncludeCallPathAndSection([\"sectional_callee.prg\",\"\"])": [
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": null
+   }
+  },
+  {
+   "result": {
+    "filePath": "sectional_callee.prg",
+    "targetSection": null
+   }
+  }
+ ]
+}

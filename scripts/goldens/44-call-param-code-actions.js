@@ -8,7 +8,8 @@
  * quick-fix text, scenario 4 workspace fix) plus the extra-removal text the
  * Node smoke runner pins.
  *
- * Oracle: the live Node language server (server/out/server.js --stdio).
+ * Oracle: the removed Node language server, replayed from
+ * scripts/goldens/oracle-tapes (scripts/oracle-tape.js).
  * QuickFix actions must match Node byte for byte. SourceFixAll must not copy
  * Node's `character` vs `startCharacter` range bug, so it is asserted against
  * the batched QuickFix inserts instead. The workspace command is compared to
@@ -20,13 +21,12 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL, fileURLToPath } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 
 const ROOT = path.resolve(__dirname, '../..');
 const SOURCE_FIXTURE = path.join(ROOT, 'test-fixtures', 'call-param-validation');
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 
 const MISSING = 'vertexadt/missing-call-params';
 const EXTRA = 'vertexadt/extra-call-params';
@@ -67,13 +67,7 @@ function assertEqual(actual, expected, message) {
 
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        return new NodeOracleSession(child, options);
+        return replayOracle(NodeOracleSession, options, '44');
     }
 
     async initialize() {

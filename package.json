@@ -292,7 +292,7 @@
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
 		"harvest-catalogs": "node scripts/harvest-catalogs.js",
 		"test:goldens": "node scripts/lsp-golden-harness.js",
-		"test": "sh ./scripts/e2e.sh"
+		"test": "node scripts/lsp-golden-harness.js"
 	},
 	"devDependencies": {
 		"@types/mocha": "^10.0.6",

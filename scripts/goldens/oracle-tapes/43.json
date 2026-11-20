@@ -1,0 +1,1343 @@
+[
+ [
+  {
+   "method": "initialize",
+   "payload": {
+    "result": {
+     "capabilities": {
+      "textDocumentSync": 2,
+      "completionProvider": {
+       "resolveProvider": true
+      },
+      "signatureHelpProvider": {
+       "triggerCharacters": [
+        "(",
+        ",",
+        " "
+       ],
+       "retriggerCharacters": [
+        ",",
+        " "
+       ]
+      },
+      "diagnosticProvider": {
+       "interFileDependencies": true,
+       "workspaceDiagnostics": false
+      },
+      "semanticTokensProvider": {
+       "legend": {
+        "tokenTypes": [
+         "variable",
+         "iteratorVariable",
+         "edgeVariable",
+         "selemVariable",
+         "pieceEndVariable",
+         "vxgeomVariable",
+         "pieceVariable",
+         "sheetVariable",
+         "areaVariable",
+         "jointVariable",
+         "pointVariable",
+         "slopeVariable",
+         "polylineVariable",
+         "arrayVariable",
+         "valueVariable",
+         "wallVariable",
+         "booleanVariable",
+         "pvectorVariable",
+         "xvectorVariable",
+         "yvectorVariable",
+         "zvectorVariable",
+         "nvectorVariable",
+         "lineVariable",
+         "hatchVariable",
+         "textVariable",
+         "dvectorVariable",
+         "macroVariable",
+         "databaselistVariable",
+         "databaseVariable",
+         "validatedCommandVariable"
+        ],
+        "tokenModifiers": [
+         "readonly",
+         "declaration"
+        ]
+       },
+       "full": true
+      },
+      "definitionProvider": true,
+      "referencesProvider": true,
+      "codeLensProvider": {
+       "resolveProvider": true
+      },
+      "codeActionProvider": {
+       "resolveProvider": false,
+       "codeActionKinds": [
+        "quickfix",
+        "source.fixAll"
+       ]
+      },
+      "workspace": {
+       "workspaceFolders": {
+        "supported": true
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 9
+         }
+        },
+        "message": "Database 1 is opened here and not closed in this execution tree",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/unclosed_dbopen.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 22
+           },
+           "end": {
+            "line": 0,
+            "character": 22
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 9
+         }
+        },
+        "message": "ALREADY_OPEN database 1 is aliased here and not closed in this execution tree",
+        "severity": 3,
+        "code": "vertexadt/unclosed-already-open",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/already_open.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 32
+           },
+           "end": {
+            "line": 0,
+            "character": 32
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 21
+         }
+        },
+        "message": "Included code opens database 1 which is not closed in this file",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "relatedInformation": [
+         {
+          "location": {
+           "uri": "@@A0S61@@/custom/opener.prg",
+           "range": {
+            "start": {
+             "line": 0,
+             "character": 0
+            },
+            "end": {
+             "line": 0,
+             "character": 9
+            }
+           }
+          },
+          "message": "Database 1 is opened here and not closed in this execution tree"
+         }
+        ],
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/include_opener.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 20
+           },
+           "end": {
+            "line": 0,
+            "character": 20
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_0.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 15
+           },
+           "end": {
+            "line": 0,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_1.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 22
+           },
+           "end": {
+            "line": 0,
+            "character": 22
+           }
+          },
+          "newText": " IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_7.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 31
+           },
+           "end": {
+            "line": 0,
+            "character": 31
+           }
+          },
+          "newText": " IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_8.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 31
+           },
+           "end": {
+            "line": 0,
+            "character": 31
+           }
+          },
+          "newText": " IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_9.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 31
+           },
+           "end": {
+            "line": 0,
+            "character": 31
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_10.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 30
+           },
+           "end": {
+            "line": 0,
+            "character": 30
+           }
+          },
+          "newText": " IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_11.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 16
+           },
+           "end": {
+            "line": 0,
+            "character": 16
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_12.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 15
+           },
+           "end": {
+            "line": 1,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_13.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 16
+           },
+           "end": {
+            "line": 0,
+            "character": 16
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_14.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 26
+           },
+           "end": {
+            "line": 0,
+            "character": 26
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_15.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 18
+           },
+           "end": {
+            "line": 0,
+            "character": 18
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 1
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_16.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 15
+           },
+           "end": {
+            "line": 1,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax"
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_17.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 15
+           },
+           "end": {
+            "line": 1,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 1,
+          "character": 0
+         },
+         "end": {
+          "line": 1,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": "0"
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_18.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 1,
+            "character": 15
+           },
+           "end": {
+            "line": 1,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 9,
+          "character": 0
+         },
+         "end": {
+          "line": 9,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 9
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_19.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 9,
+            "character": 0
+           },
+           "end": {
+            "line": 9,
+            "character": 0
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_20.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 20
+           },
+           "end": {
+            "line": 0,
+            "character": 20
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_20.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 20
+           },
+           "end": {
+            "line": 0,
+            "character": 20
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 3,
+        "code": "vertexadt/unclosed-already-open",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_21.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 27
+           },
+           "end": {
+            "line": 0,
+            "character": 27
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_22.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 15
+           },
+           "end": {
+            "line": 0,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": [
+     {
+      "title": "Ignore missing close (;!IGNORE CLOSE)",
+      "kind": "quickfix",
+      "diagnostics": [
+       {
+        "range": {
+         "start": {
+          "line": 0,
+          "character": 0
+         },
+         "end": {
+          "line": 0,
+          "character": 1
+         }
+        },
+        "message": "synthetic",
+        "severity": 2,
+        "code": "vertexadt/unclosed-resource",
+        "source": "ADT-Syntax",
+        "data": {
+         "line": 0
+        }
+       }
+      ],
+      "edit": {
+       "changes": {
+        "@@A0S49@@/custom/synthetic_23.prg": [
+         {
+          "range": {
+           "start": {
+            "line": 0,
+            "character": 15
+           },
+           "end": {
+            "line": 0,
+            "character": 15
+           }
+          },
+          "newText": " ;!IGNORE CLOSE"
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "textDocument/codeAction",
+   "payload": {
+    "result": []
+   }
+  },
+  {
+   "method": "shutdown",
+   "payload": {
+    "result": null
+   }
+  }
+ ]
+]

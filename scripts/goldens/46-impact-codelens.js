@@ -11,7 +11,8 @@
  *   `Impact: 2 calls, 0 includes | Blast radius: 3 instances in 2 program(s)`
  *   `Impact: 0 calls, 1 includes | Blast radius: 2 instances in 1 program(s)`
  *
- * Oracle: the live Node language server (server/out/server.js --stdio). Every
+ * Oracle: the removed Node language server, replayed from
+ * scripts/goldens/oracle-tapes (scripts/oracle-tape.js). Every
  * fixture file is compared list and resolve, with no document open, so the
  * native startup index walk is what fills the index. Node keys paths by
  * lowercase absolute path; native by overlay identity (lowercase
@@ -23,13 +24,12 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL, fileURLToPath } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 
 const ROOT = path.resolve(__dirname, '../..');
 const SOURCE_FIXTURE = path.join(ROOT, 'test-fixtures', 'workspace-declaration-index');
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 
 const COMMAND = 'vertexadt.showImpactAnalysis';
 const BASE_SETTINGS = { maxNumberOfProblems: 100 };
@@ -82,13 +82,7 @@ function recordRefreshes(session) {
 
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        return new NodeOracleSession(child, options);
+        return replayOracle(NodeOracleSession, options, '46');
     }
 
     async initialize() {

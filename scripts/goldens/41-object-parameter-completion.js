@@ -4,7 +4,8 @@
  * Parity goldens for object-parameter completion.
  * Assertions from test-fixtures/object-parameter-completion/TESTING.md.
  *
- * Oracle: the live Node language server (server/out/server.js --stdio)
+ * Oracle: the removed Node language server, replayed from
+ * scripts/goldens/oracle-tapes (scripts/oracle-tape.js)
  * answering custom/getVariableObjectType and custom/getObjectParameters, run
  * through the client host's extractGetCommandInfo + item mapping
  * (client/out/extension.js), folded into ordinary textDocument/completion.
@@ -15,15 +16,14 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 const { pathToFileURL } = require('url');
 const { LspSession } = require('../lsp-golden-harness');
+const { replayOracle } = require('../oracle-tape');
 const ranking = require('../completion-ranking');
 
 const ROOT = path.resolve(__dirname, '../..');
 const FIXTURE = path.join(ROOT, 'test-fixtures', 'object-parameter-completion');
 const MACRO_SYS = path.join(ROOT, 'test-fixtures', 'vertex-dbase-converter', 'custom', 'complibs', 'macro_sys');
-const NODE_SERVER = path.join(ROOT, 'server', 'out', 'server.js');
 const PROPERTY_KIND = 10;
 const XML_TIMEOUT_MS = 60000;
 
@@ -85,13 +85,7 @@ function hostItem(command, param) {
 // two custom requests.
 class NodeOracleSession extends LspSession {
     static launchNode(options) {
-        const child = spawn(process.execPath, [NODE_SERVER, '--stdio'], {
-            cwd: ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            windowsHide: true,
-        });
-        child.stdin.setDefaultEncoding('utf8');
-        return new NodeOracleSession(child, options);
+        return replayOracle(NodeOracleSession, options, '41');
     }
 
     async initialize() {

@@ -1,0 +1,2636 @@
+{
+ "analyzeFormNameCompletion([\"! edit_obj_data(Obj, \\\"\",22])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"\",0])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\".edit_obj_data(Obj,\\\"\",20])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"Dbedit(1, \\\"\",11])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 11,
+    "replaceEnd": 11
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 11,
+    "replaceEnd": 11
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"EDIT_OBJ_DATA(Obj, \\\"\",20])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"Ok=edit_obj_data(Obj,\\\"\",22])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"\\tedit_obj_data\\t(Obj,\\t\\\"\",22])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 22,
+    "replaceEnd": 22
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit 1, \\\"\",11])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(,\\\"form\",13])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 9,
+    "replaceEnd": 13
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 9,
+    "replaceEnd": 13
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,\",9])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 9,
+    "replaceEnd": 9
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,'form\",14])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "'",
+    "replaceStart": 10,
+    "replaceEnd": 14
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "'",
+    "replaceStart": 10,
+    "replaceEnd": 14
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,'vxf.form')\",12])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "'",
+    "replaceStart": 10,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "'",
+    "replaceStart": 10,
+    "replaceEnd": 18
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,\\\"\",10])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 10,
+    "replaceEnd": 10
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 10,
+    "replaceEnd": 10
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,\\\"a\\\") set_macro_form(M) \\\"\",33])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 33,
+    "replaceEnd": 33
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 33,
+    "replaceEnd": 33
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbedit(1,\\\"foo/bar\",17])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 10,
+    "replaceEnd": 17
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 10,
+    "replaceEnd": 17
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbeditfrm 1, \\\"\",14])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbeditfrm(1, \\\"\",14])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"dbledit(1, \\\"\",12])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_jnt_data(conn,\\\"form.vxf\\\")\",30])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data (Obj, \\\"\",21])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 21,
+    "replaceEnd": 21
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 21,
+    "replaceEnd": 21
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(\",14])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(, \\\"\",17])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 17,
+    "replaceEnd": 17
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 17,
+    "replaceEnd": 17
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj\",14])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj\",17])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, Form$\",19])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, Form$\",20])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, Form$\",24])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"\",0])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"\",13])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"\",20])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"a;b\\\",0)\",22])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 23
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 20,
+    "replaceEnd": 23
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"form.vxf\\\" \",30])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"form.vxf\\\", \",31])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"form.vxf\\\",0)\",19])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"x\\\") ; comment\",26])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, \\\"x\\\") ; comment\",33])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj, ascii(65)\",28])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\",18])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,)\",18])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\\\"form\",23])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 23
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 23
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\\\"form.vxf\\\")\",29])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\\\"form.vxf\\\",0)\",18])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 18,
+    "replaceEnd": 18
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\\\"form.vxf\\\",0)\",23])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 27
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 27
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(Obj,\\\"form.vxf\\\",0)\",27])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 27
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 19,
+    "replaceEnd": 27
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"edit_obj_data(foo(a,b), \\\"\",25])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 25,
+    "replaceEnd": 25
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 25,
+    "replaceEnd": 25
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"new_macro(\\\"LIB\\\"\",15])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"ok = edit_jnt_data(conn, \",25])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 25,
+    "replaceEnd": 25
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 25,
+    "replaceEnd": 25
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form()\",16])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 16,
+    "replaceEnd": 16
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 16,
+    "replaceEnd": 16
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac\",15])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac\",18])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac) \",20])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 20,
+    "replaceEnd": 20
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac) \\\"a\\\", \\\"\",26])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac) \\\"form\",25])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 21,
+    "replaceEnd": 25
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 21,
+    "replaceEnd": 25
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac) \\\"form.vxf\\\"\",30])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac) dbedit(1,\\\"\",30])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 30,
+    "replaceEnd": 30
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 30,
+    "replaceEnd": 30
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac)\",15])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac)\",18])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac)\",19])": [
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": false,
+    "quoteChar": null,
+    "replaceStart": 19,
+    "replaceEnd": 19
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"set_macro_form(Mac, \\\"\",21])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"x = 1; edit_obj_data(Obj, \\\"\",27])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"xedit_obj_data(Obj, \\\"\",21])": [
+  {
+   "result": null
+  },
+  {
+   "result": null
+  }
+ ],
+ "analyzeFormNameCompletion([\"Å = edit_obj_data(Obj, \\\"fo\",26])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 24,
+    "replaceEnd": 26
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 24,
+    "replaceEnd": 26
+   }
+  }
+ ],
+ "analyzeFormNameCompletion([\"😀 edit_obj_data(Obj, \\\"form\\\"\",25])": [
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 23,
+    "replaceEnd": 27
+   }
+  },
+  {
+   "result": {
+    "insideQuotes": true,
+    "quoteChar": "\"",
+    "replaceStart": 23,
+    "replaceEnd": 27
+   }
+  }
+ ],
+ "collectWorkspaceFormNames([{\"workspaceRoot\":\"<ROOT>/test-fixtures/cheap-hover-completion\",\"customName\":\"custom\",\"workspaceFolders\":[\"<ROOT>/test-fixtures/cheap-hover-completion\"]}])": [
+  {
+   "result": []
+  }
+ ],
+ "collectWorkspaceFormNames([{\"workspaceRoot\":\"<ROOT>/test-fixtures/form-name-completion\",\"customName\":\"custom\",\"workspaceFolders\":[\"<ROOT>/test-fixtures/form-name-completion\"]}])": [
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  }
+ ],
+ "collectWorkspaceFormNames([{\"workspaceRoot\":\"<ROOT>/test-fixtures/form-name-completion\",\"customName\":\"custom\",\"workspaceFolders\":[\"<ROOT>/test-fixtures/form-name-completion/custom\",\"<ROOT>/test-fixtures/form-name-completion/system\"]}])": [
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  }
+ ],
+ "collectWorkspaceFormNames([{\"workspaceRoot\":\"<ROOT>/test-fixtures/form-name-completion/custom\",\"customName\":\"custom\",\"workspaceFolders\":[\"<ROOT>/test-fixtures/form-name-completion/custom\"]}])": [
+  {
+   "result": [
+    {
+     "name": "alpha.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "notes.txt",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "shared.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "system_only.vxf",
+     "origin": "system/forms"
+    }
+   ]
+  }
+ ],
+ "collectWorkspaceFormNames([{\"workspaceRoot\":\"<TMP>\",\"customName\":\"customa\",\"workspaceFolders\":[\"<TMP>\"]}])": [
+  {
+   "result": [
+    {
+     "name": "_under.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "1num.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "a-b.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "a.b.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "ab.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "Ångest.vxf",
+     "origin": "system/forms"
+    },
+    {
+     "name": "Ärende.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "Beta.vxf",
+     "origin": "system/forms"
+    },
+    {
+     "name": "D_part.vxm",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "noext",
+     "origin": "system/forms"
+    },
+    {
+     "name": "Shared.VXF",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "zeta.vxf",
+     "origin": "custom/forms"
+    }
+   ]
+  },
+  {
+   "result": [
+    {
+     "name": "_under.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "1num.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "a-b.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "a.b.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "ab.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "Ångest.vxf",
+     "origin": "system/forms"
+    },
+    {
+     "name": "Ärende.vxf",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "Beta.vxf",
+     "origin": "system/forms"
+    },
+    {
+     "name": "D_part.vxm",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "late.vxf",
+     "origin": "system/forms"
+    },
+    {
+     "name": "noext",
+     "origin": "system/forms"
+    },
+    {
+     "name": "Shared.VXF",
+     "origin": "custom/forms"
+    },
+    {
+     "name": "zeta.vxf",
+     "origin": "custom/forms"
+    }
+   ]
+  }
+ ],
+ "formInsertText([\"1num.vxf\",true])": [
+  {
+   "result": "1num.vxf"
+  },
+  {
+   "result": "1num.vxf"
+  }
+ ],
+ "formInsertText([\"Beta.vxf\",true])": [
+  {
+   "result": "Beta.vxf"
+  },
+  {
+   "result": "Beta.vxf"
+  }
+ ],
+ "formInsertText([\"D_part.vxm\",true])": [
+  {
+   "result": "D_part.vxm"
+  },
+  {
+   "result": "D_part.vxm"
+  }
+ ],
+ "formInsertText([\"Shared.VXF\",true])": [
+  {
+   "result": "Shared.VXF"
+  },
+  {
+   "result": "Shared.VXF"
+  }
+ ],
+ "formInsertText([\"_under.vxf\",true])": [
+  {
+   "result": "_under.vxf"
+  },
+  {
+   "result": "_under.vxf"
+  }
+ ],
+ "formInsertText([\"a-b.vxf\",true])": [
+  {
+   "result": "a-b.vxf"
+  },
+  {
+   "result": "a-b.vxf"
+  }
+ ],
+ "formInsertText([\"a.b.vxf\",true])": [
+  {
+   "result": "a.b.vxf"
+  },
+  {
+   "result": "a.b.vxf"
+  }
+ ],
+ "formInsertText([\"ab.vxf\",true])": [
+  {
+   "result": "ab.vxf"
+  },
+  {
+   "result": "ab.vxf"
+  }
+ ],
+ "formInsertText([\"alpha.vxf\",false])": [
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  },
+  {
+   "result": "\"alpha.vxf\""
+  }
+ ],
+ "formInsertText([\"alpha.vxf\",true])": [
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  },
+  {
+   "result": "alpha.vxf"
+  }
+ ],
+ "formInsertText([\"late.vxf\",true])": [
+  {
+   "result": "late.vxf"
+  }
+ ],
+ "formInsertText([\"noext\",true])": [
+  {
+   "result": "noext"
+  },
+  {
+   "result": "noext"
+  }
+ ],
+ "formInsertText([\"notes.txt\",false])": [
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  },
+  {
+   "result": "\"notes.txt\""
+  }
+ ],
+ "formInsertText([\"notes.txt\",true])": [
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  },
+  {
+   "result": "notes.txt"
+  }
+ ],
+ "formInsertText([\"shared.vxf\",false])": [
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  },
+  {
+   "result": "\"shared.vxf\""
+  }
+ ],
+ "formInsertText([\"shared.vxf\",true])": [
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  },
+  {
+   "result": "shared.vxf"
+  }
+ ],
+ "formInsertText([\"system_only.vxf\",false])": [
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  },
+  {
+   "result": "\"system_only.vxf\""
+  }
+ ],
+ "formInsertText([\"system_only.vxf\",true])": [
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  },
+  {
+   "result": "system_only.vxf"
+  }
+ ],
+ "formInsertText([\"zeta.vxf\",true])": [
+  {
+   "result": "zeta.vxf"
+  },
+  {
+   "result": "zeta.vxf"
+  }
+ ],
+ "formInsertText([\"Ärende.vxf\",true])": [
+  {
+   "result": "Ärende.vxf"
+  },
+  {
+   "result": "Ärende.vxf"
+  }
+ ],
+ "formInsertText([\"Ångest.vxf\",true])": [
+  {
+   "result": "Ångest.vxf"
+  },
+  {
+   "result": "Ångest.vxf"
+  }
+ ]
+}
