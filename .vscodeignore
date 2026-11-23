@@ -24,4 +24,6 @@ server/vertex-adt-ls.*.exe
 node_modules/**
 client/out/**
 !client/out/extension.js
+!client/out/slotSuggest.js
+!client/out/signatureFollow.js
 !ADT-documentation/*explainer.png

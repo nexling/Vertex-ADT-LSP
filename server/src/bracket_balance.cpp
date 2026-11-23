@@ -8,11 +8,8 @@
 #include <optional>
 
 namespace vertexadt {
-namespace {
 
-// Whole lines the check never reads: blank, `!` comments, `##` directives and
-// `#NAME#` section markers (the same set as the concat-whitespace walk).
-bool skipLine(std::string_view raw)
+bool isNonCodeLine(std::string_view raw)
 {
   const auto trimmed = trim(raw);
   if (trimmed.empty() || trimmed.front() == '!')
@@ -25,20 +22,6 @@ bool skipLine(std::string_view raw)
   }
   return trimmed.size() > 1 && trimmed.front() == '#' && trimmed.back() == '#';
 }
-
-bool isWordChar(char ch)
-{
-  return std::isalnum(static_cast<unsigned char>(ch)) != 0 || ch == '_';
-}
-
-// The code part of one physical line: everything before the first unquoted
-// `;!` comment, without a trailing `\` continuation. `continued` reports that
-// `\`. A bare `!` is code: it is logical NOT (`if (!a) then`, `!=`).
-struct CodeSpan
-{
-  std::string_view code;
-  bool continued = false;
-};
 
 auto codeOf(std::string_view raw) -> CodeSpan
 {
@@ -82,6 +65,13 @@ auto codeOf(std::string_view raw) -> CodeSpan
   }
   out.code = code;
   return out;
+}
+
+namespace {
+
+bool isWordChar(char ch)
+{
+  return std::isalnum(static_cast<unsigned char>(ch)) != 0 || ch == '_';
 }
 
 // `name` directly before `at` (word chars, optionally ending in `$`), or empty
@@ -254,7 +244,7 @@ auto findBracketIssues(
   for (int index = 0; index < static_cast<int>(lines.size()); ++index)
   {
     const auto raw = lines[static_cast<std::size_t>(index)];
-    if (skipLine(raw) || lineInVerificationIgnoredSection(index, sections))
+    if (isNonCodeLine(raw) || lineInVerificationIgnoredSection(index, sections))
     {
       walker.flush();
       continue;

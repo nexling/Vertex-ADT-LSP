@@ -62,13 +62,22 @@ struct SlotTyping
 // itself (cached textEdit ranges are stretched to the cursor on reuse).
 [[nodiscard]] auto slotListingKey(const SlotTyping& typing) -> std::string;
 
+// Whether reopening the popup would only offer what is already typed: the one
+// shaped item's label is the typed text, case included (docs/adr/0021).
+[[nodiscard]] bool isOnlyExactMatch(
+  const std::vector<lsp::CompletionItem>& items,
+  const SlotTyping& typing);
+
 // The last raw listing per (document, family). `reuse` (a re-request for an
-// incomplete list) returns the stored listing when its key matches; otherwise
+// incomplete list) returns the stored listing when its key matches, with
+// textEdit ends at or after the stored cursor moved by the line's growth or
+// shrinkage since (text right of the slot keeps its place); otherwise
 // `compute` runs and its listing is stored. Nullopt (canceled) is not stored.
 [[nodiscard]] auto cachedSlotListing(
   std::string_view uri,
   CompletionFamily family,
   const std::string& key,
+  const SlotTyping& typing,
   bool reuse,
   const std::function<std::optional<std::vector<lsp::CompletionItem>>()>& compute)
   -> std::optional<std::vector<lsp::CompletionItem>>;

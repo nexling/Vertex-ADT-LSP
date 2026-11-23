@@ -867,6 +867,8 @@ const FAMILY_GOLDENS = [
     '60-inferred-included-from',
     '61-program-move',
     '62-self-reassign-types',
+    '63-slot-popup-reopens',
+    '64-signature-box-follows-the-cursor',
 ];
 
 async function runFamilyGoldens() {

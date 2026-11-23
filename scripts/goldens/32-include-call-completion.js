@@ -242,7 +242,17 @@ async function run(session) {
             assertEqual(item.kind, 19, `${item.label} kind Folder`);
             assertEqual(item.sortText, `0${item.label}`, `${item.label} sortText`);
             assert(item.insertText === undefined, `${item.label} inserts the label`);
-            assert(item.textEdit === undefined, `${item.label} has no textEdit`);
+            assertEqual(
+                item.textEdit,
+                {
+                    range: {
+                        start: { line: 1, character: empty.length },
+                        end: { line: 1, character: empty.length },
+                    },
+                    newText: item.label,
+                },
+                `${item.label} replaces the typed segment`
+            );
         }
     }
 
@@ -266,7 +276,7 @@ async function run(session) {
     assertEqual(byLabel.both_target.detail, '1 section', 'both_target detail');
     assert(byLabel['sys_only.prg'].detail === undefined, 'nameless file has no detail');
     for (const item of items) {
-        assert(item.textEdit === undefined, `${item.label} path item has no textEdit`);
+        assertEqual(item.textEdit.newText, item.label, `${item.label} path item replaces the typed segment`);
     }
 
     // ##included_from: paths forever, no attached names.

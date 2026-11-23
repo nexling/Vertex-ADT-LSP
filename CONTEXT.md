@@ -85,8 +85,12 @@ The `textDocument/completion` items for leftover callee parameter names after a 
 _Avoid_: call-param count check, signature help, include/call path and section completion, `$CALLPARAMn` (when these LHS names are meant)
 
 **Signature help**:
-Ordinary `textDocument/signatureHelp` for the active catalog command or parenthesized `call(`. Catalog labels are inside vs after-paren structure; `call(` uses `path` plus remaining-param left-hand names from the buffer-wins extract. Null when parens are closed and there are no after-paren params.
+Ordinary `textDocument/signatureHelp` for the active catalog command or parenthesized `call(`. Catalog labels are inside vs after-paren structure; `call(` uses `path` plus remaining-param left-hand names from the buffer-wins extract. The innermost enclosing command with something to show wins; `\` lines count as one. Null past the last argument, in comments, and for a `call(` whose callee is missing or has no inputs.
 _Avoid_: remaining-param completion (when the comma list is meant), keyword-variable completion (when catalog `insertText` is meant)
+
+**Signature box following**:
+Moving a single cursor into a command's arguments reopens the signature help box. Escape keeps it closed until the cursor leaves that command's arguments. See `docs/adr/0022-signature-box-follows-the-cursor.md`.
+_Avoid_: slot popup reopening (the suggestion popup, which cursor movement never opens)
 
 **Cross-call type**:
 An object type that a `name = get($CALLPARAMn)` read takes from the nth argument at every resolved `call(` site (workspace index callers, buffer-wins), written into the callee's type timeline. It beats the `[type]` comment. Callers that disagree leave it untyped. Native only; see `docs/adr/0009-native-cross-call-types.md`.
@@ -143,6 +147,10 @@ _Avoid_: fuzzy match (VS Code's client filter, still used for keywords), prefix 
 **Trigger-character completion**:
 In the native server, typing a completion trigger character (space, `,`, `(`, `/`, `"`, `)`) opens a popup only where a completion family adds items. Otherwise the keyword-variable list waits for the first word character (VS Code quick suggestions). Ctrl+Space always gives the full list. See `docs/adr/0007-native-trigger-characters-open-family-sites-only.md`.
 _Avoid_: suggestions on space (the old behaviour), specials-only popup (keywords still show at a family site)
+
+**Slot popup reopening**:
+After an edit in a slot, the client asks the server quietly (`vertexadt/slotCompletionProbe`) whether slot items match, and reopens the suggestion popup if they do. See `docs/adr/0021-native-slot-popup-reopens.md`.
+_Avoid_: retrigger on every keystroke (the probe decides)
 
 **Vertex Dbase Converter helper**:
 The spawned Windows executable `Vertex_Dbase_Converter.exe` that exports a Vertex `d_*` database to sidecar XML.

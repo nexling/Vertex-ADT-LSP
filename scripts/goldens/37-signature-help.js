@@ -12,6 +12,9 @@
  * parenthesized `call(` labelled `path` plus the callee's buffer-wins
  * remaining-param extract.
  *
+ * Rows marked NEW differ from the oracle on purpose
+ * (docs/adr/0022-signature-box-follows-the-cursor.md); see also golden 64.
+ *
  * The Node helper results are replayed from
  * scripts/goldens/oracle-tapes/37-*.json (scripts/oracle-tape.js); the Node
  * server was removed on 2026-11-20 (ADR 0018).
@@ -251,9 +254,15 @@ function summary(help) {
 }
 
 // Native help equals the oracle; optional `expected` pins [label, activeParameter] or null.
-async function check(probe, buffers, text, name, expected, context) {
+async function check(probe, buffers, text, name, expected, context, isNew) {
     const { result, prefix } = await probe.at(text, context);
-    assertEqual(result, oracleHelp(prefix, buffers), `${name}: matches the oracle`);
+    if (result) {
+        // Input comments are native only (golden 64).
+        result.signatures[0].parameters.forEach((parameter) => delete parameter.documentation);
+    }
+    if (!isNew) {
+        assertEqual(result, oracleHelp(prefix, buffers), `${name}: matches the oracle`);
+    }
     if (expected !== undefined) {
         assertEqual(summary(result), expected, `${name}: label and active parameter`);
     }
@@ -265,6 +274,7 @@ const SR_AFTER = 'set_regenerable regenerable value';
 const THREE = 'callee_three_params.prg';
 const THREE_LABEL = (name = 'call') => `${name}(path, obj, Panel, iswall)`;
 
+const NEW = true;
 const ROWS = [
     // Active command and comma walk.
     ['set_regenerable(', [SR_OPEN, 0]],
@@ -272,15 +282,15 @@ const ROWS = [
     ['Ret$=set_regenerable(', [SR_OPEN, 0]],
     ['    set_regenerable(', [SR_OPEN, 0]],
     ['x = 1; set_regenerable(', [SR_OPEN, 0]],
-    ['!set_regenerable(', [SR_OPEN, 0]],
+    ['!set_regenerable(', null, NEW],
     ['SET_REGENERABLE(', ['SET_REGENERABLE(input object) regenerable value', 0]],
     ['set_regenerable(Sheet,', null],
     ['set_regenerable("a,b"', [SR_OPEN, 0]],
-    ["set_regenerable('a,b'", null],
+    ["set_regenerable('a,b'", [SR_OPEN, 0], NEW],
     ['set_regenerable(Sheet)', [SR_AFTER, 0]],
     ['set_regenerable(Sheet) 0,', null],
     ['set_regenerable(map_size(', ['map_size(map name)', 0]],
-    ['set_regenerable(foo(', null],
+    ['set_regenerable(foo(', [SR_OPEN, 0], NEW],
     ['map_size("n"', ['map_size(map name)', 0]],
     ['map_size("n")', null],
     ['map_size("n", extra', null],
@@ -303,7 +313,7 @@ const ROWS = [
     ['f = new_feature(a, b,', ['new_feature(param1, param2, param3)', 2]],
     ['f = new_feature(a, b, c,', null],
     // Parenthesized `call(`.
-    ['call(', ['call(path)', 0]],
+    ['call(', null, NEW],
     [`call("${THREE}"`, [THREE_LABEL(), 0]],
     [`call("${THREE}",`, [THREE_LABEL(), 1]],
     [`call("${THREE}", Area`, [THREE_LABEL(), 1]],
@@ -314,7 +324,7 @@ const ROWS = [
     [`call ("${THREE}",`, [THREE_LABEL(), 1]],
     [`Ret$=call("${THREE}",`, [THREE_LABEL(), 1]],
     [`x = 1; call("${THREE}",`, [THREE_LABEL(), 1]],
-    [`!call("${THREE}",`, [THREE_LABEL(), 1]],
+    [`!call("${THREE}",`, null, NEW],
     [`call(${THREE},`, [THREE_LABEL(), 1]],
     [`call('${THREE}',`, [THREE_LABEL(), 1]],
     ['call("file,name.prg",', [THREE_LABEL(), 1]],
@@ -323,7 +333,7 @@ const ROWS = [
     ['call("sectional_callee.prg", MACROS,', ['call(path, mac, form, whole)', 2]],
     ['call("sectional_callee.prg SECTION",', ['call(path, mac, form, whole)', 1]],
     ['call("crlf_callee.prg",', ['call(path, Name$, count)', 1]],
-    ['call("missing.prg"', ['call(path)', 0]],
+    ['call("missing.prg"', null, NEW],
     ['call("missing.prg",', null],
     ['call("empty_callee.prg",', null],
     [`call ${THREE},`, null],
@@ -344,8 +354,8 @@ async function run(session) {
     const buffers = new Map();
     const probe = new Probe(session, 'caller.prg');
 
-    for (const [prefix, expected] of ROWS) {
-        await check(probe, buffers, prefix, prefix, expected);
+    for (const [prefix, expected, isNew] of ROWS) {
+        await check(probe, buffers, prefix, prefix, expected, undefined, isNew);
     }
 
     // Payload shape: one signature, parameters are `{label}` only, inside then after while in parens.

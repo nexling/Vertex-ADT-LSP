@@ -184,6 +184,23 @@ auto heavyRequest(
   });
 }
 
+// Quiet slot check (docs/adr/0021-native-slot-popup-reopens.md).
+struct SlotCompletionProbeRequest
+{
+  static constexpr auto Kind = lsp::MessageKind::Request;
+  using Params = lsp::CompletionParams;
+  using Result = lsp::TextDocumentCompletionResult;
+};
+
+// Which commands' arguments hold the cursor
+// (docs/adr/0022-signature-box-follows-the-cursor.md).
+struct SignatureHelpSitesRequest
+{
+  static constexpr auto Kind = lsp::MessageKind::Request;
+  using Params = lsp::TextDocumentPositionParams;
+  using Result = lsp::Array<lsp::Position>;
+};
+
 struct ReferencesRequest
 {
   static constexpr auto Kind = lsp::MessageKind::Request;
@@ -225,6 +242,365 @@ auto main() -> int
         [&] {
           endpoint.workspaceCodeLensRefresh([](auto&&) {});
         },
+    };
+
+    // textDocument/completion and, with `probe`, vertexadt/slotCompletionProbe:
+    // the same slot families without the keyword-variable list.
+    const auto completionRequest = [&](lsp::CompletionParams&& params, bool probe)
+      -> lsp::RequestResult<lsp::TextDocumentCompletionResult>
+    {
+      auto snapshot = documents.snapshot(params.textDocument.uri);
+      auto* ws = workspace.get();
+      auto cheap = scheduler.runCheap(
+        [&snapshot, ws]()
+        {
+          return runCheapCompletion(ws, snapshot);
+        });
+      // Local-only dbcreate field and debug-filename items: same response as the cheap
+      // list, after that list is ready, so they never delay it. Any family item ranks
+      // the cheap items below every family band (completion_ranking.h). In a slot the
+      // family items are substring-filtered on the typed text and the list is
+      // incomplete, so VS Code asks again per keystroke (slot_completion.h).
+      using vertexadt::CompletionFamily;
+      const auto triggerKind = params.context
+        ? static_cast<int>(params.context->triggerKind.value())
+        : 0;
+      // A typed trigger character (space, `,`, `(`, ...) opens a popup only where a
+      // completion family has items; the keyword-variable list waits for the first
+      // typed word character (VS Code quick suggestions). See
+      // docs/adr/0007-native-trigger-characters-open-family-sites-only.md.
+      const bool typedTrigger = triggerKind == 2 && params.context->triggerCharacter
+        && !params.context->triggerCharacter->empty();
+      const auto noPopup = []() -> lsp::TextDocumentCompletionResult
+      {
+        return lsp::CompletionList{.isIncomplete = false, .items = {}};
+      };
+      // The probe answers with one family item when the popup should open, else
+      // with none.
+      const auto probeResult = [](lsp::CompletionList& list, const vertexadt::SlotTyping& at)
+      {
+        list.isIncomplete = false;
+        if (vertexadt::isOnlyExactMatch(list.items, at))
+        {
+          list.items.clear();
+        }
+        else if (list.items.size() > 1)
+        {
+          list.items.erase(list.items.begin() + 1, list.items.end());
+        }
+      };
+      std::size_t cheapCount = 0;
+      bool ranked = false;
+      bool slotActive = false;
+      vertexadt::SlotTyping typing;
+      std::vector<lsp::Position> sitePositions;
+      if (cheap.holdsAlternative<lsp::CompletionList>() && snapshot)
+      {
+        typing = vertexadt::slotTyping(*snapshot, params.position);
+        sitePositions = vertexadt::slotSitePositions(typing);
+        auto& list = cheap.get<lsp::CompletionList>();
+        if (probe)
+        {
+          list.items.clear();
+        }
+        cheapCount = list.items.size();
+        // dbcreate offers the next field slot at the end of a word, so the local
+        // families try the typed word's start first: typing `NAME` filters the
+        // name slot, not the type slot after it.
+        const std::vector<lsp::Position> localPositions(
+          sitePositions.rbegin(), sitePositions.rend());
+        auto local = [&](CompletionFamily family, const auto& itemsAt)
+        {
+          for (const auto& at : localPositions)
+          {
+            auto items = itemsAt(at);
+            if (!items.empty())
+            {
+              slotActive = true;
+              ranked |= vertexadt::appendFamilyItems(
+                list, family, vertexadt::shapeSlotItems(std::move(items), typing));
+              return;
+            }
+          }
+        };
+        local(
+          CompletionFamily::DbcreateField,
+          [&](lsp::Position at)
+          {
+            return vertexadt::dbcreateFieldCompletionItems(*snapshot, at);
+          });
+        // Local-only debug-filename item (this buffer + basename).
+        local(
+          CompletionFamily::DebugFilename,
+          [&](lsp::Position at)
+          {
+            return vertexadt::debugFilenameCompletionItems(*snapshot, at);
+          });
+        if (ranked)
+        {
+          vertexadt::rankCheapItemsBelowFamilies(list, cheapCount);
+        }
+        if (slotActive)
+        {
+          list.isIncomplete = true;
+        }
+      }
+      // Off include/call directive lines, remaining-param comma slots, and
+      // lines after a `Name$ = call(...)` the cheap list answers alone,
+      // joined on the message loop. Otherwise the heavy pool appends
+      // include/call path and section items, the callee's remaining-param
+      // names, the callee's return-value snippets, and/or Custom-over-System
+      // `forms/` names in a form-name slot, and/or `get_*`/`set_*` object
+      // parameters, and/or Custom `complibs/` library names or codes, and/or
+      // vxsettings piece.setup sets in the `new_piece` set string, each
+      // ranked above the cheap list. Sites are found at the cursor, then at
+      // the typed word's start.
+      if (!ws || !snapshot || !cheap.holdsAlternative<lsp::CompletionList>())
+      {
+        return cheap;
+      }
+      auto findSite = [&sitePositions](const auto& detect)
+      {
+        using Site = std::decay_t<decltype(*detect(sitePositions.front()))>;
+        std::optional<std::pair<Site, lsp::Position>> found;
+        for (const auto& at : sitePositions)
+        {
+          if (auto site = detect(at))
+          {
+            found.emplace(std::move(*site), at);
+            break;
+          }
+        }
+        return found;
+      };
+      auto includeCallSite = findSite(
+        [&](lsp::Position at) -> std::optional<bool>
+        {
+          if (vertexadt::isIncludeCallCompletionSite(*snapshot, at))
+          {
+            return true;
+          }
+          return std::nullopt;
+        });
+      auto remainingSite = findSite(
+        [&](lsp::Position at) { return vertexadt::remainingParamSite(*snapshot, at); });
+      auto returnValueSite = findSite(
+        [&](lsp::Position at) -> decltype(vertexadt::callReturnValueSite(*snapshot, at))
+        {
+          // The whole line is the site, so it never reopens the popup.
+          if (probe)
+          {
+            return std::nullopt;
+          }
+          return vertexadt::callReturnValueSite(*snapshot, at);
+        });
+      auto formSite = findSite(
+        [&](lsp::Position at) { return vertexadt::formNameSite(*snapshot, at); });
+      auto objectParamSite = findSite(
+        [&](lsp::Position at) { return vertexadt::objectParameterSite(*snapshot, at); });
+      const bool macroCodeFirst = ws->settings().macroCodeFirst;
+      auto macroLibrarySite = findSite(
+        [&](lsp::Position at)
+        { return vertexadt::macroLibrarySite(*snapshot, at, macroCodeFirst); });
+      auto pieceSetSite = findSite(
+        [&](lsp::Position at) { return vertexadt::pieceSetSite(*snapshot, at); });
+      if (!includeCallSite && !remainingSite && !returnValueSite && !formSite
+          && !objectParamSite && !macroLibrarySite && !pieceSetSite)
+      {
+        if (typedTrigger && !ranked)
+        {
+          return noPopup();
+        }
+        if (probe)
+        {
+          probeResult(cheap.get<lsp::CompletionList>(), typing);
+        }
+        return cheap;
+      }
+      const auto version = snapshot->version;
+      auto* handler = &endpoint.messageHandler();
+      return heavyRequest<lsp::TextDocumentCompletionResult>(
+        scheduler,
+        params.textDocument.uri,
+        version,
+        [snapshot = std::move(snapshot),
+         cheap = std::move(cheap),
+         ws,
+         handler,
+         probe,
+         probeResult,
+         triggerKind,
+         typedTrigger,
+         noPopup,
+         localRanked = ranked,
+         cheapCount,
+         typing = std::move(typing),
+         includeCallSite,
+         remainingSite = std::move(remainingSite),
+         returnValueSite = std::move(returnValueSite),
+         formSite,
+         objectParamSite = std::move(objectParamSite),
+         macroLibrarySite = std::move(macroLibrarySite),
+         pieceSetSite = std::move(pieceSetSite)](
+          const lsp::RequestId& id) -> lsp::TextDocumentCompletionResult
+        {
+          pollHeavyCancel(*handler, id, snapshot);
+          const auto textForPath = [ws](const std::filesystem::path& path)
+          {
+            return ws->textForPath(path);
+          };
+          auto result = cheap;
+          auto& list = result.get<lsp::CompletionList>();
+          list.isIncomplete = true;
+          bool ranked = false;
+          const auto uri = std::string(snapshot->uri.path());
+          // A re-request for an incomplete list reuses the slot's listing.
+          const bool reuse = triggerKind == 3;
+          using Listing = std::optional<std::vector<lsp::CompletionItem>>;
+          auto family = [&](
+                          CompletionFamily kind,
+                          const std::function<Listing()>& compute)
+          {
+            // Ctrl+Space at the end of a path lists sections; that listing must not
+            // be reused for the path itself.
+            auto key = vertexadt::slotListingKey(typing);
+            if (kind == CompletionFamily::IncludeCall && triggerKind == 1)
+            {
+              key.insert(0, "invoked:");
+            }
+            auto items =
+              vertexadt::cachedSlotListing(uri, kind, key, typing, reuse, compute);
+            if (!items)
+            {
+              throw lsp::RequestError(lsp::MessageError::RequestCancelled, "Canceled");
+            }
+            ranked |= vertexadt::appendFamilyItems(
+              list, kind, vertexadt::shapeSlotItems(std::move(*items), typing));
+          };
+          if (includeCallSite)
+          {
+            const auto at = includeCallSite->second;
+            family(CompletionFamily::IncludeCall, [&]() -> Listing
+            {
+              return vertexadt::includeCallCompletionItems({
+                .snapshot = *snapshot,
+                .position = at,
+                .triggerKind = triggerKind,
+                .layout = ws->layout(),
+                .textForPath = textForPath,
+              });
+            });
+          }
+          if (remainingSite)
+          {
+            family(CompletionFamily::RemainingParam, [&]() -> Listing
+            {
+              return vertexadt::remainingParamCompletionItems(
+                remainingSite->first, ws->layout(), textForPath);
+            });
+          }
+          if (returnValueSite)
+          {
+            family(CompletionFamily::CallReturnValue, [&]() -> Listing
+            {
+              return vertexadt::callReturnValueCompletionItems(
+                returnValueSite->first, ws->layout(), textForPath);
+            });
+          }
+          if (formSite)
+          {
+            const auto at = formSite->second;
+            family(CompletionFamily::FormName, [&]() -> Listing
+            {
+              return vertexadt::formNameCompletionItems(formSite->first, at, ws->layout());
+            });
+          }
+          if (objectParamSite)
+          {
+            family(CompletionFamily::ObjectParameter, [&]() -> Listing
+            {
+              const auto settings = ws->settings();
+              return vertexadt::objectParameterCompletionItems({
+                .snapshot = *snapshot,
+                .site = objectParamSite->first,
+                .extensionUri = settings.extensionUri,
+                .strictModeEnabled = settings.strictModeEnabled,
+                .extracts = &ws->extracts(),
+                .linkedFiles = &ws->linkedFiles(),
+                .layout = &ws->layout(),
+                .textForPath = textForPath,
+                .index = &ws->index(),
+                .crossCall = &ws->crossCall(),
+                .throwIfCanceled =
+                  [handler, &id]()
+                  {
+                    if (handler->isCanceled(id))
+                    {
+                      throw lsp::RequestError(
+                        lsp::MessageError::RequestCancelled, "Canceled");
+                    }
+                  },
+                .isCanceled = [handler, &id]() { return handler->isCanceled(id); },
+              });
+            });
+          }
+          if (macroLibrarySite && macroLibrarySite->first.codeFirst)
+          {
+            // Code-first pairs come filtered and ranked from their own
+            // index (no slot cache: exports land between keystrokes).
+            const auto settings = ws->settings();
+            ranked |= vertexadt::appendFamilyItems(
+              list,
+              CompletionFamily::MacroLibrary,
+              vertexadt::macroCodeFirstCompletionItems({
+                .site = macroLibrarySite->first,
+                .layout = ws->layout(),
+                .extensionUri = settings.extensionUri,
+                .line = typing.line,
+                .lineNumber = typing.lineNumber,
+                .cursor = typing.cursor,
+                .log = {},
+              }));
+          }
+          else if (macroLibrarySite)
+          {
+            family(CompletionFamily::MacroLibrary, [&]() -> Listing
+            {
+              const auto settings = ws->settings();
+              return vertexadt::macroLibraryCompletionItems({
+                .site = macroLibrarySite->first,
+                .layout = ws->layout(),
+                .extensionUri = settings.extensionUri,
+                .isCanceled = [handler, &id]() { return handler->isCanceled(id); },
+                .log = {},
+              });
+            });
+          }
+          if (pieceSetSite)
+          {
+            const auto at = pieceSetSite->second;
+            family(CompletionFamily::PieceSet, [&]() -> Listing
+            {
+              const auto sets =
+                vertexadt::loadPieceSets(vertexadt::resolvePieceSetSources(ws->layout()));
+              return vertexadt::pieceSetCompletionItems(pieceSetSite->first, at, *sets);
+            });
+          }
+          if (probe)
+          {
+            probeResult(list, typing);
+            return result;
+          }
+          if (typedTrigger && !ranked && !localRanked)
+          {
+            return noPopup();
+          }
+          if (ranked)
+          {
+            vertexadt::rankCheapItemsBelowFamilies(list, cheapCount);
+          }
+          return result;
+        });
     };
 
     // Indentation formatter (docs/adr/0013): whole buffer, answered on the
@@ -421,314 +797,7 @@ auto main() -> int
         [&](lsp::CompletionParams&& params)
           -> lsp::RequestResult<lsp::TextDocumentCompletionResult>
         {
-          auto snapshot = documents.snapshot(params.textDocument.uri);
-          auto* ws = workspace.get();
-          auto cheap = scheduler.runCheap(
-            [&snapshot, ws]()
-            {
-              return runCheapCompletion(ws, snapshot);
-            });
-          // Local-only dbcreate field and debug-filename items: same response as the cheap
-          // list, after that list is ready, so they never delay it. Any family item ranks
-          // the cheap items below every family band (completion_ranking.h). In a slot the
-          // family items are substring-filtered on the typed text and the list is
-          // incomplete, so VS Code asks again per keystroke (slot_completion.h).
-          using vertexadt::CompletionFamily;
-          const auto triggerKind = params.context
-            ? static_cast<int>(params.context->triggerKind.value())
-            : 0;
-          // A typed trigger character (space, `,`, `(`, ...) opens a popup only where a
-          // completion family has items; the keyword-variable list waits for the first
-          // typed word character (VS Code quick suggestions). See
-          // docs/adr/0007-native-trigger-characters-open-family-sites-only.md.
-          const bool typedTrigger = triggerKind == 2 && params.context->triggerCharacter
-            && !params.context->triggerCharacter->empty();
-          const auto noPopup = []() -> lsp::TextDocumentCompletionResult
-          {
-            return lsp::CompletionList{.isIncomplete = false, .items = {}};
-          };
-          std::size_t cheapCount = 0;
-          bool ranked = false;
-          bool slotActive = false;
-          vertexadt::SlotTyping typing;
-          std::vector<lsp::Position> sitePositions;
-          if (cheap.holdsAlternative<lsp::CompletionList>() && snapshot)
-          {
-            typing = vertexadt::slotTyping(*snapshot, params.position);
-            sitePositions = vertexadt::slotSitePositions(typing);
-            auto& list = cheap.get<lsp::CompletionList>();
-            cheapCount = list.items.size();
-            // dbcreate offers the next field slot at the end of a word, so the local
-            // families try the typed word's start first: typing `NAME` filters the
-            // name slot, not the type slot after it.
-            const std::vector<lsp::Position> localPositions(
-              sitePositions.rbegin(), sitePositions.rend());
-            auto local = [&](CompletionFamily family, const auto& itemsAt)
-            {
-              for (const auto& at : localPositions)
-              {
-                auto items = itemsAt(at);
-                if (!items.empty())
-                {
-                  slotActive = true;
-                  ranked |= vertexadt::appendFamilyItems(
-                    list, family, vertexadt::shapeSlotItems(std::move(items), typing));
-                  return;
-                }
-              }
-            };
-            local(
-              CompletionFamily::DbcreateField,
-              [&](lsp::Position at)
-              {
-                return vertexadt::dbcreateFieldCompletionItems(*snapshot, at);
-              });
-            // Local-only debug-filename item (this buffer + basename).
-            local(
-              CompletionFamily::DebugFilename,
-              [&](lsp::Position at)
-              {
-                return vertexadt::debugFilenameCompletionItems(*snapshot, at);
-              });
-            if (ranked)
-            {
-              vertexadt::rankCheapItemsBelowFamilies(list, cheapCount);
-            }
-            if (slotActive)
-            {
-              list.isIncomplete = true;
-            }
-          }
-          // Off include/call directive lines, remaining-param comma slots, and
-          // lines after a `Name$ = call(...)` the cheap list answers alone,
-          // joined on the message loop. Otherwise the heavy pool appends
-          // include/call path and section items, the callee's remaining-param
-          // names, the callee's return-value snippets, and/or Custom-over-System
-          // `forms/` names in a form-name slot, and/or `get_*`/`set_*` object
-          // parameters, and/or Custom `complibs/` library names or codes, and/or
-          // vxsettings piece.setup sets in the `new_piece` set string, each
-          // ranked above the cheap list. Sites are found at the cursor, then at
-          // the typed word's start.
-          if (!ws || !snapshot || !cheap.holdsAlternative<lsp::CompletionList>())
-          {
-            return cheap;
-          }
-          auto findSite = [&sitePositions](const auto& detect)
-          {
-            using Site = std::decay_t<decltype(*detect(sitePositions.front()))>;
-            std::optional<std::pair<Site, lsp::Position>> found;
-            for (const auto& at : sitePositions)
-            {
-              if (auto site = detect(at))
-              {
-                found.emplace(std::move(*site), at);
-                break;
-              }
-            }
-            return found;
-          };
-          auto includeCallSite = findSite(
-            [&](lsp::Position at) -> std::optional<bool>
-            {
-              if (vertexadt::isIncludeCallCompletionSite(*snapshot, at))
-              {
-                return true;
-              }
-              return std::nullopt;
-            });
-          auto remainingSite = findSite(
-            [&](lsp::Position at) { return vertexadt::remainingParamSite(*snapshot, at); });
-          auto returnValueSite = findSite(
-            [&](lsp::Position at) { return vertexadt::callReturnValueSite(*snapshot, at); });
-          auto formSite = findSite(
-            [&](lsp::Position at) { return vertexadt::formNameSite(*snapshot, at); });
-          auto objectParamSite = findSite(
-            [&](lsp::Position at) { return vertexadt::objectParameterSite(*snapshot, at); });
-          const bool macroCodeFirst = ws->settings().macroCodeFirst;
-          auto macroLibrarySite = findSite(
-            [&](lsp::Position at)
-            { return vertexadt::macroLibrarySite(*snapshot, at, macroCodeFirst); });
-          auto pieceSetSite = findSite(
-            [&](lsp::Position at) { return vertexadt::pieceSetSite(*snapshot, at); });
-          if (!includeCallSite && !remainingSite && !returnValueSite && !formSite
-              && !objectParamSite && !macroLibrarySite && !pieceSetSite)
-          {
-            if (typedTrigger && !ranked)
-            {
-              return noPopup();
-            }
-            return cheap;
-          }
-          const auto version = snapshot->version;
-          auto* handler = &endpoint.messageHandler();
-          return heavyRequest<lsp::TextDocumentCompletionResult>(
-            scheduler,
-            params.textDocument.uri,
-            version,
-            [snapshot = std::move(snapshot),
-             cheap = std::move(cheap),
-             ws,
-             handler,
-             triggerKind,
-             typedTrigger,
-             noPopup,
-             localRanked = ranked,
-             cheapCount,
-             typing = std::move(typing),
-             includeCallSite,
-             remainingSite = std::move(remainingSite),
-             returnValueSite = std::move(returnValueSite),
-             formSite,
-             objectParamSite = std::move(objectParamSite),
-             macroLibrarySite = std::move(macroLibrarySite),
-             pieceSetSite = std::move(pieceSetSite)](
-              const lsp::RequestId& id) -> lsp::TextDocumentCompletionResult
-            {
-              pollHeavyCancel(*handler, id, snapshot);
-              const auto textForPath = [ws](const std::filesystem::path& path)
-              {
-                return ws->textForPath(path);
-              };
-              auto result = cheap;
-              auto& list = result.get<lsp::CompletionList>();
-              list.isIncomplete = true;
-              bool ranked = false;
-              const auto uri = std::string(snapshot->uri.path());
-              // A re-request for an incomplete list reuses the slot's listing.
-              const bool reuse = triggerKind == 3;
-              using Listing = std::optional<std::vector<lsp::CompletionItem>>;
-              auto family = [&](
-                              CompletionFamily kind,
-                              const std::function<Listing()>& compute)
-              {
-                auto items = vertexadt::cachedSlotListing(
-                  uri, kind, vertexadt::slotListingKey(typing), reuse, compute);
-                if (!items)
-                {
-                  throw lsp::RequestError(lsp::MessageError::RequestCancelled, "Canceled");
-                }
-                ranked |= vertexadt::appendFamilyItems(
-                  list, kind, vertexadt::shapeSlotItems(std::move(*items), typing));
-              };
-              if (includeCallSite)
-              {
-                const auto at = includeCallSite->second;
-                family(CompletionFamily::IncludeCall, [&]() -> Listing
-                {
-                  return vertexadt::includeCallCompletionItems({
-                    .snapshot = *snapshot,
-                    .position = at,
-                    .triggerKind = triggerKind,
-                    .layout = ws->layout(),
-                    .textForPath = textForPath,
-                  });
-                });
-              }
-              if (remainingSite)
-              {
-                family(CompletionFamily::RemainingParam, [&]() -> Listing
-                {
-                  return vertexadt::remainingParamCompletionItems(
-                    remainingSite->first, ws->layout(), textForPath);
-                });
-              }
-              if (returnValueSite)
-              {
-                family(CompletionFamily::CallReturnValue, [&]() -> Listing
-                {
-                  return vertexadt::callReturnValueCompletionItems(
-                    returnValueSite->first, ws->layout(), textForPath);
-                });
-              }
-              if (formSite)
-              {
-                const auto at = formSite->second;
-                family(CompletionFamily::FormName, [&]() -> Listing
-                {
-                  return vertexadt::formNameCompletionItems(formSite->first, at, ws->layout());
-                });
-              }
-              if (objectParamSite)
-              {
-                family(CompletionFamily::ObjectParameter, [&]() -> Listing
-                {
-                  const auto settings = ws->settings();
-                  return vertexadt::objectParameterCompletionItems({
-                    .snapshot = *snapshot,
-                    .site = objectParamSite->first,
-                    .extensionUri = settings.extensionUri,
-                    .strictModeEnabled = settings.strictModeEnabled,
-                    .extracts = &ws->extracts(),
-                    .linkedFiles = &ws->linkedFiles(),
-                    .layout = &ws->layout(),
-                    .textForPath = textForPath,
-                    .index = &ws->index(),
-                    .crossCall = &ws->crossCall(),
-                    .throwIfCanceled =
-                      [handler, &id]()
-                      {
-                        if (handler->isCanceled(id))
-                        {
-                          throw lsp::RequestError(
-                            lsp::MessageError::RequestCancelled, "Canceled");
-                        }
-                      },
-                    .isCanceled = [handler, &id]() { return handler->isCanceled(id); },
-                  });
-                });
-              }
-              if (macroLibrarySite && macroLibrarySite->first.codeFirst)
-              {
-                // Code-first pairs come filtered and ranked from their own
-                // index (no slot cache: exports land between keystrokes).
-                const auto settings = ws->settings();
-                ranked |= vertexadt::appendFamilyItems(
-                  list,
-                  CompletionFamily::MacroLibrary,
-                  vertexadt::macroCodeFirstCompletionItems({
-                    .site = macroLibrarySite->first,
-                    .layout = ws->layout(),
-                    .extensionUri = settings.extensionUri,
-                    .line = typing.line,
-                    .lineNumber = typing.lineNumber,
-                    .cursor = typing.cursor,
-                    .log = {},
-                  }));
-              }
-              else if (macroLibrarySite)
-              {
-                family(CompletionFamily::MacroLibrary, [&]() -> Listing
-                {
-                  const auto settings = ws->settings();
-                  return vertexadt::macroLibraryCompletionItems({
-                    .site = macroLibrarySite->first,
-                    .layout = ws->layout(),
-                    .extensionUri = settings.extensionUri,
-                    .isCanceled = [handler, &id]() { return handler->isCanceled(id); },
-                    .log = {},
-                  });
-                });
-              }
-              if (pieceSetSite)
-              {
-                const auto at = pieceSetSite->second;
-                family(CompletionFamily::PieceSet, [&]() -> Listing
-                {
-                  const auto sets =
-                    vertexadt::loadPieceSets(vertexadt::resolvePieceSetSources(ws->layout()));
-                  return vertexadt::pieceSetCompletionItems(pieceSetSite->first, at, *sets);
-                });
-              }
-              if (typedTrigger && !ranked && !localRanked)
-              {
-                return noPopup();
-              }
-              if (ranked)
-              {
-                vertexadt::rankCheapItemsBelowFamilies(list, cheapCount);
-              }
-              return result;
-            });
+          return completionRequest(std::move(params), false);
         })
       .onTextDocumentDefinition(
         [&](lsp::DefinitionParams&& params)
@@ -909,6 +978,48 @@ auto main() -> int
         })
       .onShutdown([]() -> lsp::ShutdownResult { return {}; })
       .onExit([]() {});
+
+    endpoint.messageHandler().onCustom<SlotCompletionProbeRequest>(
+      "vertexadt/slotCompletionProbe",
+      [&](lsp::CompletionParams&& params)
+        -> lsp::RequestResult<lsp::TextDocumentCompletionResult>
+      {
+        return completionRequest(std::move(params), true);
+      });
+
+    endpoint.messageHandler().onCustom<SignatureHelpSitesRequest>(
+      "vertexadt/signatureHelpSites",
+      [&](lsp::TextDocumentPositionParams&& params)
+        -> lsp::RequestResult<lsp::Array<lsp::Position>>
+      {
+        auto snapshot = documents.snapshot(params.textDocument.uri);
+        const auto version = snapshot ? snapshot->version : 0;
+        auto* ws = workspace.get();
+        auto* handler = &endpoint.messageHandler();
+        return heavyRequest<lsp::Array<lsp::Position>>(
+          scheduler,
+          params.textDocument.uri,
+          version,
+          [snapshot = std::move(snapshot), ws, handler, position = params.position](
+            const lsp::RequestId& id) -> lsp::Array<lsp::Position>
+          {
+            pollHeavyCancel(*handler, id, snapshot);
+            if (!ws || !snapshot)
+            {
+              return {};
+            }
+            return vertexadt::signatureHelpSites({
+              .snapshot = *snapshot,
+              .position = position,
+              .layout = ws->layout(),
+              .textForPath =
+                [ws](const std::filesystem::path& path)
+                {
+                  return ws->textForPath(path);
+                },
+            });
+          });
+      });
 
     // textDocument/references takes raw params so a missing `context` defaults
     // to includeDeclaration true (lsp::ReferenceParams requires it).

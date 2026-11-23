@@ -40,6 +40,12 @@ bool isIdentPart(char16_t ch)
   return isAsciiAlpha(ch) || isAsciiDigit(ch) || ch == u'_';
 }
 
+// Section names being typed also hold `-` and `.` (`BERWICK-HORIZONTAL`).
+bool isSectionPart(char16_t ch)
+{
+  return isIdentPart(ch) || ch == u'-' || ch == u'.';
+}
+
 bool startsWith(U16View text, U16View prefix)
 {
   return text.size() >= prefix.size() && text.substr(0, prefix.size()) == prefix;
@@ -188,6 +194,8 @@ struct ParsedArgs
   bool pastSuffix = false;
   std::size_t suffixStart = 0;
   std::size_t suffixEnd = 0;
+  // inPath: where the path text starts (after an opening quote).
+  std::size_t pathStart = 0;
 };
 
 struct SuffixSlot
@@ -227,7 +235,7 @@ auto parseSuffixSlot(U16View line, std::size_t pathEnd, std::size_t cursor) -> S
     };
   }
 
-  while (i < line.size() && isIdentPart(line[i]))
+  while (i < line.size() && isSectionPart(line[i]))
   {
     ++i;
   }
@@ -295,6 +303,7 @@ auto parseQuotedArg(U16View line, std::size_t quoteIndex, std::size_t cursor, bo
     ParsedArgs parsed;
     parsed.filePath = fullPath.empty() ? slashes16(U16(content)) : std::move(fullPath);
     parsed.inPath = true;
+    parsed.pathStart = contentStart;
     parsed.atEndOfPath = cursor >= contentEnd && (!close || cursor <= *close);
     parsed.suffixStart = cursor;
     parsed.suffixEnd = cursor;
@@ -310,7 +319,7 @@ auto parseQuotedArg(U16View line, std::size_t quoteIndex, std::size_t cursor, bo
   const auto identStart = contentStart + j;
   const auto identLimit = close ? *close : line.size();
   auto identEnd = identStart;
-  while (identEnd < identLimit && isIdentPart(line[identEnd]))
+  while (identEnd < identLimit && isSectionPart(line[identEnd]))
   {
     ++identEnd;
   }
@@ -341,6 +350,7 @@ auto emptyPathArgs(std::size_t cursor) -> ParsedArgs
 {
   ParsedArgs parsed;
   parsed.inPath = true;
+  parsed.pathStart = cursor;
   parsed.atEndOfPath = true;
   parsed.suffixStart = cursor;
   parsed.suffixEnd = cursor;
@@ -381,6 +391,7 @@ auto parseDirectiveArgs(U16View line, const Directive& directive, std::size_t cu
     ParsedArgs parsed;
     parsed.filePath = std::move(filePath);
     parsed.inPath = true;
+    parsed.pathStart = i;
     parsed.atEndOfPath = cursor == end || cursor == line.size()
       || (cursor < line.size() && isJsSpace(line[cursor]));
     parsed.suffixStart = cursor;
@@ -399,7 +410,31 @@ struct Analysis
   bool insertLeadingSpace = false;
   std::size_t replaceStart = 0;
   std::size_t replaceEnd = 0;
+  // Paths: the replaced segment is followed by `/`.
+  bool slashAfter = false;
 };
+
+// Paths: the segment the cursor is in is the typed text and the replace range;
+// what precedes it is the directory to list (docs/adr/0021).
+void setPathSegment(Analysis& analysis, U16View line, std::size_t pathStart, std::size_t cursor)
+{
+  const auto isSlash = [](char16_t ch) { return ch == u'/' || ch == u'\\'; };
+  auto start = cursor;
+  while (start > pathStart && !isSlash(line[start - 1]))
+  {
+    --start;
+  }
+  auto end = cursor;
+  while (end < line.size() && !isSlash(line[end]) && !isJsSpace(line[end]) && line[end] != u'"'
+         && line[end] != u'\'' && line[end] != u',' && line[end] != u';' && line[end] != u')')
+  {
+    ++end;
+  }
+  analysis.filePath = utf16To8(slashes16(U16(line.substr(pathStart, start - pathStart))));
+  analysis.replaceStart = start;
+  analysis.replaceEnd = end;
+  analysis.slashAfter = end < line.size() && isSlash(line[end]);
+}
 
 // Join like Node path.join(a, b, …): string concatenation, then normalize.
 // Never lets an absolute `b` replace `a`.
@@ -503,8 +538,11 @@ auto analyze(const IncludeCallCompletionRequest& request, U16View line, std::siz
     auto plain = *directive;
     plain.sectionInsideQuotes = false;
     const auto parsed = parseDirectiveArgs(line, plain, cursor);
-    analysis.mode = IncludeCallMode::Paths;
-    analysis.filePath = utf16To8(parsed.filePath);
+    if (parsed.inPath)
+    {
+      analysis.mode = IncludeCallMode::Paths;
+      setPathSegment(analysis, line, parsed.pathStart, cursor);
+    }
     return analysis;
   }
 
@@ -539,8 +577,12 @@ auto analyze(const IncludeCallCompletionRequest& request, U16View line, std::siz
   {
     return analysis;
   }
+  if (!parsed.inPath)
+  {
+    return analysis;
+  }
   analysis.mode = IncludeCallMode::Paths;
-  analysis.filePath = filePath;
+  setPathSegment(analysis, line, parsed.pathStart, cursor);
   return analysis;
 }
 
@@ -706,6 +748,12 @@ auto pathItems(const IncludeCallCompletionRequest& request, const Analysis& anal
   -> std::vector<lsp::CompletionItem>
 {
   std::vector<lsp::CompletionItem> items;
+  const lsp::Range range{
+    .start = {.line = request.position.line,
+              .character = static_cast<lsp::Uint>(analysis.replaceStart)},
+    .end = {.line = request.position.line,
+            .character = static_cast<lsp::Uint>(analysis.replaceEnd)},
+  };
   if (analysis.filePath.empty())
   {
     for (const auto& entry : catalog::keywordCatalog())
@@ -718,6 +766,7 @@ auto pathItems(const IncludeCallCompletionRequest& request, const Analysis& anal
       item.label = std::string(entry.label);
       item.kind = lsp::CompletionItemKind::Folder;
       item.sortText = "0" + item.label;
+      item.textEdit = lsp::TextEdit{.range = range, .newText = item.label};
       items.push_back(std::move(item));
     }
     return items;
@@ -732,6 +781,10 @@ auto pathItems(const IncludeCallCompletionRequest& request, const Analysis& anal
       item.kind = lsp::CompletionItemKind::Folder;
       item.sortText = "0" + name;
       item.insertText = name;
+      item.textEdit = lsp::TextEdit{
+        .range = range,
+        .newText = analysis.slashAfter ? name.substr(0, name.size() - 1) : name,
+      };
       item.label = std::move(name);
       items.push_back(std::move(item));
       continue;
@@ -760,6 +813,7 @@ auto pathItems(const IncludeCallCompletionRequest& request, const Analysis& anal
         };
       }
     }
+    item.textEdit = lsp::TextEdit{.range = range, .newText = name};
     item.label = std::move(name);
     items.push_back(std::move(item));
   }

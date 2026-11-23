@@ -81,6 +81,8 @@ auto matchTextOf(U16View filter) -> U16View
 struct CacheEntry
 {
   std::string key;
+  std::size_t cursor = 0;
+  std::size_t lineSize = 0;
   std::vector<lsp::CompletionItem> items;
 };
 
@@ -171,6 +173,16 @@ auto shapeSlotItems(std::vector<lsp::CompletionItem> items, const SlotTyping& ty
   return kept;
 }
 
+bool isOnlyExactMatch(const std::vector<lsp::CompletionItem>& items, const SlotTyping& typing)
+{
+  if (items.size() != 1)
+  {
+    return false;
+  }
+  auto item = items.front();
+  return utf16To8(matchTextOf(filterTextFor(item, typing))) == item.label;
+}
+
 auto slotListingKey(const SlotTyping& typing) -> std::string
 {
   return std::to_string(typing.lineNumber) + ':'
@@ -181,6 +193,7 @@ auto cachedSlotListing(
   std::string_view uri,
   CompletionFamily family,
   const std::string& key,
+  const SlotTyping& typing,
   bool reuse,
   const std::function<std::optional<std::vector<lsp::CompletionItem>>()>& compute)
   -> std::optional<std::vector<lsp::CompletionItem>>
@@ -192,14 +205,27 @@ auto cachedSlotListing(
     const auto found = cache.find(slot);
     if (found != cache.end() && found->second.key == key)
     {
-      return found->second.items;
+      const auto& entry = found->second;
+      auto items = entry.items;
+      for (auto& item : items)
+      {
+        auto* range = editRange(item);
+        if (range && range->end.line == typing.lineNumber && range->end.character >= entry.cursor)
+        {
+          const auto end = range->end.character + typing.line.size();
+          range->end.character = static_cast<lsp::Uint>(
+            end > entry.lineSize + typing.cursor ? end - entry.lineSize : typing.cursor);
+        }
+      }
+      return items;
     }
   }
   auto items = compute();
   if (items)
   {
     std::lock_guard lock(cacheMutex);
-    cache[slot] = CacheEntry{.key = key, .items = *items};
+    cache[slot] = CacheEntry{
+      .key = key, .cursor = typing.cursor, .lineSize = typing.line.size(), .items = *items};
   }
   return items;
 }

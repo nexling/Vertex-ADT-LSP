@@ -4,6 +4,8 @@
 
 Every row is checked twice. The native result must equal an oracle built from `server.js`'s winning `onSignatureHelp` (`getCommandContext` + the label assembler) with the spec deltas: lowercase catalog lookup, labels from catalog structure, and `call(` labelled `path` plus the callee's buffer-wins `name = get($IDENT)` extract. Most rows also pin `[label, activeParameter]` or `null`.
 
+ADR 0022 overrides the oracle in the rows marked `NEW` in the golden: line-start `!` comments, single-quoted commas, unknown inner names, and a `call(` with no known inputs. Cursor rows for that ADR are in `scripts/goldens/64-signature-box-follows-the-cursor.js`.
+
 ## Capability
 
 `signatureHelpProvider` is `{ triggerCharacters: ['(', ',', ' '], retriggerCharacters: [',', ' '] }`. `SignatureHelpContext` is ignored (a retrigger with a stale `activeSignatureHelp` recomputes).
@@ -12,14 +14,15 @@ Every row is checked twice. The native result must equal an oracle built from `s
 
 | Prefix | Help |
 | --- | --- |
-| `set_regenerable(` / `set_regenerable (` / `Ret$=set_regenerable(` / indented / mid-line / `!set_regenerable(` | `set_regenerable(input object) regenerable value`, 0 |
+| `set_regenerable(` / `set_regenerable (` / `Ret$=set_regenerable(` / indented / mid-line | `set_regenerable(input object) regenerable value`, 0 |
 | `SET_REGENERABLE(` | `SET_REGENERABLE(input object) regenerable value`, 0 (lowercase lookup, written ident) |
-| `set_regenerable(Sheet,` / `set_regenerable('a,b'` | null (past the one inside slot; single-quoted commas count) |
-| `set_regenerable("a,b"` | 0 (double-quoted commas do not count) |
+| `set_regenerable(Sheet,` / `!set_regenerable(` | null (past the one inside slot; comment) |
+| `set_regenerable("a,b"` / `set_regenerable('a,b'` | 0 (quoted commas do not count) |
 | `set_regenerable(Sheet)` | `set_regenerable regenerable value`, 0; parameters are the after-paren list only |
 | `set_regenerable(Sheet) 0,` | null |
 | `set_regenerable(map_size(` | `map_size(map name)`, 0 (inner catalog command wins) |
-| `set_regenerable(foo(` / `recall(` / `my_call(…,` / `call_virtual(…,` | null |
+| `set_regenerable(foo(` | `set_regenerable(…)`, 0 (unknown inner name) |
+| `recall(` / `my_call(…,` / `call_virtual(…,` | null |
 | `map_size("n")` | null (closed, no after-paren labels) |
 | `ask("q",` | `ask(param1, param2)`, 1 |
 | `cube 1, 2` | `cube length x, length y, length z`, 1 |
@@ -39,9 +42,9 @@ Every catalog command is also swept as `name(`, `name(a,`, `name(a)`, `name(a) b
 
 | Prefix | Help |
 | --- | --- |
-| `call(` / `call("missing.prg"` | `call(path)`, 0 |
+| `call(` / `call("missing.prg"` | null (no known inputs) |
 | `call("…"` | `call(path, obj, Panel, iswall)`, 0 |
-| `call("…",` / `call("…", Area` / `CALL(` / `call (` / `Ret$=call(` / mid-line / bang / unquoted / single-quoted path | same, 1 (written ident) |
+| `call("…",` / `call("…", Area` / `CALL(` / `call (` / `Ret$=call(` / mid-line / unquoted / single-quoted path | same, 1 (written ident) |
 | `call("file,name.prg",` | 1 (quoted-path comma does not count) |
 | `call("…", "a,b",` | 2 |
 | `call("…", a, b,` | 3 |

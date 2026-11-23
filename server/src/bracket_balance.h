@@ -28,6 +28,21 @@ struct BracketIssue
   std::string message;
 };
 
+// The code part of one physical line: everything before the first unquoted
+// `;!` comment, without a trailing `\` continuation. `continued` reports that
+// `\`. A bare `!` is code: it is logical NOT (`if (!a) then`, `!=`).
+struct CodeSpan
+{
+  std::string_view code;
+  bool continued = false;
+};
+
+[[nodiscard]] auto codeOf(std::string_view raw) -> CodeSpan;
+
+// Whole lines that hold no code: blank, `!` comments, `##` directives and
+// `#NAME#` section markers (the same set as the concat-whitespace walk).
+[[nodiscard]] bool isNonCodeLine(std::string_view raw);
+
 // Every issue in a document. Skips blank lines, whole-line `!` comments, `##`
 // directive lines, `#NAME#` section markers and verification-ignored sections.
 // Ignores brackets inside `"…"` / `'…'` and after an unquoted `;!` comment. A

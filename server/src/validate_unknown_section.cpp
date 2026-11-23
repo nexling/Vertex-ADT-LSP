@@ -677,7 +677,30 @@ lsp::Diagnostic makeDiagnostic(
 
 auto uniqueTargetSectionNames(std::string_view text) -> std::vector<std::string>
 {
-  return listUniqueTargetSectionNames(text);
+  auto names = listUniqueTargetSectionNames(text);
+  // Completion also lists `#BERWICK-HORIZONTAL#` style names. The section
+  // parser only knows `\w+` names, and the diagnostics depend on that.
+  for (const auto line : splitLines(text))
+  {
+    const auto trimmed = trim(line);
+    if (trimmed.size() < 3 || trimmed.front() != '#' || trimmed.back() != '#')
+    {
+      continue;
+    }
+    const auto name = trimmed.substr(1, trimmed.size() - 2);
+    if (name.find_first_of("-.") == std::string_view::npos
+        || !((name[0] >= 'A' && name[0] <= 'Z') || (name[0] >= 'a' && name[0] <= 'z'))
+        || name.find_first_not_of(
+             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-.")
+          != std::string_view::npos)
+    {
+      continue;
+    }
+    names.emplace_back(name);
+  }
+  std::sort(names.begin(), names.end());
+  names.erase(std::unique(names.begin(), names.end()), names.end());
+  return names;
 }
 
 void familyUnknownSection(ValidateContext& ctx)

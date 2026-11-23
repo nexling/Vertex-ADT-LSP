@@ -9,11 +9,13 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace vertexadt {
 
-// textDocument/signatureHelp: the active command-catalog command or
-// parenthesized `call(` on the current-line prefix. Heavy: a `call(` reads the
+// textDocument/signatureHelp: the innermost command-catalog command or
+// parenthesized `call(` around the cursor that has something to show, on the
+// cursor's line joined with the `\` lines before it. Heavy: a `call(` reads the
 // callee's buffer-wins linked-file snapshot.
 
 struct SignatureHelpInput
@@ -26,10 +28,16 @@ struct SignatureHelpInput
 
 [[nodiscard]] auto signatureHelpProviderOptions() -> lsp::SignatureHelpOptions;
 
-// Null off `vertexadt`, with no active command, or when the cursor is past the
-// last label of the active list (including closed parens with no after-paren
-// labels).
+// Null off `vertexadt`, in comments, or when no enclosing command has a label
+// for the cursor's argument. A `call(` whose callee is missing or has no inputs
+// has none.
 [[nodiscard]] auto signatureHelp(const SignatureHelpInput& input)
   -> lsp::TextDocumentSignatureHelpResult;
+
+// vertexadt/signatureHelpSites: name positions of the enclosing commands that
+// have something to show, innermost (the shown one) first. The client uses it
+// to keep an escaped box closed (docs/adr/0022).
+[[nodiscard]] auto signatureHelpSites(const SignatureHelpInput& input)
+  -> std::vector<lsp::Position>;
 
 } // namespace vertexadt

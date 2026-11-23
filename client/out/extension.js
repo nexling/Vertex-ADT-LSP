@@ -9,6 +9,8 @@ const path = require("path");
 const fs = require("fs");
 const vscode_1 = require("vscode");
 const node_1 = require("vscode-languageclient/node");
+const slotSuggest_1 = require("./slotSuggest");
+const signatureFollow_1 = require("./signatureFollow");
 let client;
 
 //FUNCTIONS:-----------------------------------------------------------
@@ -292,6 +294,9 @@ function activate(context) {
                 extensionUri: context.extensionUri.toString()
             },
             markdown: { isTrusted: true },
+            middleware: {
+                provideCompletionItem: slotSuggest_1.provideCompletionItem
+            },
             synchronize: {
                 configurationSection: 'vertexadt'
             }
@@ -306,6 +311,8 @@ function activate(context) {
     // Create the language client and start the client.
     if (serverOptions && clientOptions) {
         client = new node_1.LanguageClient('languageServerExample', 'Vertex-adt LanguageServer', serverOptions, clientOptions);
+        slotSuggest_1.register(context, client);
+        signatureFollow_1.register(context, client);
     }
 
     context.subscriptions.push(vscode_1.commands.registerCommand('vertexadt.showImpactAnalysis', async (payload) => {

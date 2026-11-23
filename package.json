@@ -23,6 +23,13 @@
 		"onCommand:yourExtension.command"
 	],
 	"contributes": {
+		"keybindings": [
+			{
+				"command": "vertexadt.closeSignatureBox",
+				"key": "escape",
+				"when": "editorTextFocus && parameterHintsVisible && editorLangId == vertexadt && !suggestWidgetVisible"
+			}
+		],
 		"commands": [
 			{
 				"command": "vertexadt.openSettings",
