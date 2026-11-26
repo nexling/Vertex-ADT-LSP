@@ -114,9 +114,35 @@
 					".p",
 					".vxt",
 					".3d",
-					".2d"
+					".2d",
+					".dbg"
 				],
 				"configuration": "./language-configuration.json"
+			}
+		],
+		"semanticTokenTypes": [
+			{
+				"id": "debugValue",
+				"superType": "comment",
+				"description": "The `<value>` column of a Vertex debug trace (.dbg)."
+			},
+			{
+				"id": "debugMarker",
+				"superType": "comment",
+				"description": "Block markers (`_if_begin_`) and START/END banners of a Vertex debug trace (.dbg)."
+			}
+		],
+		"semanticTokenScopes": [
+			{
+				"language": "vertexadt",
+				"scopes": {
+					"debugValue": [
+						"comment.block.debug-value.vertexadt"
+					],
+					"debugMarker": [
+						"comment.line.debug-marker.vertexadt"
+					]
+				}
 			}
 		],
 		"configuration": {

@@ -646,11 +646,99 @@ lsp::Diagnostic reportProblem123(
   return diagnostic;
 }
 
-void emitUndeclared(ValidateContext& ctx, const PerLineState& line, const std::string& variableName)
+// `name$` uses outside quotes and outside the first..last `#` span, in line
+// order. Repeats are kept: the assignment target and a later read of the same
+// name are different uses; equal diagnostics collapse in the post-filter.
+// `begin` is the name's first character (the `$` is not part of `name`). A
+// name right after `$` (`$DIR_X$`) is not a variable.
+std::vector<UsageMatch> stringUsageMatches(std::string_view codeLine)
 {
-  ctx.append(
-    reportProblem123(ctx, line, "Variable " + variableName + " used before declaration"),
-    true);
+  std::vector<UsageMatch> matches;
+  const auto firstHash = codeLine.find('#');
+  const auto lastHash = codeLine.rfind('#');
+  char activeQuote = 0;
+  for (std::size_t i = 0; i < codeLine.size();)
+  {
+    const auto ch = codeLine[i];
+    if (activeQuote)
+    {
+      if (ch == activeQuote)
+      {
+        activeQuote = 0;
+      }
+      ++i;
+      continue;
+    }
+    if (ch == '"' || ch == '\'')
+    {
+      activeQuote = ch;
+      ++i;
+      continue;
+    }
+    if (!isAsciiLetter(ch) || (i > 0 && (isAsciiWordChar(codeLine[i - 1]) || codeLine[i - 1] == '$')))
+    {
+      ++i;
+      continue;
+    }
+    auto j = i + 1;
+    while (j < codeLine.size() && isAsciiWordChar(codeLine[j]))
+    {
+      ++j;
+    }
+    const auto insideHashes = firstHash != std::string_view::npos && firstHash < i && i < lastHash;
+    if (j < codeLine.size() && codeLine[j] == '$' && !insideHashes)
+    {
+      matches.push_back(UsageMatch{.name = std::string(codeLine.substr(i, j - i)), .begin = i});
+    }
+    i = j;
+  }
+  return matches;
+}
+
+// A declared name that differs from `name` only in case, spelled as declared,
+// or empty. Same scopes as inVariablesSet / inStringVariablesSet.
+std::string caseOnlyMatch(const ValidateContext& ctx, int lineIndex, std::string_view name, bool stringVariable)
+{
+  const auto wanted = toLowerAscii(name);
+  const auto& scope = neighborhoodScope(ctx, lineIndex);
+  const auto& live = stringVariable ? ctx.prep->live.stringVariablesSet : ctx.prep->live.variablesSet;
+  const auto& visible = stringVariable ? scope.stringVariables : scope.variables;
+  for (const auto* names : {&live, &visible})
+  {
+    for (const auto& candidate : *names)
+    {
+      if (candidate.size() == wanted.size() && candidate != name && toLowerAscii(candidate) == wanted)
+      {
+        return candidate;
+      }
+    }
+  }
+  return {};
+}
+
+// Undeclared names are errors (docs/adr/0024-native-string-variables-used-before-declaration.md).
+// `didYouMean`, when set, is the declared spelling of a case-only mismatch.
+void emitUndeclared(
+  ValidateContext& ctx,
+  const PerLineState& line,
+  const std::string& variableName,
+  const std::string& didYouMean = {})
+{
+  auto inner = "Variable " + variableName + " used before declaration";
+  if (!didYouMean.empty())
+  {
+    inner += " (did you mean " + didYouMean + "?)";
+  }
+  auto diagnostic = reportProblem123(ctx, line, inner);
+  diagnostic.severity = lsp::DiagnosticSeverity::Error;
+  ctx.append(std::move(diagnostic), true);
+}
+
+// `X$` spelled `name$`: the "did you mean" spelling, also with its `$`.
+std::string stringDidYouMean(const ValidateContext& ctx, int lineIndex, std::string_view baseName)
+{
+  auto match = caseOnlyMatch(ctx, lineIndex, baseName, true);
+  return match.empty() ? match : match + "$";
 }
 
 // --- Used before assignment -------------------------------------------------
@@ -856,7 +944,11 @@ void familyUsedBeforeDeclaration(ValidateContext& ctx, PerLineState& line)
         : variableName;
       if (!inVariablesSet(ctx, line.index, variableName) && !inStringVariablesSet(ctx, line.index, stringVariant))
       {
-        emitUndeclared(ctx, line, variableName);
+        emitUndeclared(
+          ctx,
+          line,
+          variableName,
+          variableName.ends_with('$') ? stringDidYouMean(ctx, line.index, stringVariant) : std::string{});
       }
       else if (ctx.settings.warnUsedBeforeAssignment)
       {
@@ -955,6 +1047,29 @@ void familyUsedBeforeDeclaration(ValidateContext& ctx, PerLineState& line)
     {
       emitUsedBeforeAssignment(ctx, line, variableName, usage.begin, {
         SiteKey{&ctx.prep->live.assignmentSites, variableName},
+      });
+    }
+  }
+
+  // String variables. The numeric pass above skips every name followed by a
+  // `$` later on the line, so `name$` uses are checked here.
+  for (const auto& usage : stringUsageMatches(codeLine))
+  {
+    const auto& baseName = usage.name;
+    const auto variableName = baseName + "$";
+    if (baseName.find("RETURN") != std::string::npos
+        || catalog::isKeywordLabel(variableName) || catalog::isKeywordLabel(baseName))
+    {
+      continue;
+    }
+    if (!inStringVariablesSet(ctx, line.index, baseName))
+    {
+      emitUndeclared(ctx, line, variableName, stringDidYouMean(ctx, line.index, baseName));
+    }
+    else if (ctx.settings.warnUsedBeforeAssignment)
+    {
+      emitUsedBeforeAssignment(ctx, line, variableName, usage.begin, {
+        SiteKey{&ctx.prep->live.stringAssignmentSites, baseName},
       });
     }
   }

@@ -16,6 +16,7 @@ const IndexedType kParamSlots_get_area_plane[] = {
 };
 
 const IndexedType kParamSlots_get_edge_dir[] = {
+  {1, std::string_view{"pvector"}},
   {2, std::string_view{"dvector"}},
 };
 

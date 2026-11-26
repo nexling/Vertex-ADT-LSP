@@ -40,7 +40,17 @@ const LEGEND = [
     'databaselistVariable',
     'databaseVariable',
     'validatedCommandVariable',
+    // Debug traces (docs/adr/0025-debug-trace-fast-path.md), appended.
+    'keyword',
+    'string',
+    'number',
+    'comment',
+    'function',
+    'debugValue',
+    'debugMarker',
 ];
+
+const DEBUG_FIXTURE = path.join(REPO_ROOT, 'test-fixtures', 'debug-trace', 'sample.dbg');
 
 class AssertionError extends Error {
     constructor(message) {
@@ -194,18 +204,86 @@ async function runMain(session) {
 }
 
 async function runDump(session) {
+    // The header within the first 4 KB makes the buffer a debug trace: lexical
+    // trace tokens, no type timeline (docs/adr/0025-debug-trace-fast-path.md).
     const dump = fixture('custom/dump.prg');
     session.didOpen({ uri: dump.uri, languageId: 'vertexadt', version: 1, text: dump.text });
     const tokens = decode(await session.semanticTokensFull(dump.uri));
-    assertType(tokens, dump.lines, 'vec_to(KeepVec) 1, 2, 3', 'KeepVec', 'pvectorVariable', 'dump header does not uncolor earlier lines');
-    const after = lineIndex(dump.lines, 'Use = KeepVec');
-    assertEqual(
-        tokens.filter((token) => token.line >= lineIndex(dump.lines, 'START OF DEBUG in FILE')).length,
-        0,
-        'debug dump header stops the scan'
-    );
-    assertEqual(typeAt(tokens, after, 0), null, 'no tokens after dump header');
+    const header = lineIndex(dump.lines, 'START OF DEBUG in FILE');
+    assertEqual(typeAt(tokens, header, 0), 'debugMarker', 'dump header is a trace banner');
+    assertType(tokens, dump.lines, 'vec_to(KeepVec) 1, 2, 3', 'vec_to', 'function', 'catalog command in a trace');
+    assertType(tokens, dump.lines, 'vec_to(KeepVec) 1, 2, 3', 'KeepVec', null, 'no type timeline in a trace');
+    assert(!tokens.some((token) => token.type === 'pvectorVariable' && token.length === 'KeepVec'.length), 'no timeline types');
     session.didClose(dump.uri);
+}
+
+function tokensOnLine(tokens, line, lineText) {
+    return tokens
+        .filter((token) => token.line === line)
+        .map((token) => `${lineText.slice(token.start, token.start + token.length)}:${token.type}`);
+}
+
+async function runDebugTraceRange(session) {
+    const text = fs.readFileSync(DEBUG_FIXTURE, 'utf8');
+    const lines = text.split('\n').map((line) => line.replace(/\r$/, ''));
+    const uri = pathToFileURL(DEBUG_FIXTURE).href;
+    session.didOpen({ uri, languageId: 'vertexadt', version: 1, text });
+    const range = (start, end) => session.request('textDocument/semanticTokens/range', {
+        textDocument: { uri },
+        range: { start: { line: start, character: 0 }, end: { line: end, character: 0 } },
+    });
+
+    // The index lands in the background; range answers never wait for it.
+    let tokens = [];
+    for (let attempt = 0; attempt < 20; attempt++) {
+        tokens = decode(await range(0, 10));
+        if (tokens.some((token) => token.type === 'variable')) {
+            break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+    assert(tokens.every((token) => token.line <= 10), 'range tokens stay in the range');
+    assertEqual(typeAt(tokens, 0, lines[0].indexOf('START')), 'debugMarker', 'START banner');
+    const timer = lines.findIndex((line) => /^\s*timer = 1\s+<1>/.test(line));
+    assertEqual(
+        tokensOnLine(tokens, timer, lines[timer]),
+        ['timer:variable', '1:number', '<1>:debugValue'],
+        'assignment line: name, number, value'
+    );
+    const endif = lines.findIndex((line) => /^endif\s+<> _if_end_/.test(line));
+    assertEqual(
+        tokensOnLine(tokens, endif, lines[endif]),
+        ['endif:keyword', '<>:debugValue', '_if_end_:debugMarker'],
+        'endif line: keyword, value, marker'
+    );
+    const p = lines.findIndex((line) => /^P = 1\s/.test(line));
+    assertEqual(typeAt(tokens, p, 0), 'pvectorVariable', 'P suffix name');
+
+    // Full equals the union of ranges for a small trace.
+    const full = decode(await session.semanticTokensFull(uri));
+    const tail = decode(await range(50, lines.length));
+    const expected = full.filter((token) => token.line >= 50);
+    assertEqual(tail.map((t) => [t.line, t.start, t.length, t.type]), expected.map((t) => [t.line, t.start, t.length, t.type]), 'range matches full');
+
+    // Every feature but tokens, hover and definition answers empty.
+    const pull = await session.diagnostic(uri);
+    assertEqual(pull && pull.items, [], 'no diagnostics on a trace');
+    session.didClose(uri);
+}
+
+async function runSourceRange(session) {
+    const main = fixture('custom/main.prg');
+    session.didOpen({ uri: main.uri, languageId: 'vertexadt', version: 1, text: main.text });
+    const full = decode(await session.semanticTokensFull(main.uri));
+    const start = 2;
+    const end = Math.min(12, main.lines.length - 1);
+    const ranged = decode(await session.request('textDocument/semanticTokens/range', {
+        textDocument: { uri: main.uri },
+        range: { start: { line: start, character: 0 }, end: { line: end, character: 0 } },
+    }));
+    const expected = full.filter((token) => token.line >= start && token.line <= end);
+    assertEqual(ranged, expected, 'source range is the full result cut to the range');
+    session.didClose(main.uri);
 }
 
 async function runIncludedFromBufferEdit(session) {
@@ -264,10 +342,12 @@ async function run() {
         assert(provider, 'semanticTokensProvider');
         assertEqual(provider.legend && provider.legend.tokenTypes, LEGEND, 'legend tokenTypes ABI');
         assertEqual(provider.legend && provider.legend.tokenModifiers, ['readonly', 'declaration'], 'legend tokenModifiers');
-        assertEqual(provider.full, true, 'full only');
-        assert(provider.range === undefined, 'range is omitted');
+        assertEqual(provider.full, true, 'full');
+        assertEqual(provider.range, true, 'range');
         await runMain(session);
         await runDump(session);
+        await runDebugTraceRange(session);
+        await runSourceRange(session);
         await runIncludedFromBufferEdit(session);
         await runIncludedParentPriorType(session);
         await session.shutdownAndExit();

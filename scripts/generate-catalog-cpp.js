@@ -54,8 +54,8 @@ function assertCatalogs(catalogs) {
         throw new Error(`Unexpected object-parameter commands: ${objectParameterCommands}`);
     }
     const names = Object.keys(catalogs.commands);
-    if (names.length !== 276) {
-        throw new Error(`Expected 276 command keys, got ${names.length}`);
+    if (names.length !== 293) {
+        throw new Error(`Expected 293 command keys, got ${names.length}`);
     }
     if (names.includes('call')) {
         throw new Error('call must not be a command-catalog key');
@@ -65,8 +65,8 @@ function assertCatalogs(catalogs) {
     if (custom.length !== 5) {
         throw new Error(`Expected 5 custom validators, got ${custom.join(', ')}`);
     }
-    if (table.length !== 271) {
-        throw new Error(`Expected 271 table validators, got ${table.length}`);
+    if (table.length !== 288) {
+        throw new Error(`Expected 288 table validators, got ${table.length}`);
     }
     for (const name of CUSTOM_VALIDATORS) {
         const row = catalogs.commands[name];
@@ -107,8 +107,8 @@ function assertCatalogs(catalogs) {
     if (!hasMixedCase(writes, 'Xlimit_max')) {
         throw new Error('command-type-writes lost mixed-case Xlimit_max');
     }
-    if (writes.paramTypeMap.get_edge_dir && writes.paramTypeMap.get_edge_dir['1']) {
-        throw new Error('get_edge_dir must omit slot 1');
+    if (!writes.paramTypeMap.get_edge_dir || writes.paramTypeMap.get_edge_dir['1'] !== 'pvector') {
+        throw new Error('get_edge_dir slot 1 missing');
     }
     if (!writes.paramTypeMap.get_edge_dir || writes.paramTypeMap.get_edge_dir['2'] !== 'dvector') {
         throw new Error('get_edge_dir slot 2 missing');

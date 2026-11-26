@@ -234,10 +234,13 @@ bool isBangComment(std::string_view text)
   return !trimmed.empty() && trimmed.front() == '!';
 }
 
+// Head only (docs/adr/0025-debug-trace-fast-path.md): the dump header is the
+// first line, and a whole-text search cost a full scan per caller.
 bool isDebugDump(std::string_view text)
 {
-  return text.find("START OF DEBUG in FILE") != std::string_view::npos
-    || text.find("START OF DEBUG in SECTION") != std::string_view::npos;
+  const auto head = text.substr(0, std::min<std::size_t>(text.size(), 4096));
+  return head.find("START OF DEBUG in FILE") != std::string_view::npos
+    || head.find("START OF DEBUG in SECTION") != std::string_view::npos;
 }
 
 bool isVxdbaseWinstyleShell(std::string_view text)

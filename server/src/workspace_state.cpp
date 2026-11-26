@@ -322,6 +322,12 @@ auto WorkspaceState::crossCall() -> CrossCallResolver&
 void WorkspaceState::didOpen(const lsp::DidOpenTextDocumentParams& params)
 {
   documents_.open(params);
+  // Debug traces: no linked copy, extracts, includes or indexing
+  // (docs/adr/0025-debug-trace-fast-path.md).
+  if (documents_.isDebugTrace(params.textDocument.uri))
+  {
+    return;
+  }
   auto snapshot = documents_.snapshot(params.textDocument.uri);
   if (!snapshot)
   {
@@ -337,6 +343,10 @@ void WorkspaceState::didOpen(const lsp::DidOpenTextDocumentParams& params)
 void WorkspaceState::didChange(const lsp::DidChangeTextDocumentParams& params)
 {
   documents_.change(params);
+  if (documents_.isDebugTrace(params.textDocument.uri))
+  {
+    return;
+  }
   auto snapshot = documents_.snapshot(params.textDocument.uri);
   if (!snapshot)
   {
@@ -381,6 +391,11 @@ void WorkspaceState::didChange(const lsp::DidChangeTextDocumentParams& params)
 void WorkspaceState::didClose(const lsp::DidCloseTextDocumentParams& params)
 {
   const auto uri = params.textDocument.uri;
+  if (documents_.isDebugTrace(uri))
+  {
+    documents_.close(uri);
+    return;
+  }
   const auto normalized = normalizeFsPath(uri.fsPath());
   documents_.close(uri);
   extracts_.eraseLive(uri);

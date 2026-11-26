@@ -36,6 +36,7 @@
 #include "text_util.h"
 #include "dbcreate_field_completion.h"
 #include "debug_filename_completion.h"
+#include "debug_trace.h"
 #include "form_name_completion.h"
 #include "impact_codelens.h"
 #include "definition.h"
@@ -133,6 +134,49 @@ auto emptySemanticTokens(int version) -> lsp::SemanticTokens
   return tokens;
 }
 
+// Source-file semantic tokens on a heavy worker (full and range share the
+// URI+version prep cache).
+auto documentSemanticTokens(
+  vertexadt::WorkspaceState* ws,
+  const std::optional<vertexadt::Snapshot>& snapshot,
+  lsp::MessageHandler& handler,
+  const lsp::RequestId& id) -> lsp::SemanticTokens
+{
+  pollHeavyCancel(handler, id, snapshot);
+  if (!ws || !snapshot)
+  {
+    return emptySemanticTokens(snapshot ? snapshot->version : 0);
+  }
+  const auto settings = ws->settings();
+  const std::function<void()> throwIfCanceled = [&handler, id]()
+  {
+    if (handler.isCanceled(id))
+    {
+      throw lsp::RequestError(lsp::MessageError::RequestCancelled, "Canceled");
+    }
+  };
+  return vertexadt::semanticTokensFull({
+    .snapshot = *snapshot,
+    .semanticHighlightingEnabled = settings.semanticHighlightingEnabled,
+    .debugValidationCommands = settings.debugValidationCommands,
+    .strictModeEnabled = settings.strictModeEnabled,
+    .extracts = &ws->extracts(),
+    .linkedFiles = &ws->linkedFiles(),
+    .layout = &ws->layout(),
+    .textForPath =
+      [ws](const std::filesystem::path& path)
+      {
+        return ws->textForPath(path);
+      },
+    .throwIfCanceled = throwIfCanceled,
+    .prepare =
+      [ws, &snapshot = *snapshot, strict = settings.strictModeEnabled, throwIfCanceled]()
+      {
+        return ws->documentPrep(snapshot, strict, throwIfCanceled);
+      },
+  });
+}
+
 // Runs `work` on the heavy pool for `uri`, tracked so didChange/didClose can
 // cancel it, and polls `$/cancelRequest` while waiting.
 template <typename Result, typename Work>
@@ -215,8 +259,8 @@ auto main() -> int
   try
   {
     const auto catalogs = vertexadt::catalog::linkIntoExecutable();
-    if (catalogs.commandCount != 276
-        || catalogs.tableValidatorCount != 271
+    if (catalogs.commandCount != 293
+        || catalogs.tableValidatorCount != 288
         || catalogs.customValidatorCount != 5
         || catalogs.keywordCount != 1336)
     {
@@ -244,11 +288,52 @@ auto main() -> int
         },
     };
 
+    // Debug traces (docs/adr/0025-debug-trace-fast-path.md): line table on
+    // open, assignment index in the background, tokens refreshed when it lands.
+    // Every other feature answers empty without copying the buffer.
+    vertexadt::DebugTraceStore debugTraces([&] {
+      endpoint.workspaceSemanticTokensRefresh([](auto&&) {});
+    });
+    const auto syncDebugTrace = [&](const lsp::Uri& uri)
+    {
+      if (auto text = documents.debugTraceText(uri))
+      {
+        debugTraces.update(uri.toString(), text->version, std::move(text->text));
+      }
+      else
+      {
+        debugTraces.erase(uri.toString());
+      }
+    };
+    const auto debugTraceFor = [&](const lsp::Uri& uri) -> std::shared_ptr<const vertexadt::DebugTrace>
+    {
+      if (!documents.isDebugTrace(uri))
+      {
+        return nullptr;
+      }
+      auto trace = debugTraces.get(uri.toString());
+      if (!trace)
+      {
+        syncDebugTrace(uri);
+        trace = debugTraces.get(uri.toString());
+      }
+      return trace;
+    };
+    const auto semanticHighlightingEnabled = [&]()
+    {
+      return !workspace || workspace->settings().semanticHighlightingEnabled;
+    };
+
     // textDocument/completion and, with `probe`, vertexadt/slotCompletionProbe:
     // the same slot families without the keyword-variable list.
     const auto completionRequest = [&](lsp::CompletionParams&& params, bool probe)
       -> lsp::RequestResult<lsp::TextDocumentCompletionResult>
     {
+      if (documents.isDebugTrace(params.textDocument.uri))
+      {
+        return lsp::TextDocumentCompletionResult{
+          lsp::CompletionList{.isIncomplete = false, .items = {}}};
+      }
       auto snapshot = documents.snapshot(params.textDocument.uri);
       auto* ws = workspace.get();
       auto cheap = scheduler.runCheap(
@@ -609,6 +694,10 @@ auto main() -> int
       [&](const lsp::Uri& uri, const lsp::FormattingOptions& options, std::optional<lsp::Range> range)
       -> lsp::NullOr<lsp::Array<lsp::TextEdit>>
     {
+      if (documents.isDebugTrace(uri))
+      {
+        return nullptr;
+      }
       const auto snapshot = documents.snapshot(uri);
       if (!snapshot || snapshot->languageId != "vertexadt" || vertexadt::isDebugDump(snapshot->text)
           || (workspace && !workspace->settings().formatEnabled))
@@ -720,6 +809,7 @@ auto main() -> int
           if (workspace)
           {
             workspace->didOpen(params);
+            syncDebugTrace(params.textDocument.uri);
           }
         })
       .onTextDocumentDidChange(
@@ -729,6 +819,7 @@ auto main() -> int
           if (workspace)
           {
             workspace->didChange(params);
+            syncDebugTrace(uri);
           }
           scheduler.noteEdited(uri);
           scheduler.cancelHeavyForUri(endpoint.messageHandler(), uri);
@@ -736,6 +827,7 @@ auto main() -> int
       .onTextDocumentDidClose(
         [&](lsp::DidCloseTextDocumentParams&& params)
         {
+          debugTraces.erase(params.textDocument.uri.toString());
           scheduler.cancelHeavyForUri(endpoint.messageHandler(), params.textDocument.uri);
           if (workspace)
           {
@@ -769,6 +861,14 @@ auto main() -> int
       .onTextDocumentHover(
         [&](lsp::HoverParams&& params) -> lsp::TextDocumentHoverResult
         {
+          if (auto trace = debugTraceFor(params.textDocument.uri))
+          {
+            return vertexadt::debugTraceHover(*trace, params.position);
+          }
+          if (documents.isDebugTrace(params.textDocument.uri))
+          {
+            return nullptr;
+          }
           auto snapshot = documents.snapshot(params.textDocument.uri);
           const auto position = params.position;
           auto* ws = workspace.get();
@@ -781,6 +881,10 @@ auto main() -> int
       .onTextDocumentDocumentHighlight(
         [&](lsp::DocumentHighlightParams&& params) -> lsp::TextDocumentDocumentHighlightResult
         {
+          if (documents.isDebugTrace(params.textDocument.uri))
+          {
+            return nullptr;
+          }
           auto snapshot = documents.snapshot(params.textDocument.uri);
           const auto position = params.position;
           return scheduler.runCheap(
@@ -803,6 +907,14 @@ auto main() -> int
         [&](lsp::DefinitionParams&& params)
           -> lsp::RequestResult<lsp::TextDocumentDefinitionResult>
         {
+          if (auto trace = debugTraceFor(params.textDocument.uri))
+          {
+            return vertexadt::debugTraceDefinition(*trace, params.textDocument.uri, params.position);
+          }
+          if (documents.isDebugTrace(params.textDocument.uri))
+          {
+            return lsp::TextDocumentDefinitionResult(nullptr);
+          }
           auto snapshot = documents.snapshot(params.textDocument.uri);
           const auto version = snapshot ? snapshot->version : 0;
           auto* ws = workspace.get();
@@ -839,6 +951,10 @@ auto main() -> int
         {
           // Heavy: a `call(` reads the callee's linked-file snapshot. The
           // SignatureHelpContext is ignored; every request recomputes.
+          if (documents.isDebugTrace(params.textDocument.uri))
+          {
+            return lsp::TextDocumentSignatureHelpResult(nullptr);
+          }
           auto snapshot = documents.snapshot(params.textDocument.uri);
           const auto version = snapshot ? snapshot->version : 0;
           auto* ws = workspace.get();
@@ -902,6 +1018,32 @@ auto main() -> int
         [&](lsp::SemanticTokensParams&& params)
           -> lsp::RequestResult<lsp::TextDocumentSemanticTokensFullResult>
         {
+          if (auto trace = debugTraceFor(params.textDocument.uri))
+          {
+            if (!semanticHighlightingEnabled())
+            {
+              return lsp::TextDocumentSemanticTokensFullResult(emptySemanticTokens(trace->version()));
+            }
+            auto* handler = &endpoint.messageHandler();
+            return heavyRequest<lsp::TextDocumentSemanticTokensFullResult>(
+              scheduler,
+              params.textDocument.uri,
+              trace->version(),
+              [trace, handler](const lsp::RequestId& id) -> lsp::TextDocumentSemanticTokensFullResult
+              {
+                return vertexadt::debugTraceSemanticTokens(
+                  *trace,
+                  0,
+                  trace->lineCount(),
+                  [handler, id]()
+                  {
+                    if (handler->isCanceled(id))
+                    {
+                      throw lsp::RequestError(lsp::MessageError::RequestCancelled, "Canceled");
+                    }
+                  });
+              });
+          }
           auto snapshot = documents.snapshot(params.textDocument.uri);
           const auto version = snapshot ? snapshot->version : 0;
           auto* ws = workspace.get();
@@ -913,39 +1055,40 @@ auto main() -> int
             [snapshot = std::move(snapshot), ws, handler](const lsp::RequestId& id)
               -> lsp::TextDocumentSemanticTokensFullResult
             {
-              pollHeavyCancel(*handler, id, snapshot);
-              if (!ws || !snapshot)
-              {
-                return emptySemanticTokens(snapshot ? snapshot->version : 0);
-              }
-              const auto settings = ws->settings();
-              const std::function<void()> throwIfCanceled = [handler, id]()
-              {
-                if (handler->isCanceled(id))
-                {
-                  throw lsp::RequestError(lsp::MessageError::RequestCancelled, "Canceled");
-                }
-              };
-              return vertexadt::semanticTokensFull({
-                .snapshot = *snapshot,
-                .semanticHighlightingEnabled = settings.semanticHighlightingEnabled,
-                .debugValidationCommands = settings.debugValidationCommands,
-                .strictModeEnabled = settings.strictModeEnabled,
-                .extracts = &ws->extracts(),
-                .linkedFiles = &ws->linkedFiles(),
-                .layout = &ws->layout(),
-                .textForPath =
-                  [ws](const std::filesystem::path& path)
-                  {
-                    return ws->textForPath(path);
-                  },
-                .throwIfCanceled = throwIfCanceled,
-                .prepare =
-                  [ws, &snapshot = *snapshot, strict = settings.strictModeEnabled, throwIfCanceled]()
-                  {
-                    return ws->documentPrep(snapshot, strict, throwIfCanceled);
-                  },
-              });
+              return documentSemanticTokens(ws, snapshot, *handler, id);
+            });
+        })
+      .onTextDocumentSemanticTokensRange(
+        [&](lsp::SemanticTokensRangeParams&& params)
+          -> lsp::RequestResult<lsp::TextDocumentSemanticTokensRangeResult>
+        {
+          // Debug traces: the visible lines only, answered on the message
+          // loop (a few hundred lines of lexing), never waiting for the index.
+          if (auto trace = debugTraceFor(params.textDocument.uri))
+          {
+            if (!semanticHighlightingEnabled())
+            {
+              return lsp::TextDocumentSemanticTokensRangeResult(emptySemanticTokens(trace->version()));
+            }
+            const auto first = static_cast<int>(params.range.start.line);
+            const auto end = static_cast<int>(params.range.end.line) + 1;
+            return lsp::TextDocumentSemanticTokensRangeResult(
+              vertexadt::debugTraceSemanticTokens(*trace, first, end));
+          }
+          // Source files: the cached full result, cut to the range.
+          auto snapshot = documents.snapshot(params.textDocument.uri);
+          const auto version = snapshot ? snapshot->version : 0;
+          auto* ws = workspace.get();
+          auto* handler = &endpoint.messageHandler();
+          return heavyRequest<lsp::TextDocumentSemanticTokensRangeResult>(
+            scheduler,
+            params.textDocument.uri,
+            version,
+            [snapshot = std::move(snapshot), ws, handler, range = params.range](const lsp::RequestId& id)
+              -> lsp::TextDocumentSemanticTokensRangeResult
+            {
+              return vertexadt::semanticTokensInRange(
+                documentSemanticTokens(ws, snapshot, *handler, id), range);
             });
         })
       .onTextDocumentOnTypeFormatting(
@@ -954,6 +1097,10 @@ auto main() -> int
         {
           // Newline cleanup: one previous-line parse, local to this buffer,
           // answered on the message loop.
+          if (documents.isDebugTrace(params.textDocument.uri))
+          {
+            return nullptr;
+          }
           const auto snapshot = documents.snapshot(params.textDocument.uri);
           if (!snapshot)
           {
@@ -992,6 +1139,10 @@ auto main() -> int
       [&](lsp::TextDocumentPositionParams&& params)
         -> lsp::RequestResult<lsp::Array<lsp::Position>>
       {
+        if (documents.isDebugTrace(params.textDocument.uri))
+        {
+          return lsp::Array<lsp::Position>{};
+        }
         auto snapshot = documents.snapshot(params.textDocument.uri);
         const auto version = snapshot ? snapshot->version : 0;
         auto* ws = workspace.get();
@@ -1080,7 +1231,12 @@ auto main() -> int
         std::optional<vertexadt::Snapshot> snapshot;
         if (uri && uri->isString())
         {
-          snapshot = documents.snapshot(lsp::Uri::parse(uri->string()));
+          const auto parsed = lsp::Uri::parse(uri->string());
+          if (documents.isDebugTrace(parsed))
+          {
+            return lsp::json::Value(lsp::json::Array{});
+          }
+          snapshot = documents.snapshot(parsed);
         }
         const auto callParamValidation = workspace
           ? workspace->settings().validateParameterCount
@@ -1129,6 +1285,10 @@ auto main() -> int
           return lsp::json::Value(lsp::json::Array{});
         }
         const auto uri = lsp::Uri::parse(uriValue->string());
+        if (documents.isDebugTrace(uri))
+        {
+          return lsp::json::Value(lsp::json::Array{});
+        }
         auto snapshot = documents.snapshot(uri);
         const auto version = snapshot ? snapshot->version : 0;
         auto* handler = &endpoint.messageHandler();
@@ -1306,6 +1466,10 @@ auto main() -> int
       [&](lsp::DocumentDiagnosticParams&& params)
         -> lsp::RequestResult<vertexadt::PullDiagnosticReport>
       {
+        if (documents.isDebugTrace(params.textDocument.uri))
+        {
+          return vertexadt::emptyFullPullReport();
+        }
         auto snapshot = documents.snapshot(params.textDocument.uri);
         const auto version = snapshot ? snapshot->version : 0;
         if (workspace)

@@ -13,8 +13,9 @@ namespace {
 
 // Hand matchers for the four ECMAScript `std::regex` scans Node runs per
 // line. Each reproduces the regex's matches (start positions, backtracking,
-// resume-after-match) exactly; classes are in regex_classes.h.
-//   string assign: \b([A-Za-z][A-Za-z0-9_-]*)\$(?=\s*=)
+// resume-after-match) exactly; classes are in regex_classes.h. String assign
+// now also takes an array element (ADR 0024), so it no longer matches Node.
+//   string assign: \b([A-Za-z][A-Za-z0-9_-]*)\$(?:\([^)]*\))?(?=\s*=)
 //   assign:        \b([A-Za-z][A-Za-z0-9_-]*)\b(?:\([^)]*\))?(?!$)(?=\s*=)
 //   set:           \bset\s+([A-Za-z][A-Za-z0-9_-]*)\b
 //   call:          \b([A-Za-z][A-Za-z0-9_-]*)\s*\(
@@ -83,11 +84,26 @@ std::optional<NameMatch> stringAssignAt(std::string_view line, std::size_t i)
     return std::nullopt;
   }
   const auto end = nameRunEnd(line, i);
-  if (end >= line.size() || line[end] != '$' || !equalsAhead(line, end + 1))
+  if (end >= line.size() || line[end] != '$')
   {
     return std::nullopt;
   }
-  return NameMatch{i, end, end + 1};
+  // `X$ =`, or a string array element `X$(i) =` / `X$() = 5470`, like assignAt.
+  auto after = end + 1;
+  if (after < line.size() && line[after] == '(')
+  {
+    const auto close = line.find(')', after + 1);
+    if (close == std::string_view::npos)
+    {
+      return std::nullopt;
+    }
+    after = close + 1;
+  }
+  if (!equalsAhead(line, after))
+  {
+    return std::nullopt;
+  }
+  return NameMatch{i, end, after};
 }
 
 // Backtracking to a shorter name always leaves a `-` next, which fails both
@@ -283,7 +299,7 @@ void scanLine(VariableExtract& extract, std::string_view rawLine, bool includeHo
         if (includeHovers)
         {
           extract.hoverStringVariables.push_back(HoverTuple{
-            .name = line.substr(match.nameBegin, match.matchEnd - match.nameBegin),
+            .name = name + "$",
             .comment = attachHover ? hoverText : std::nullopt,
             .objectType = {},
           });

@@ -1784,7 +1784,7 @@
   },
   {
     "label": "fileopen",
-    "detail": " Opens a file into a new window. Supports 'all' formats.",
+    "detail": " Opens a file into a new window. Supports 'all' formats. will for example open dwg file in a window without any user prompt",
     "documentation": "Example:\n\n```vertexadt\nfileopen Path$\n```"
   },
   {

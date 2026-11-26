@@ -4,6 +4,7 @@
 
 #include "catalog/catalog.h"
 #include "debug_dump.h"
+#include "debug_trace.h"
 #include "text_util.h"
 
 #include <cstddef>
@@ -549,6 +550,54 @@ auto inferredDefinitionSites(
     }
   }
   return sites;
+}
+
+auto debugTraceDefinition(const DebugTrace& trace, const lsp::Uri& uri, lsp::Position position)
+  -> lsp::TextDocumentDefinitionResult
+{
+  const auto cursorLine = static_cast<int>(position.line);
+  if (cursorLine < 0 || cursorLine >= trace.lineCount())
+  {
+    return nullptr;
+  }
+  auto cursorText = trace.line(cursorLine);
+  if (!cursorText.empty() && cursorText.back() == '\r')
+  {
+    cursorText.remove_suffix(1);
+  }
+  const auto word = definitionWordAtPosition(cursorText, static_cast<int>(position.character));
+  if (!word || !isValidDefinitionTarget(*word))
+  {
+    return nullptr;
+  }
+  const auto assignment = trace.mostRecentAssignment(cursorLine, *word);
+  if (!assignment)
+  {
+    // A miss falls through to the in-buffer declaration walk (as before),
+    // never to includes. User-invoked only, so the line list is built here.
+    std::vector<std::string_view> lines;
+    lines.reserve(static_cast<std::size_t>(cursorLine) + 1);
+    for (int i = 0; i <= cursorLine; ++i)
+    {
+      auto text = trace.line(i);
+      if (!text.empty() && text.back() == '\r')
+      {
+        text.remove_suffix(1);
+      }
+      lines.push_back(text);
+    }
+    if (const auto local = declarationInLines(lines, *word, cursorLine))
+    {
+      return location(uri, *local, word->size());
+    }
+    return nullptr;
+  }
+  auto lineText = trace.line(assignment->line);
+  if (!lineText.empty() && lineText.back() == '\r')
+  {
+    lineText.remove_suffix(1);
+  }
+  return location(uri, targetOnLine(lineText, assignment->line, *word), word->size());
 }
 
 auto findDefinition(const DefinitionContext& context) -> lsp::TextDocumentDefinitionResult

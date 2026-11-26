@@ -60,8 +60,9 @@ async function pullText(session, name, text) {
     return { uri, items: pull.items || [] };
 }
 
-function assertWarningEnvelope(item, lineText, inner, line) {
-    assertEqual(item.severity, 2, `${inner} severity`);
+// Used before declaration is an Error (1); the length message stays a Warning (2).
+function assertEnvelope(item, lineText, inner, line, severity) {
+    assertEqual(item.severity, severity, `${inner} severity`);
     assertEqual(item.source, 'ADT-Syntax', `${inner} source`);
     assertEqual(item.message, wrapped(lineText, inner), `${inner} wrapped message`);
     assert(item.code === undefined, `${inner} has no code`);
@@ -85,11 +86,12 @@ async function run() {
 
         const undeclared = await pullText(session, 'used-before-generic.prg', 'z = missing\n');
         assertEqual(inners(undeclared.items), ['Variable missing used before declaration'], 'generic undeclared');
-        assertWarningEnvelope(
+        assertEnvelope(
             usedBeforeItems(undeclared.items)[0],
             'z = missing',
             'Variable missing used before declaration',
-            0
+            0,
+            1
         );
 
         const sourceOrder = await pullText(
@@ -128,8 +130,75 @@ async function run() {
             'hyphen splits generic matches'
         );
 
+        // A later `$` still hides numeric names (`foo`), but the `bar$` use itself is checked.
         const laterDollar = await pullText(session, 'used-before-later-dollar.prg', 'foo = bar$\n');
-        assertEqual(inners(laterDollar.items), [], 'later $ suppresses generic identifiers');
+        assertEqual(
+            inners(laterDollar.items),
+            ['Variable bar$ used before declaration'],
+            'later $ suppresses numeric identifiers only'
+        );
+
+        // --- String variables in the generic pass (ADR 0024) ---
+        const studText = [
+            'Code$= get(SC)',
+            'studnum = get(SN)',
+            'makes3 = get("W~MAKES3")',
+            'if makes3 = 1 and findstri(code$,"x95") then',
+            '  Detail$ = "WD-STUD"&studnum&"F"',
+            'else',
+            '  Detail$ = "WD-STUD"&studnum',
+            'endif',
+            'set WALL_DET_NAME Detail$',
+            '',
+        ].join('\n');
+        const stud = await pullText(session, 'used-before-string-stud.prg', studText);
+        assertEqual(
+            inners(stud.items),
+            ['Variable code$ used before declaration (did you mean Code$?)'],
+            'wrong-case string variable is undeclared, with a hint'
+        );
+        assertEnvelope(
+            usedBeforeItems(stud.items)[0],
+            'if makes3 = 1 and findstri(code$,"x95") then',
+            'Variable code$ used before declaration (did you mean Code$?)',
+            3,
+            1
+        );
+
+        const stringCases = [
+            ['undeclared', 'z$ = s$\n', ['Variable s$ used before declaration']],
+            ['declared', 's$ = "a"\nz$ = s$\n', []],
+            ['declared-later', 'z$ = s$\ns$ = "a"\n', []],
+            ['no-hint-without-case-match', 'Other$ = "a"\nz$ = s$\n', ['Variable s$ used before declaration']],
+            ['in-quotes', 'z$ = "s$ and t$"\n', []],
+            ['in-single-quotes', "z$ = 's$'\n", []],
+            ['dir-token', 'p$ = $DIR_MACROS$\n', []],
+            ['inside-hashes', 'z$ = #s$#\n', []],
+            ['concat', 'a$ = "x"\nz$ = a$&b$\n', ['Variable b$ used before declaration']],
+            ['substring', 'a$ = "xy"\nz$ = a$[1,1]\n', []],
+            ['condition', 'if t$ = "a" then\n  z = 1\nendif\n', []],
+            ['duplicate', 'z$ = s$&s$\n', ['Variable s$ used before declaration']],
+            ['get-line-skipped', 'z$ = get(s$)\n', []],
+            ['return-skipped', 'z$ = RETURNVAL$\n', []],
+            // A string array element assignment declares the name.
+            ['array-element', 'R0 = 1\nType$(R0) = "a"\nz$ = Type$(R0)\n', []],
+            ['array-sized', 'core_t$() = 5470\nz$ = core_t$(1)\n', []],
+        ];
+        for (const [name, text, expected] of stringCases) {
+            const result = await pullText(session, `used-before-string-${name}.prg`, text);
+            assertEqual(inners(result.items), expected, `string variable: ${name}`);
+        }
+
+        const callHint = await pullText(
+            session,
+            'used-before-call-string-hint.prg',
+            'Foo$ = "a"\ncall("f.prg", foo$)\n'
+        );
+        assertEqual(
+            inners(callHint.items),
+            ['Variable foo$ used before declaration (did you mean Foo$?)'],
+            'call-arg string gets the case hint'
+        );
 
         const callArg = await pullText(session, 'used-before-call-arg.prg', 'call("f.prg", undeclared)\n');
         assertEqual(
@@ -240,11 +309,12 @@ async function run() {
             ['Keyword VeryLongVariableNameX exceeds maximum length of 16 characters'],
             '16-char only when name is in variablesSet'
         );
-        assertWarningEnvelope(
+        assertEnvelope(
             usedBeforeItems(longDeclared.items)[0],
             'VeryLongVariableNameX = 1',
             'Keyword VeryLongVariableNameX exceeds maximum length of 16 characters',
-            0
+            0,
+            2
         );
 
         const longUndeclared = await pullText(
@@ -385,8 +455,11 @@ async function run() {
             ['call-is-not-assignment', 'z = foo(1)\n', []],
             // Numeric uses only look at numeric sites; `dx$ =` does not assign `dx`.
             ['string-site-only', 'dx$ = "a"\nz = dx\n', []],
-            // Existing limit: a line with a later `$` skips generic matching.
-            ['string-later-unchecked', 'z$ = s$\ns$ = "a"\n', []],
+            // `X$` uses look only at string sites; the target of `z$ =` is not a read.
+            ['string-later', 'z$ = s$\ns$ = "a"\n', ['Variable s$ used before assignment (first assigned on line 2)']],
+            ['string-ordered', 's$ = "a"\nz$ = s$\n', []],
+            ['string-self', 's$ = s$&"a"\n', ['Variable s$ used before assignment (first assigned on line 1)']],
+            ['string-semicolon', 's$ = "a"; z$ = s$\n', []],
             [
                 'call-string-later',
                 'call("f.prg", s$)\ns$ = "a"\n',

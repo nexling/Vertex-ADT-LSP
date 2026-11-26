@@ -52,6 +52,7 @@ set(VERTEX_ADT_LS_CORE_SOURCES
   src/prep_cache.cpp
   src/workspace_state.cpp
   src/debug_dump.cpp
+  src/debug_trace.cpp
   src/cheap_hover.cpp
   src/control_block_pairing.cpp
   src/indent_formatter.cpp
@@ -301,6 +302,19 @@ if(MSVC)
   target_compile_options(drawing-file-commands-test PRIVATE /utf-8 /bigobj)
 endif()
 
+# Point, edge, note, map and system command entries (docs/adr/0023; not shipped, not in ALL):
+#   cmake --build build --config Release --target note-map-system-commands-test
+add_executable(note-map-system-commands-test EXCLUDE_FROM_ALL
+  tests/note_map_system_commands_test.cpp
+  ${VERTEX_ADT_LS_CORE_SOURCES}
+)
+target_include_directories(note-map-system-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(note-map-system-commands-test PRIVATE lsp)
+target_compile_features(note-map-system-commands-test PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(note-map-system-commands-test PRIVATE /utf-8 /bigobj)
+endif()
+
 # Control-block pairing: if/else/endif and loop/endloop hover and document
 # highlight (not shipped, not in ALL):
 #   cmake --build build --config Release --target control-block-pairing-test
@@ -386,4 +400,19 @@ target_link_libraries(program-move-test PRIVATE lsp)
 target_compile_features(program-move-test PRIVATE cxx_std_20)
 if(MSVC)
   target_compile_options(program-move-test PRIVATE /utf-8)
+endif()
+
+# Debug traces: parser/hover parity with the regex scan, line split, timings
+# (docs/adr/0025-debug-trace-fast-path.md; not shipped, not in ALL):
+#   cmake --build build --config Release --target debug-trace-test
+#   build\Release\debug-trace-test.exe [--parity] [file.dbg ...]
+add_executable(debug-trace-test EXCLUDE_FROM_ALL
+  tests/debug_trace_test.cpp
+  ${VERTEX_ADT_LS_CORE_SOURCES}
+)
+target_include_directories(debug-trace-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(debug-trace-test PRIVATE lsp)
+target_compile_features(debug-trace-test PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(debug-trace-test PRIVATE /utf-8 /bigobj)
 endif()

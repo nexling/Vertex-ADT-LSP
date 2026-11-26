@@ -824,6 +824,12 @@ auto validateCommandSyntax(
     {
       ++j;
     }
+    // `Function$` is a string variable, not the command `function` (ADR 0023).
+    if (j < trimmedLine.size() && trimmedLine[j] == '$')
+    {
+      i = j;
+      continue;
+    }
     const auto ident = trimmedLine.substr(i, j - i);
     const auto commandName = toLowerAscii(ident);
     if (commandName == assignedName)

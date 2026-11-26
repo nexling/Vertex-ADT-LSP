@@ -1,5 +1,6 @@
 #include "document_store.h"
 
+#include "debug_trace.h"
 #include "text_util.h"
 
 #include <algorithm>
@@ -136,14 +137,18 @@ void applyPartial(std::string& text, const lsp::TextDocumentContentChangePartial
 
 void DocumentStore::open(const lsp::DidOpenTextDocumentParams& params)
 {
+  auto text = std::make_shared<std::string>(params.textDocument.text);
+  const auto path = params.textDocument.uri.path();
+  const auto debugTrace = isDebugTraceDocument(path, *text);
   const auto lock = std::lock_guard(mutex_);
   buffers_.insert_or_assign(
     params.textDocument.uri,
     Buffer{
       .version = params.textDocument.version,
       .languageId = params.textDocument.languageId,
-      .text = params.textDocument.text,
+      .text = std::move(text),
       .normalizedPath = normalizeFsPath(params.textDocument.uri.fsPath()),
+      .debugTrace = debugTrace,
     });
 }
 
@@ -156,18 +161,24 @@ void DocumentStore::change(const lsp::DidChangeTextDocumentParams& params)
     return;
   }
 
+  auto& buffer = it->second;
   for (const auto& change : params.contentChanges)
   {
     if (const auto* whole = std::get_if<lsp::TextDocumentContentChangeWholeDocument>(&change))
     {
-      it->second.text = whole->text;
+      buffer.text = std::make_shared<std::string>(whole->text);
     }
     else if (const auto* partial = std::get_if<lsp::TextDocumentContentChangePartial>(&change))
     {
-      applyPartial(it->second.text, *partial);
+      if (buffer.text.use_count() > 1)
+      {
+        buffer.text = std::make_shared<std::string>(*buffer.text);
+      }
+      applyPartial(*buffer.text, *partial);
     }
   }
-  it->second.version = params.textDocument.version;
+  buffer.version = params.textDocument.version;
+  buffer.debugTrace = isDebugTraceDocument(params.textDocument.uri.path(), *buffer.text);
 }
 
 void DocumentStore::close(const lsp::Uri& uri)
@@ -188,7 +199,7 @@ auto DocumentStore::snapshot(const lsp::Uri& uri) const -> std::optional<Snapsho
     .uri = it->first,
     .version = it->second.version,
     .languageId = it->second.languageId,
-    .text = it->second.text,
+    .text = *it->second.text,
   };
 }
 
@@ -198,13 +209,13 @@ auto DocumentStore::snapshotByNormalizedPath(std::string_view normalizedPath) co
   const auto lock = std::lock_guard(mutex_);
   for (const auto& [uri, buffer] : buffers_)
   {
-    if (buffer.normalizedPath == normalizedPath)
+    if (buffer.normalizedPath == normalizedPath && !buffer.debugTrace)
     {
       return Snapshot{
         .uri = uri,
         .version = buffer.version,
         .languageId = buffer.languageId,
-        .text = buffer.text,
+        .text = *buffer.text,
       };
     }
   }
@@ -216,11 +227,36 @@ auto DocumentStore::openUris() const -> std::vector<lsp::Uri>
   const auto lock = std::lock_guard(mutex_);
   std::vector<lsp::Uri> uris;
   uris.reserve(buffers_.size());
-  for (const auto& [uri, _] : buffers_)
+  for (const auto& [uri, buffer] : buffers_)
   {
-    uris.push_back(uri);
+    if (!buffer.debugTrace)
+    {
+      uris.push_back(uri);
+    }
   }
   return uris;
+}
+
+bool DocumentStore::isDebugTrace(const lsp::Uri& uri) const
+{
+  const auto lock = std::lock_guard(mutex_);
+  const auto it = buffers_.find(uri);
+  return it != buffers_.end() && it->second.debugTrace;
+}
+
+auto DocumentStore::debugTraceText(const lsp::Uri& uri) const -> std::optional<DebugTraceText>
+{
+  const auto lock = std::lock_guard(mutex_);
+  const auto it = buffers_.find(uri);
+  if (it == buffers_.end() || !it->second.debugTrace)
+  {
+    return std::nullopt;
+  }
+  return DebugTraceText{
+    .version = it->second.version,
+    .languageId = it->second.languageId,
+    .text = it->second.text,
+  };
 }
 
 bool DocumentStore::isOpen(const lsp::Uri& uri) const

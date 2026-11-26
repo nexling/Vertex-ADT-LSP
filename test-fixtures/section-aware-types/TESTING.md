@@ -35,10 +35,13 @@ Timeline writes reuse [Implement type timeline and vector-to-value transitions](
 
 ## `custom/dump.prg`
 
+The header is in the first 4 KB, so the buffer is a debug trace and gets trace tokens, not the type timeline ([ADR 0025](../../docs/adr/0025-debug-trace-fast-path.md)).
+
 | Identifier | Expect |
 | --- | --- |
-| `KeepVec` on the first line | `pvectorVariable` |
-| `KeepVec` / `Use` after `START OF DEBUG in FILE` | no token (scan stops) |
+| `START OF DEBUG in FILE` | `debugMarker` |
+| `vec_to` on the first line | `function` |
+| `KeepVec` on the first line | no token (no timeline type, never assigned with a value) |
 
 ## `##included_from` parent buffer edit
 

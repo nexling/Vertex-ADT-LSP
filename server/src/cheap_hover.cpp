@@ -6,6 +6,7 @@
 
 #include "catalog/catalog.h"
 #include "debug_dump.h"
+#include "debug_trace.h"
 #include "dir_paths.h"
 #include "library_paths.h"
 #include "text_util.h"
@@ -271,6 +272,39 @@ auto wordAtPosition(std::string_view text, lsp::Position position) -> std::optio
     }
   }
   return std::nullopt;
+}
+
+auto debugTraceHover(const DebugTrace& trace, lsp::Position position)
+  -> lsp::TextDocumentHoverResult
+{
+  const auto lineNumber = static_cast<int>(position.line);
+  if (lineNumber < 0 || lineNumber >= trace.lineCount())
+  {
+    return nullptr;
+  }
+  const auto word = wordAtPosition(trace.line(lineNumber), lsp::Position{.line = 0, .character = position.character});
+  if (!word)
+  {
+    return nullptr;
+  }
+  // Same rule and markdown as the full-scan hover it replaces.
+  if (word->size() >= 2 && !catalog::isKeywordLabelIgnoreCase(*word))
+  {
+    if (auto found = trace.mostRecentAssignment(lineNumber, *word))
+    {
+      std::string markdown = "**" + *word + "** = `" + found->value + "`";
+      if (found->line != lineNumber)
+      {
+        markdown += "\n\n_Set on line " + std::to_string(found->line + 1) + "_";
+      }
+      return makeHover(std::move(markdown));
+    }
+  }
+  if (const auto* keyword = catalog::findKeyword(*word))
+  {
+    return makeHover(keywordMarkdown(*keyword));
+  }
+  return nullptr;
 }
 
 auto cheapHover(const CheapHoverContext& context) -> lsp::TextDocumentHoverResult

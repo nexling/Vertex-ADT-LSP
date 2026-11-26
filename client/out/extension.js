@@ -268,6 +268,35 @@ async function showImpactAnalysisQuickPick(payload) {
     }
 
 
+    // Debug traces over this size get range tokens only
+    // (docs/adr/0025-debug-trace-fast-path.md).
+    const DEBUG_TRACE_FULL_TOKENS_MAX_CHARS = 2 * 1024 * 1024;
+
+    function isDebugTraceDocument(document) {
+        if (/\.dbg$/i.test(document.fileName || '')) {
+            return true;
+        }
+        if (document.lineCount === 0) {
+            return false;
+        }
+        return /START OF DEBUG in (FILE|SECTION)/.test(document.lineAt(0).text);
+    }
+
+    // A full-document token request on a big debug trace would hand VS Code
+    // millions of tokens, and a full result (even null) stops the viewport
+    // range requests. Cancelling instead leaves the document without
+    // complete tokens, so VS Code keeps asking for the visible range.
+    function provideDebugAwareDocumentSemanticTokens(document, token, next) {
+        if (isDebugTraceDocument(document)) {
+            const chars = document.offsetAt(new vscode_1.Position(document.lineCount, 0));
+            if (chars > DEBUG_TRACE_FULL_TOKENS_MAX_CHARS) {
+                throw vscode_1.CancellationError ? new vscode_1.CancellationError() : new Error('busy');
+            }
+        }
+        return next(document, token);
+    }
+
+
 //END OF FUNCTIONS-----------------------------------------------------------
 
 
@@ -295,7 +324,8 @@ function activate(context) {
             },
             markdown: { isTrusted: true },
             middleware: {
-                provideCompletionItem: slotSuggest_1.provideCompletionItem
+                provideCompletionItem: slotSuggest_1.provideCompletionItem,
+                provideDocumentSemanticTokens: provideDebugAwareDocumentSemanticTokens
             },
             synchronize: {
                 configurationSection: 'vertexadt'

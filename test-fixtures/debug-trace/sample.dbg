@@ -1,0 +1,102 @@
+﻿ START OF DEBUG in FILE "C:/vxbd320/customlbab/complibs/frmtool_profcoloring_frame/floordetailing.prg" at 2026-11-26 15:16:24  <> _file_begin_
+  timer = 1                                                                     <1>
+endif                                                                           <> _if_end_
+P = 1                                                                           <1>
+X = 2                                                                           <2>
+Y = 3                                                                           <3>
+Z = 4                                                                           <4>
+D= 5                                                                            <5>
+SD= 7                                                                           <7>
+SX= 8                                                                           <8>
+TP= 9                                                                           <9>
+TX= 10                                                                          <10>
+TY= 11                                                                          <11>
+TZ= 12                                                                          <12>
+PP= 13                                                                          <13>
+PX= 14                                                                          <14>
+PY= 15                                                                          <15>
+PZ= 16                                                                          <16>
+EP= 17                                                                          <17>
+EX= 18                                                                          <18>
+EY= 19                                                                          <19>
+EZ= 20                                                                          <20>
+LP1= 21                                                                         <21>
+LP2= 22                                                                         <22>
+DIRP= 23                                                                        <23>
+SD2=24                                                                          <24>
+NP=25                                                                           <25>
+NX=26                                                                           <26>
+NY=27                                                                           <27>
+NZ=28                                                                           <28>
+SP=29                                                                           <29>
+CP1= 30                                                                         <30>
+CP2= 31                                                                         <31>
+PeP= 32                                                                         <32>
+PeN= 33                                                                         <33>
+MP = 34                                                                         <34>
+MX = 35                                                                         <35>
+MY = 36                                                                         <36>
+MZ = 37                                                                         <37>
+PCE1 = 38                                                                       <38>
+vec_to(GlobP) 0,0,0                                                             <0,0,0>
+vec_to(GlobX) 1,0,0                                                             <1,0,0>
+vec_to(GlobY) 0,1,0                                                             <0,1,0>
+vec_to(GlobZ) 0,0,1                                                             <0,0,1>
+actprojname$ = get($ACTPROJNAME)                                                <"208_H1">
+exitif Area<1                                                                   <false>
+dbdelete "./vertstuds"                                                        
+dbcreate(vertstudsDB) "./vertstuds",1,0,  INDEX       N  32 x  XPOS        ...
+dbdelete "./horizstuds"                                                       
+dbcreate(horizstudsDB) "./horizstuds",1,0,  INDEX       N  32 x  YPOS      ...
+dbdelete "./allstuds"                                                         
+dbcreate(allstudsDB) "./allstuds",1,0,  INDEX       N  32 x  XPOS        N ...
+ActiveAreaNum$ = get_area_param(Area,"NUM")                                     <"0">
+Type$ = get_object_type(Slope)                                                  <"SLOPEOBJ">
+Type$ = get_object_type(Area)                                                   <"AREAOBJ">
+get_origin_pos(Panel) SelemP,SelemX,SelemY,SelemZ                               <36038.6,18112.4,-35 , -0,1,-0 , -1,0,0 , 0,0,1>
+PanelType$ = get_obj_param(Panel,"TYPE")                                        <"FLOOR">
+PanelLabel$ = get_obj_param(Selemobj,"LABEL")                                   <"GOLV-011-01">
+if findstri(PanelType$,"CEIL") then                                             <false> _if_begin_
+endif                                                                           <> _if_end_
+if findstri(PanelType$,"FLOOR") then                                            <true> _if_begin_
+endif                                                                           <> _if_end_
+if timer then                                                                   <true> _if_begin_
+ BEGIN of FILE "C:/vxbd320/customlbab/macros/opentimedb.prg"                   <> _file_begin_
+if extimedb and ok then dbclose(extimedb)                                       <false>
+if len(mark$) < 1 then mark$ = "START"                                          <false>
+if !dbvalid(timedb) then                                                        <false> _if_begin_
+ END of FILE "C:/vxbd320/customlbab/macros/opentimedb.prg"                     <> _file_end_
+get_origin_pos(Panel) l1SelemP,l1SelemX,l1SelemY,l1SelemZ                       <36038.6,18112.4,-35 , -0,1,-0 , -1,0,0 , 0,0,1>
+ END of FILE "C:/vxbd320/customlbab/macros/secframing/globalsizeminpmaxp.prg"  <> _file_end_
+retstring$ = "INLAY="&innermostlay&"|OUTLAY="&outermostlay&"|INLAYCOVER="&i...  <"INLAY=10|OUTLAY=9|INLAYCOVER=10|OUTLAYCOVER=9">
+ END of FILE "C:/vxbd320/customlbab/macros/secframing/getinneroutermostlayerofslope.prg"  <> _file_end_
+  get_origin_pos(Activepiece) PieceP,PieceX,PieceY,PieceZ                       <36016.1,25656.6,-126 , 1,0,-0 , 0,0,1 , 0,-1,0>
+      get_origin_pos(Activepiece) calcP,calcX,calcY,calcZ                       <36016.1,25656.6,-126 , 1,0,-0 , 0,0,1 , 0,-1,0>
+    get_origin_pos(Activepiece) calcP,calcX,calcY,calcZ                         <36016.1,25656.6,-126 , 1,0,-0 , 0,0,1 , 0,-1,0>
+  get_origin_pos(Activepiece) PieceP,PieceX,PieceY,PieceZ                       <35993.6,18134.9,-126 , 0,-1,0 , 0,0,1 , -1,0,0>
+ END of FILE "C:/vxbd320/customlbab/macros/marktimedb.prg"                     <> _file_end_
+if !maxprio then maxprio = 5                                                    <false>
+    if findstri(code$,"MULTIJOISTMAC") and !(conn = 2 and noconn2) and macp...  <true> _if_begin_
+          get_origin_pos(l36multiJoist) l36mulitJoistP,l36multiJoistX,l36mu...  <33973.6,18179.9,-126 , 0,1,0 , 0,0,1 , 1,0,0>
+endloop                                                                         <1/34>
+endloop                                                                         <2/34>
+endloop                                                                         <3/34>
+endloop                                                                         <4/34>
+endloop                                                                         <5/34>
+endloop                                                                         <6/34>
+ END of FILE "C:/vxbd320/customlbab/macros/secframing/sortDB.prg"              <> _file_end_
+            if l36loActivePiece != l36multiJoist and l36loActivePiece > 0 a...  <true> _if_begin_
+              get_origin_pos(l36loActivePiece) l36loActP,l36loActX,l36loAct...  <32361.1,18112.4,-126 , -1,0,0 , 0,-0,1 , 0,1,0>
+            if l36loActivePiece != l36multiJoist and l36loActivePiece > 0 a...  <true> _if_begin_
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+              use$= get_obj_param(l36loActivePiece, "USE")                      <"ÖPPNINGSREGEL">
+ END of FILE "C:/vxbd320/customlbab/macros/secframing/sortDB.prg"              <> _file_end_
+                  if side < 0 or abs(vec_get_z(l36multiJstMinP)) < 1 or abs...  <false> _if_begin_
+                  if side < 0 or abs(vec_get_z(l36multiJstMinP)) < 1 or abs...  <false> _if_begin_
+                  if side < 0 or abs(vec_get_z(l36multiJstMinP)) < 1 or abs...  <false> _if_begin_
+                  if side < 0 or abs(vec_get_z(l36multiJstMinP)) < 1 or abs...  <false> _if_begin_
+                  if side < 0 or abs(vec_get_z(l36multiJstMinP)) < 1 or abs...  <false> _if_begin_

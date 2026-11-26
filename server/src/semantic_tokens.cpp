@@ -1,6 +1,7 @@
 #include "semantic_tokens.h"
 
 #include "catalog/catalog.h"
+#include "debug_trace.h"
 #include "definition.h"
 #include "text_util.h"
 #include "validate.h"
@@ -46,7 +47,31 @@ constexpr std::string_view kLegendTypes[] = {
   "databaselistVariable",
   "databaseVariable",
   "validatedCommandVariable",
+  // Debug traces only (docs/adr/0025-debug-trace-fast-path.md). Appended so
+  // the indices above never move.
+  "keyword",
+  "string",
+  "number",
+  "comment",
+  "function",
+  "debugValue",
+  "debugMarker",
 };
+
+constexpr int kVariable = 0;
+constexpr int kPvector = 17;
+constexpr int kKeyword = 30;
+constexpr int kString = 31;
+constexpr int kNumber = 32;
+constexpr int kComment = 33;
+constexpr int kFunction = 34;
+constexpr int kDebugValue = 35;
+constexpr int kDebugMarker = 36;
+static_assert(kLegendTypes[kPvector] == "pvectorVariable");
+static_assert(kLegendTypes[kPvector + 4] == "nvectorVariable");
+static_assert(kLegendTypes[kKeyword] == "keyword");
+static_assert(kLegendTypes[kDebugMarker] == "debugMarker");
+static_assert(std::size(kLegendTypes) == kDebugMarker + 1);
 
 // objectTypePatterns key order; legend index is this index + 1.
 constexpr std::string_view kObjectTypes[] = {
@@ -277,7 +302,322 @@ auto semanticTokensOptions() -> lsp::SemanticTokensOptions
   }
   options.legend.tokenModifiers = {"readonly", "declaration"};
   options.full = true;
+  options.range = true;
   return options;
+}
+
+namespace {
+
+// Control keywords colored as `keyword` in traces (the grammar's
+// keyword.control list).
+bool isControlKeyword(std::string_view name)
+{
+  static constexpr std::string_view kKeywords[] = {
+    "if", "then", "else", "endif", "loop", "endloop", "return", "exitif", "and", "or",
+    "not", "call", "goto", "debug",
+  };
+  if (name.size() > 7)
+  {
+    return false;
+  }
+  char lower[8] = {};
+  for (std::size_t i = 0; i < name.size(); ++i)
+  {
+    const auto ch = name[i];
+    lower[i] = (ch >= 'A' && ch <= 'Z') ? static_cast<char>(ch - 'A' + 'a') : ch;
+  }
+  const std::string_view lowered(lower, name.size());
+  for (const auto keyword : kKeywords)
+  {
+    if (keyword == lowered)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool isCatalogName(std::string_view name)
+{
+  if (catalog::isKeywordLabel(name))
+  {
+    return true;
+  }
+  std::string lower(name);
+  for (auto& ch : lower)
+  {
+    if (ch >= 'A' && ch <= 'Z')
+    {
+      ch = static_cast<char>(ch - 'A' + 'a');
+    }
+  }
+  return catalog::findCommand(lower) != nullptr;
+}
+
+bool isIdentStart(char ch)
+{
+  return isLetter(ch) || ch == '_';
+}
+
+bool isIdentChar(char ch)
+{
+  return isLetter(ch) || isDigit(ch) || ch == '_';
+}
+
+// Byte → UTF-16 column on one line; identity for ASCII lines.
+struct Utf16Columns
+{
+  std::string_view line;
+  bool ascii = true;
+
+  explicit Utf16Columns(std::string_view text)
+    : line(text)
+  {
+    for (const auto ch : text)
+    {
+      if (static_cast<unsigned char>(ch) >= 0x80)
+      {
+        ascii = false;
+        break;
+      }
+    }
+  }
+
+  [[nodiscard]] int at(std::size_t byte) const
+  {
+    return ascii ? static_cast<int>(byte) : navigation::utf16Offset(line, byte);
+  }
+};
+
+struct TraceTokenWriter
+{
+  lsp::Array<lsp::Uint>& data;
+  int prevLine = 0;
+  int prevStart = 0;
+
+  void push(int line, const Utf16Columns& columns, std::size_t begin, std::size_t end, int type)
+  {
+    if (end <= begin)
+    {
+      return;
+    }
+    const auto start = columns.at(begin);
+    const auto stop = columns.at(end);
+    pushToken(data, prevLine, prevStart, line, start, stop - start, type);
+  }
+};
+
+int traceIdentifierType(std::string_view name, const DebugAssignmentIndex* index)
+{
+  if (isControlKeyword(name))
+  {
+    return kKeyword;
+  }
+  if (isCatalogName(name))
+  {
+    return kFunction;
+  }
+  if (name.ends_with('$'))
+  {
+    return kVariable;
+  }
+  if (isPxyznSuffix(name))
+  {
+    std::size_t i = name.size();
+    while (i > 0 && isDigit(name[i - 1]))
+    {
+      --i;
+    }
+    switch (name[i - 1])
+    {
+      case 'P': return kPvector;
+      case 'X': return kPvector + 1;
+      case 'Y': return kPvector + 2;
+      case 'Z': return kPvector + 3;
+      default: return kPvector + 4;
+    }
+  }
+  if (index && index->byName.contains(std::string(name)))
+  {
+    return kVariable;
+  }
+  return -1;
+}
+
+void tokenizeTraceCode(
+  TraceTokenWriter& writer,
+  int lineNumber,
+  std::string_view line,
+  const Utf16Columns& columns,
+  std::size_t begin,
+  std::size_t end,
+  const DebugAssignmentIndex* index)
+{
+  if (begin < end && line[begin] == '!')
+  {
+    writer.push(lineNumber, columns, begin, end, kComment);
+    return;
+  }
+  for (auto i = begin; i < end;)
+  {
+    const auto ch = line[i];
+    if (ch == ';')
+    {
+      auto j = i + 1;
+      while (j < end && (line[j] == ' ' || line[j] == '\t'))
+      {
+        ++j;
+      }
+      if (j < end && line[j] == '!')
+      {
+        writer.push(lineNumber, columns, i, end, kComment);
+        return;
+      }
+      ++i;
+      continue;
+    }
+    if (ch == '"')
+    {
+      auto j = i + 1;
+      while (j < end && line[j] != '"')
+      {
+        ++j;
+      }
+      j = std::min(j + 1, end);
+      writer.push(lineNumber, columns, i, j, kString);
+      i = j;
+      continue;
+    }
+    if (isDigit(ch) && (i == begin || !isIdentChar(line[i - 1])))
+    {
+      auto j = i;
+      while (j < end && isDigit(line[j]))
+      {
+        ++j;
+      }
+      if (j + 1 < end && line[j] == '.' && isDigit(line[j + 1]))
+      {
+        ++j;
+        while (j < end && isDigit(line[j]))
+        {
+          ++j;
+        }
+      }
+      if (j < end && isIdentChar(line[j]))
+      {
+        // 12abc: not a number; skip the run.
+        while (j < end && isIdentChar(line[j]))
+        {
+          ++j;
+        }
+        i = j;
+        continue;
+      }
+      writer.push(lineNumber, columns, i, j, kNumber);
+      i = j;
+      continue;
+    }
+    if (isIdentStart(ch))
+    {
+      auto j = i + 1;
+      while (j < end && isIdentChar(line[j]))
+      {
+        ++j;
+      }
+      if (j < end && line[j] == '$')
+      {
+        ++j;
+      }
+      const auto type = traceIdentifierType(line.substr(i, j - i), index);
+      if (type >= 0)
+      {
+        writer.push(lineNumber, columns, i, j, type);
+      }
+      i = j;
+      continue;
+    }
+    ++i;
+  }
+}
+
+} // namespace
+
+auto debugTraceSemanticTokens(
+  const DebugTrace& trace,
+  int firstLine,
+  int endLine,
+  const std::function<void()>& throwIfCanceled) -> lsp::SemanticTokens
+{
+  lsp::SemanticTokens tokens;
+  tokens.resultId = std::to_string(trace.version());
+  const auto indexHolder = trace.index();
+  const auto* index = indexHolder.get();
+  TraceTokenWriter writer{.data = tokens.data};
+  firstLine = std::max(firstLine, 0);
+  endLine = std::min(endLine, trace.lineCount());
+  for (int i = firstLine; i < endLine; ++i)
+  {
+    if (throwIfCanceled && ((i - firstLine) & 0x3FF) == 0x3FF)
+    {
+      throwIfCanceled();
+    }
+    const auto line = trace.line(i);
+    const auto parts = splitDebugLine(line);
+    if (parts.codeBegin == parts.codeEnd && parts.valueBegin == parts.valueEnd)
+    {
+      continue;
+    }
+    const Utf16Columns columns(line);
+    if (parts.kind == DebugLineParts::Kind::Structural)
+    {
+      writer.push(i, columns, parts.codeBegin, parts.codeEnd, kDebugMarker);
+    }
+    else
+    {
+      tokenizeTraceCode(writer, i, line, columns, parts.codeBegin, parts.codeEnd, index);
+    }
+    writer.push(i, columns, parts.valueBegin, parts.valueEnd, kDebugValue);
+    writer.push(i, columns, parts.markerBegin, parts.markerEnd, kDebugMarker);
+  }
+  return tokens;
+}
+
+auto semanticTokensInRange(const lsp::SemanticTokens& full, const lsp::Range& range)
+  -> lsp::SemanticTokens
+{
+  lsp::SemanticTokens out;
+  out.resultId = full.resultId;
+  const auto first = static_cast<int>(range.start.line);
+  const auto last = static_cast<int>(range.end.line);
+  int line = 0;
+  int start = 0;
+  int prevLine = 0;
+  int prevStart = 0;
+  for (std::size_t k = 0; k + 4 < full.data.size(); k += 5)
+  {
+    const auto deltaLine = static_cast<int>(full.data[k]);
+    const auto deltaStart = static_cast<int>(full.data[k + 1]);
+    line += deltaLine;
+    start = deltaLine == 0 ? start + deltaStart : deltaStart;
+    if (line < first)
+    {
+      continue;
+    }
+    if (line > last)
+    {
+      break;
+    }
+    pushToken(
+      out.data,
+      prevLine,
+      prevStart,
+      line,
+      start,
+      static_cast<int>(full.data[k + 2]),
+      static_cast<int>(full.data[k + 3]));
+    out.data[out.data.size() - 1] = full.data[k + 4];
+  }
+  return out;
 }
 
 auto semanticTokensFull(const SemanticTokensRequest& request) -> lsp::SemanticTokens

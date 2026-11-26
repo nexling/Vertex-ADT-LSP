@@ -13169,5 +13169,708 @@
         }
       ]
     }
+  },
+  "get_pnt_param": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 2,
+      "maxParamsOutside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "macro",
+            "array",
+            "profile",
+            "sheet",
+            "edge",
+            "selemobj",
+            "area",
+            "slope",
+            "wall",
+            "joint"
+          ],
+          "paramName": "input object"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_pnt_param requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_pnt_param requires at least 2 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Output point parameter must be a valid variable in get_pnt_param"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Name parameter after parentheses must be a valid string in get_pnt_param"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Object parameter after parentheses must be a valid variable in get_pnt_param"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter after parentheses must be a valid variable in get_pnt_param"
+        }
+      ]
+    }
+  },
+  "set_piece_inst": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 2,
+      "maxParamsOutside": 2
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profile"
+          ],
+          "paramName": "input profile"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "set_piece_inst requires 1 parameter inside parentheses",
+      "tooFewAfter": "set_piece_inst requires 2 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Piece parameter must be a valid variable in set_piece_inst"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Property parameter after parentheses must be a valid string in set_piece_inst"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Value parameter after parentheses must be a valid string in set_piece_inst"
+        }
+      ]
+    }
+  },
+  "set_edge_shape": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 3,
+      "maxParamsInside": 4
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "edge"
+          ],
+          "paramName": "input edge"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "vxgeom"
+          ],
+          "paramName": "input vxgeom"
+        },
+        {
+          "paramIndex": 3,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "angle"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "set_edge_shape requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in set_edge_shape"
+      },
+      "tooFewInside": "set_edge_shape requires at least 3 parameters inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Edge parameter must be a valid variable in set_edge_shape"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Geometry parameter must be a valid variable in set_edge_shape"
+        },
+        {
+          "index": 2,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Mode parameter must be a valid string in set_edge_shape"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Angle parameter must be a valid variable in set_edge_shape"
+        }
+      ]
+    }
+  },
+  "get_edge_dir": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 2,
+      "maxParamsOutside": 2
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "edge"
+          ],
+          "paramName": "input edge"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "get_edge_dir requires 1 parameter inside parentheses",
+      "tooFewAfter": "get_edge_dir requires 2 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Edge parameter must be a valid variable in get_edge_dir"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Output point parameter after parentheses must be a valid variable in get_edge_dir"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Output direction parameter after parentheses must be a valid variable in get_edge_dir"
+        }
+      ]
+    }
+  },
+  "proj_vxgeom_dir": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 4,
+      "maxParamsOutside": 4
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "vxgeom"
+          ],
+          "paramName": "input vxgeom"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "pvector"
+          ],
+          "paramName": "plane point"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "dvector",
+            "xvector",
+            "yvector",
+            "zvector",
+            "nvector"
+          ],
+          "paramName": "plane normal"
+        },
+        {
+          "paramIndex": 3,
+          "allowedTypes": [
+            "dvector",
+            "xvector",
+            "yvector",
+            "zvector",
+            "nvector"
+          ],
+          "paramName": "projection direction"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "proj_vxgeom_dir requires 1 parameter inside parentheses",
+      "tooFewAfter": "proj_vxgeom_dir requires 4 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Output geometry parameter must be a valid variable in proj_vxgeom_dir"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Geometry parameter after parentheses must be a valid variable in proj_vxgeom_dir"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Plane point parameter after parentheses must be a valid variable in proj_vxgeom_dir"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Plane normal parameter after parentheses must be a valid variable in proj_vxgeom_dir"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Direction parameter after parentheses must be a valid variable in proj_vxgeom_dir"
+        }
+      ]
+    }
+  },
+  "notewinopen": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 3,
+      "maxParamsOutside": 3
+    },
+    "tableValidator": {
+      "tooFewInside": "notewinopen requires 1 parameter inside parentheses",
+      "tooFewAfter": "notewinopen requires 3 parameters after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Window index parameter must be a valid variable in notewinopen"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Header parameter after parentheses must be a valid string in notewinopen"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Rows parameter after parentheses must be a valid variable in notewinopen"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Columns parameter after parentheses must be a valid variable in notewinopen"
+        }
+      ]
+    }
+  },
+  "notewinclose": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "tableValidator": {
+      "tooFewInside": "notewinclose requires 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Window index parameter must be a valid variable in notewinclose"
+        }
+      ]
+    }
+  },
+  "note": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1,
+      "paramsOutside": 1,
+      "maxParamsOutside": 2
+    },
+    "tableValidator": {
+      "tooFewInside": "note requires 1 parameter inside parentheses",
+      "tooFewAfter": "note requires at least 1 parameter after parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Row parameter must be a valid variable in note"
+        }
+      ],
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Message parameter after parentheses must be a valid string in note"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter after parentheses must be a valid variable in note"
+        }
+      ]
+    }
+  },
+  "dwgsetlevels": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "dwgsetlevels requires 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Settings parameter must be a valid string in dwgsetlevels"
+        }
+      ]
+    }
+  },
+  "function": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 1
+    },
+    "tableValidator": {
+      "tooFewAfter": "function requires 1 parameter",
+      "after": [
+        {
+          "index": 0,
+          "kind": "string-or-variable",
+          "variableKind": "any variable",
+          "required": true,
+          "invalid": "Function name parameter must be a valid string or variable in function"
+        }
+      ]
+    }
+  },
+  "folder_files": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 4
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "folder_files requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in folder_files"
+      },
+      "tooFewInside": "folder_files requires at least 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Path parameter must be a valid string in folder_files"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": false,
+          "invalid": "Filter parameter must be a valid string in folder_files"
+        },
+        {
+          "index": 2,
+          "kind": "string expression",
+          "required": false,
+          "invalid": "Map parameter must be a valid string in folder_files"
+        },
+        {
+          "index": 3,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter must be a valid variable in folder_files"
+        }
+      ]
+    }
+  },
+  "map_set": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 3,
+      "maxParamsInside": 3
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "map_set requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in map_set"
+      },
+      "tooFewInside": "map_set requires 3 parameters inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Map parameter must be a valid string in map_set"
+        },
+        {
+          "index": 1,
+          "kind": "string-or-variable",
+          "variableKind": "any variable",
+          "required": true,
+          "invalid": "Key parameter must be a valid string or variable in map_set"
+        },
+        {
+          "index": 2,
+          "kind": "string-or-variable",
+          "variableKind": "any variable",
+          "required": true,
+          "invalid": "Value parameter must be a valid string or variable in map_set"
+        }
+      ]
+    }
+  },
+  "system": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 2
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "system requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in system"
+      },
+      "tooFewInside": "system requires at least 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Command parameter must be a valid string in system"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Mode parameter must be a valid variable in system"
+        }
+      ]
+    }
+  },
+  "bgsystem": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "bgsystem requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in bgsystem"
+      },
+      "tooFewInside": "bgsystem requires 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Command parameter must be a valid string in bgsystem"
+        }
+      ]
+    }
+  },
+  "run_open": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "run_open requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in run_open"
+      },
+      "tooFewInside": "run_open requires 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File parameter must be a valid string in run_open"
+        }
+      ]
+    }
+  },
+  "get_actual_piece": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "profileend"
+          ],
+          "paramName": "piece end"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "get_actual_piece requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in get_actual_piece"
+      },
+      "tooFewInside": "get_actual_piece requires 1 parameter inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Piece end parameter must be a valid variable in get_actual_piece"
+        }
+      ]
+    }
+  },
+  "randomnumber": {
+    "structure": {
+      "hasAssignment": true,
+      "hasParentheses": true,
+      "minParamsInside": 2,
+      "maxParamsInside": 2
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "lowest value"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "highest value"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "required",
+        "missing": "randomnumber requires an assignment variable",
+        "kind": "normal variable",
+        "invalid": "Invalid assignment variable in randomnumber"
+      },
+      "tooFewInside": "randomnumber requires 2 parameters inside parentheses",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Lowest parameter must be a valid variable in randomnumber"
+        },
+        {
+          "index": 1,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Highest parameter must be a valid variable in randomnumber"
+        }
+      ]
+    }
   }
 }

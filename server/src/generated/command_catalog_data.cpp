@@ -494,6 +494,23 @@ const TableValidator kTable_base_to_dwg{
   .inside = kInside_base_to_dwg,
 };
 
+const AssignmentCheck kAssign_bgsystem{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "bgsystem requires an assignment variable",
+  .invalid = "Invalid assignment variable in bgsystem",
+};
+const Slot kInside_bgsystem[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Command parameter must be a valid string in bgsystem"}},
+};
+const TableValidator kTable_bgsystem{
+  .assignment = &kAssign_bgsystem,
+  .tooFewInside = "bgsystem requires 1 parameter inside parentheses",
+  .inside = kInside_bgsystem,
+};
+
 const AssignmentCheck kAssign_build{
   .presence = AssignmentPresence::Optional,
   .hasKind = true,
@@ -3755,6 +3772,14 @@ const TableValidator kTable_dwgredraw{
   .tooManyAfter = "dwgredraw takes no parameters",
 };
 
+const Slot kAfter_dwgsetlevels[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Settings parameter must be a valid string in dwgsetlevels"}},
+};
+const TableValidator kTable_dwgsetlevels{
+  .tooFewAfter = "dwgsetlevels requires 1 parameter",
+  .after = kAfter_dwgsetlevels,
+};
+
 const Slot kAfter_dwgsetlimits[] = {
   {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"First parameter must be a valid variable in dwgsetlimits"}},
   {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Second parameter must be a valid variable in dwgsetlimits"}},
@@ -3984,6 +4009,34 @@ const TableValidator kTable_findstrri{
   .inside = kInside_findstrri,
 };
 
+const AssignmentCheck kAssign_folder_files{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "folder_files requires an assignment variable",
+  .invalid = "Invalid assignment variable in folder_files",
+};
+const Slot kInside_folder_files[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Path parameter must be a valid string in folder_files"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Filter parameter must be a valid string in folder_files"}},
+  {.index = 2, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Map parameter must be a valid string in folder_files"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Mode parameter must be a valid variable in folder_files"}},
+};
+const TableValidator kTable_folder_files{
+  .assignment = &kAssign_folder_files,
+  .tooFewInside = "folder_files requires at least 1 parameter inside parentheses",
+  .inside = kInside_folder_files,
+};
+
+const Slot kAfter_function[] = {
+  {.index = 0, .kind = SlotKind::StringOrVariable, .variableKind = VariableKind::AnyVariable, .required = true, .invalid = std::string_view{"Function name parameter must be a valid string or variable in function"}},
+};
+const TableValidator kTable_function{
+  .tooFewAfter = "function requires 1 parameter",
+  .after = kAfter_function,
+};
+
 const AssignmentCheck kAssign_get{
   .presence = AssignmentPresence::Optional,
   .hasKind = true,
@@ -4066,6 +4119,38 @@ const TableValidator kTable_get_actual_pcend{
   .assignment = &kAssign_get_actual_pcend,
   .tooFewInside = "get_actual_pcend requires 2 parameters",
   .inside = kInside_get_actual_pcend,
+};
+
+const std::string_view kStrictTypes_get_actual_piece_input_0[] = {
+  std::string_view{"profileend"},
+};
+const StrictTypeSlot kStrictSlots_get_actual_piece_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_actual_piece_input_0,
+    .paramName = std::string_view{"piece end"},
+  },
+};
+const StrictMode kStrict_get_actual_piece{
+  .enabled = true,
+  .inputTypes = kStrictSlots_get_actual_piece_input,
+};
+
+const AssignmentCheck kAssign_get_actual_piece{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "get_actual_piece requires an assignment variable",
+  .invalid = "Invalid assignment variable in get_actual_piece",
+};
+const Slot kInside_get_actual_piece[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Piece end parameter must be a valid variable in get_actual_piece"}},
+};
+const TableValidator kTable_get_actual_piece{
+  .assignment = &kAssign_get_actual_piece,
+  .tooFewInside = "get_actual_piece requires 1 parameter inside parentheses",
+  .inside = kInside_get_actual_piece,
 };
 
 const std::string_view kStrictTypes_get_area_clips_with_edges_input_0[] = {
@@ -4213,6 +4298,35 @@ const TableValidator kTable_get_ctr_edge{
   .assignment = &kAssign_get_ctr_edge,
   .tooFewInside = "get_ctr_edge requires 2 parameters inside parentheses",
   .inside = kInside_get_ctr_edge,
+};
+
+const std::string_view kStrictTypes_get_edge_dir_input_0[] = {
+  std::string_view{"edge"},
+};
+const StrictTypeSlot kStrictSlots_get_edge_dir_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_get_edge_dir_input_0,
+    .paramName = std::string_view{"input edge"},
+  },
+};
+const StrictMode kStrict_get_edge_dir{
+  .enabled = true,
+  .inputTypes = kStrictSlots_get_edge_dir_input,
+};
+
+const Slot kInside_get_edge_dir[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Edge parameter must be a valid variable in get_edge_dir"}},
+};
+const Slot kAfter_get_edge_dir[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Output point parameter after parentheses must be a valid variable in get_edge_dir"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Output direction parameter after parentheses must be a valid variable in get_edge_dir"}},
+};
+const TableValidator kTable_get_edge_dir{
+  .tooFewInside = "get_edge_dir requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_edge_dir requires 2 parameters after parentheses",
+  .inside = kInside_get_edge_dir,
+  .after = kAfter_get_edge_dir,
 };
 
 const std::string_view kStrictTypes_get_floor_level_name_input_0[] = {
@@ -4964,6 +5078,45 @@ const TableValidator kTable_get_piece_tan{
   .tooManyInside = "get_piece_tan requires 1 parameter inside parentheses",
   .inside = kInside_get_piece_tan,
   .after = kAfter_get_piece_tan,
+};
+
+const std::string_view kStrictTypes_get_pnt_param_after_0[] = {
+  std::string_view{"macro"},
+  std::string_view{"array"},
+  std::string_view{"profile"},
+  std::string_view{"sheet"},
+  std::string_view{"edge"},
+  std::string_view{"selemobj"},
+  std::string_view{"area"},
+  std::string_view{"slope"},
+  std::string_view{"wall"},
+  std::string_view{"joint"},
+};
+const StrictTypeSlot kStrictSlots_get_pnt_param_after[] = {
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_get_pnt_param_after_0,
+    .paramName = std::string_view{"input object"},
+  },
+};
+const StrictMode kStrict_get_pnt_param{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_get_pnt_param_after,
+};
+
+const Slot kInside_get_pnt_param[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Output point parameter must be a valid variable in get_pnt_param"}},
+};
+const Slot kAfter_get_pnt_param[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Name parameter after parentheses must be a valid string in get_pnt_param"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Object parameter after parentheses must be a valid variable in get_pnt_param"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Mode parameter after parentheses must be a valid variable in get_pnt_param"}},
+};
+const TableValidator kTable_get_pnt_param{
+  .tooFewInside = "get_pnt_param requires 1 parameter inside parentheses",
+  .tooFewAfter = "get_pnt_param requires at least 2 parameters after parentheses",
+  .inside = kInside_get_pnt_param,
+  .after = kAfter_get_pnt_param,
 };
 
 const std::string_view kStrictTypes_get_poly_ctr_input_0[] = {
@@ -6251,6 +6404,25 @@ const TableValidator kTable_map_save{
   .inside = kInside_map_save,
 };
 
+const AssignmentCheck kAssign_map_set{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "map_set requires an assignment variable",
+  .invalid = "Invalid assignment variable in map_set",
+};
+const Slot kInside_map_set[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Map parameter must be a valid string in map_set"}},
+  {.index = 1, .kind = SlotKind::StringOrVariable, .variableKind = VariableKind::AnyVariable, .required = true, .invalid = std::string_view{"Key parameter must be a valid string or variable in map_set"}},
+  {.index = 2, .kind = SlotKind::StringOrVariable, .variableKind = VariableKind::AnyVariable, .required = true, .invalid = std::string_view{"Value parameter must be a valid string or variable in map_set"}},
+};
+const TableValidator kTable_map_set{
+  .assignment = &kAssign_map_set,
+  .tooFewInside = "map_set requires 3 parameters inside parentheses",
+  .inside = kInside_map_set,
+};
+
 const std::string_view kStrictTypes_map_size_input_0[] = {
   std::string_view{"string"},
 };
@@ -6928,6 +7100,43 @@ const TableValidator kTable_next_item{
   .inside = kInside_next_item,
 };
 
+const Slot kInside_note[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Row parameter must be a valid variable in note"}},
+};
+const Slot kAfter_note[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Message parameter after parentheses must be a valid string in note"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Mode parameter after parentheses must be a valid variable in note"}},
+};
+const TableValidator kTable_note{
+  .tooFewInside = "note requires 1 parameter inside parentheses",
+  .tooFewAfter = "note requires at least 1 parameter after parentheses",
+  .inside = kInside_note,
+  .after = kAfter_note,
+};
+
+const Slot kInside_notewinclose[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Window index parameter must be a valid variable in notewinclose"}},
+};
+const TableValidator kTable_notewinclose{
+  .tooFewInside = "notewinclose requires 1 parameter inside parentheses",
+  .inside = kInside_notewinclose,
+};
+
+const Slot kInside_notewinopen[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Window index parameter must be a valid variable in notewinopen"}},
+};
+const Slot kAfter_notewinopen[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Header parameter after parentheses must be a valid string in notewinopen"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Rows parameter after parentheses must be a valid variable in notewinopen"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Columns parameter after parentheses must be a valid variable in notewinopen"}},
+};
+const TableValidator kTable_notewinopen{
+  .tooFewInside = "notewinopen requires 1 parameter inside parentheses",
+  .tooFewAfter = "notewinopen requires 3 parameters after parentheses",
+  .inside = kInside_notewinopen,
+  .after = kAfter_notewinopen,
+};
+
 const AssignmentCheck kAssign_numeric_string{
   .presence = AssignmentPresence::Optional,
   .hasKind = true,
@@ -7343,6 +7552,110 @@ const TableValidator kTable_proj_vxgeom{
   .after = kAfter_proj_vxgeom,
 };
 
+const std::string_view kStrictTypes_proj_vxgeom_dir_after_0[] = {
+  std::string_view{"vxgeom"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_dir_after_1[] = {
+  std::string_view{"pvector"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_dir_after_2[] = {
+  std::string_view{"dvector"},
+  std::string_view{"xvector"},
+  std::string_view{"yvector"},
+  std::string_view{"zvector"},
+  std::string_view{"nvector"},
+};
+const std::string_view kStrictTypes_proj_vxgeom_dir_after_3[] = {
+  std::string_view{"dvector"},
+  std::string_view{"xvector"},
+  std::string_view{"yvector"},
+  std::string_view{"zvector"},
+  std::string_view{"nvector"},
+};
+const StrictTypeSlot kStrictSlots_proj_vxgeom_dir_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_proj_vxgeom_dir_after_0,
+    .paramName = std::string_view{"input vxgeom"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_proj_vxgeom_dir_after_1,
+    .paramName = std::string_view{"plane point"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_proj_vxgeom_dir_after_2,
+    .paramName = std::string_view{"plane normal"},
+  },
+  {
+    .paramIndex = 3,
+    .allowedTypes = kStrictTypes_proj_vxgeom_dir_after_3,
+    .paramName = std::string_view{"projection direction"},
+  },
+};
+const StrictMode kStrict_proj_vxgeom_dir{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_proj_vxgeom_dir_after,
+};
+
+const Slot kInside_proj_vxgeom_dir[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Output geometry parameter must be a valid variable in proj_vxgeom_dir"}},
+};
+const Slot kAfter_proj_vxgeom_dir[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Geometry parameter after parentheses must be a valid variable in proj_vxgeom_dir"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Plane point parameter after parentheses must be a valid variable in proj_vxgeom_dir"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Plane normal parameter after parentheses must be a valid variable in proj_vxgeom_dir"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Direction parameter after parentheses must be a valid variable in proj_vxgeom_dir"}},
+};
+const TableValidator kTable_proj_vxgeom_dir{
+  .tooFewInside = "proj_vxgeom_dir requires 1 parameter inside parentheses",
+  .tooFewAfter = "proj_vxgeom_dir requires 4 parameters after parentheses",
+  .inside = kInside_proj_vxgeom_dir,
+  .after = kAfter_proj_vxgeom_dir,
+};
+
+const std::string_view kStrictTypes_randomnumber_input_0[] = {
+  std::string_view{"value"},
+};
+const std::string_view kStrictTypes_randomnumber_input_1[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_randomnumber_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_randomnumber_input_0,
+    .paramName = std::string_view{"lowest value"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_randomnumber_input_1,
+    .paramName = std::string_view{"highest value"},
+  },
+};
+const StrictMode kStrict_randomnumber{
+  .enabled = true,
+  .inputTypes = kStrictSlots_randomnumber_input,
+};
+
+const AssignmentCheck kAssign_randomnumber{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "randomnumber requires an assignment variable",
+  .invalid = "Invalid assignment variable in randomnumber",
+};
+const Slot kInside_randomnumber[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Lowest parameter must be a valid variable in randomnumber"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Highest parameter must be a valid variable in randomnumber"}},
+};
+const TableValidator kTable_randomnumber{
+  .assignment = &kAssign_randomnumber,
+  .tooFewInside = "randomnumber requires 2 parameters inside parentheses",
+  .inside = kInside_randomnumber,
+};
+
 const AssignmentCheck kAssign_read{
   .presence = AssignmentPresence::Required,
   .hasKind = true,
@@ -7377,6 +7690,23 @@ const TableValidator kTable_replace{
   .assignment = &kAssign_replace,
   .tooFewInside = "replace requires 3 parameters inside parentheses",
   .inside = kInside_replace,
+};
+
+const AssignmentCheck kAssign_run_open{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "run_open requires an assignment variable",
+  .invalid = "Invalid assignment variable in run_open",
+};
+const Slot kInside_run_open[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"File parameter must be a valid string in run_open"}},
+};
+const TableValidator kTable_run_open{
+  .assignment = &kAssign_run_open,
+  .tooFewInside = "run_open requires 1 parameter inside parentheses",
+  .inside = kInside_run_open,
 };
 
 const std::string_view kStrictTypes_section_to_poly_after_0[] = {
@@ -7564,6 +7894,57 @@ const TableValidator kTable_set_djparam{
   .tooFewAfter = "set_djparam requires 2 parameters after parentheses",
   .inside = kInside_set_djparam,
   .after = kAfter_set_djparam,
+};
+
+const std::string_view kStrictTypes_set_edge_shape_input_0[] = {
+  std::string_view{"edge"},
+};
+const std::string_view kStrictTypes_set_edge_shape_input_1[] = {
+  std::string_view{"vxgeom"},
+};
+const std::string_view kStrictTypes_set_edge_shape_input_2[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_set_edge_shape_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_set_edge_shape_input_0,
+    .paramName = std::string_view{"input edge"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_set_edge_shape_input_1,
+    .paramName = std::string_view{"input vxgeom"},
+  },
+  {
+    .paramIndex = 3,
+    .allowedTypes = kStrictTypes_set_edge_shape_input_2,
+    .paramName = std::string_view{"angle"},
+  },
+};
+const StrictMode kStrict_set_edge_shape{
+  .enabled = true,
+  .inputTypes = kStrictSlots_set_edge_shape_input,
+};
+
+const AssignmentCheck kAssign_set_edge_shape{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "set_edge_shape requires an assignment variable",
+  .invalid = "Invalid assignment variable in set_edge_shape",
+};
+const Slot kInside_set_edge_shape[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Edge parameter must be a valid variable in set_edge_shape"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Geometry parameter must be a valid variable in set_edge_shape"}},
+  {.index = 2, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Mode parameter must be a valid string in set_edge_shape"}},
+  {.index = 3, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Angle parameter must be a valid variable in set_edge_shape"}},
+};
+const TableValidator kTable_set_edge_shape{
+  .assignment = &kAssign_set_edge_shape,
+  .tooFewInside = "set_edge_shape requires at least 3 parameters inside parentheses",
+  .inside = kInside_set_edge_shape,
 };
 
 const std::string_view kStrictTypes_set_joint_param_input_0[] = {
@@ -7800,6 +8181,35 @@ const TableValidator kTable_set_origin_pos{
   .tooFewAfter = "set_origin_pos requires 4 parameters after parentheses",
   .inside = kInside_set_origin_pos,
   .after = kAfter_set_origin_pos,
+};
+
+const std::string_view kStrictTypes_set_piece_inst_input_0[] = {
+  std::string_view{"profile"},
+};
+const StrictTypeSlot kStrictSlots_set_piece_inst_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_set_piece_inst_input_0,
+    .paramName = std::string_view{"input profile"},
+  },
+};
+const StrictMode kStrict_set_piece_inst{
+  .enabled = true,
+  .inputTypes = kStrictSlots_set_piece_inst_input,
+};
+
+const Slot kInside_set_piece_inst[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Piece parameter must be a valid variable in set_piece_inst"}},
+};
+const Slot kAfter_set_piece_inst[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Property parameter after parentheses must be a valid string in set_piece_inst"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Value parameter after parentheses must be a valid string in set_piece_inst"}},
+};
+const TableValidator kTable_set_piece_inst{
+  .tooFewInside = "set_piece_inst requires 1 parameter inside parentheses",
+  .tooFewAfter = "set_piece_inst requires 2 parameters after parentheses",
+  .inside = kInside_set_piece_inst,
+  .after = kAfter_set_piece_inst,
 };
 
 const std::string_view kStrictTypes_set_piece_pos_input_0[] = {
@@ -8286,6 +8696,24 @@ const TableValidator kTable_strfield{
   .assignment = &kAssign_strfield,
   .tooFewInside = "strfield requires 2 parameters",
   .inside = kInside_strfield,
+};
+
+const AssignmentCheck kAssign_system{
+  .presence = AssignmentPresence::Required,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .missing = "system requires an assignment variable",
+  .invalid = "Invalid assignment variable in system",
+};
+const Slot kInside_system[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Command parameter must be a valid string in system"}},
+  {.index = 1, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Mode parameter must be a valid variable in system"}},
+};
+const TableValidator kTable_system{
+  .assignment = &kAssign_system,
+  .tooFewInside = "system requires at least 1 parameter inside parentheses",
+  .inside = kInside_system,
 };
 
 const AssignmentCheck kAssign_tan{
@@ -9252,6 +9680,11 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_base_to_dwg,
 },
 {
+  .name = std::string_view{"bgsystem"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_bgsystem,
+},
+{
   .name = std::string_view{"build"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_build,
@@ -9834,6 +10267,11 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_dwgredraw,
 },
 {
+  .name = std::string_view{"dwgsetlevels"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::omitted(), .maxParamsInside = Arity::omitted(), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(1), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_dwgsetlevels,
+},
+{
   .name = std::string_view{"dwgsetlimits"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::omitted(), .maxParamsInside = Arity::omitted(), .paramsOutside = Arity::finite(0), .maxParamsOutside = Arity::finite(4), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_dwgsetlimits,
@@ -9902,6 +10340,16 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_findstrri,
 },
 {
+  .name = std::string_view{"folder_files"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(4), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_folder_files,
+},
+{
+  .name = std::string_view{"function"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::omitted(), .maxParamsInside = Arity::omitted(), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(1), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_function,
+},
+{
   .name = std::string_view{"get"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_get,
@@ -9917,6 +10365,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_get_actual_pcend,
   .tableValidator = &kTable_get_actual_pcend,
+},
+{
+  .name = std::string_view{"get_actual_piece"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_get_actual_piece,
+  .tableValidator = &kTable_get_actual_piece,
 },
 {
   .name = std::string_view{"get_area_clips_with_edges"},
@@ -9941,6 +10395,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_get_ctr_edge,
   .tableValidator = &kTable_get_ctr_edge,
+},
+{
+  .name = std::string_view{"get_edge_dir"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_get_edge_dir,
+  .tableValidator = &kTable_get_edge_dir,
 },
 {
   .name = std::string_view{"get_floor_level_name"},
@@ -10053,6 +10513,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_get_piece_tan,
   .tableValidator = &kTable_get_piece_tan,
+},
+{
+  .name = std::string_view{"get_pnt_param"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_get_pnt_param,
+  .tableValidator = &kTable_get_pnt_param,
 },
 {
   .name = std::string_view{"get_poly_ctr"},
@@ -10310,6 +10776,11 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_map_save,
 },
 {
+  .name = std::string_view{"map_set"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(3), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_map_set,
+},
+{
   .name = std::string_view{"map_size"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(0), .maxParamsOutside = Arity::finite(0), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_map_size,
@@ -10404,6 +10875,21 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_next_item,
 },
 {
+  .name = std::string_view{"note"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_note,
+},
+{
+  .name = std::string_view{"notewinclose"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_notewinclose,
+},
+{
+  .name = std::string_view{"notewinopen"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(3), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_notewinopen,
+},
+{
   .name = std::string_view{"numeric_string"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_numeric_string,
@@ -10462,6 +10948,18 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_proj_vxgeom,
 },
 {
+  .name = std::string_view{"proj_vxgeom_dir"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(4), .maxParamsOutside = Arity::finite(4), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_proj_vxgeom_dir,
+  .tableValidator = &kTable_proj_vxgeom_dir,
+},
+{
+  .name = std::string_view{"randomnumber"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_randomnumber,
+  .tableValidator = &kTable_randomnumber,
+},
+{
   .name = std::string_view{"read"},
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_read,
@@ -10470,6 +10968,11 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .name = std::string_view{"replace"},
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(3), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_replace,
+},
+{
+  .name = std::string_view{"run_open"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_run_open,
 },
 {
   .name = std::string_view{"section_to_poly"},
@@ -10500,6 +11003,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .strictMode = &kStrict_set_djparam,
   .cleanupRules = &kCleanup_set_djparam,
   .tableValidator = &kTable_set_djparam,
+},
+{
+  .name = std::string_view{"set_edge_shape"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(4), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_set_edge_shape,
+  .tableValidator = &kTable_set_edge_shape,
 },
 {
   .name = std::string_view{"set_joint_param"},
@@ -10537,6 +11046,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(4), .maxParamsOutside = Arity::finite(4), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_set_origin_pos,
   .tableValidator = &kTable_set_origin_pos,
+},
+{
+  .name = std::string_view{"set_piece_inst"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_set_piece_inst,
+  .tableValidator = &kTable_set_piece_inst,
 },
 {
   .name = std::string_view{"set_piece_pos"},
@@ -10608,6 +11123,11 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .name = std::string_view{"strfield"},
   .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(2), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_strfield,
+},
+{
+  .name = std::string_view{"system"},
+  .structure = {.hasAssignment = AssignmentPresence::Required, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(2), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .tableValidator = &kTable_system,
 },
 {
   .name = std::string_view{"tan"},

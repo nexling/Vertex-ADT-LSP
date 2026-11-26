@@ -468,6 +468,7 @@
       "1": "macro"
     },
     "get_edge_dir": {
+      "1": "pvector",
       "2": "dvector"
     },
     "get_framing_dir": {

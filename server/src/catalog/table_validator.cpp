@@ -360,6 +360,11 @@ std::optional<std::pair<std::string, std::string>> matchCommandAssignment(std::s
       {
         return std::nullopt;
       }
+      // `map_set(Map$,"(Brix) = ...")`: a call, not an array element (ADR 0023).
+      if (text.substr(i, close - i).find('"') != std::string_view::npos)
+      {
+        return std::nullopt;
+      }
       i = close + 1;
     }
     const auto nameEnd = i;

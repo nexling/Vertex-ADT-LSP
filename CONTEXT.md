@@ -469,7 +469,7 @@ The diagnostic family that reports this-file assignment declarations with no sam
 _Avoid_: unused check, dead variable, live-buffer extract (when this family is meant)
 
 **Debug dump**:
-A Vertex ADT debug trace whose text contains `START OF DEBUG in FILE` or `START OF DEBUG in SECTION`. It may be opened as `vertexadt`, `plaintext`, or `log`.
+A Vertex ADT debug trace: a `.dbg` file (opened as `vertexadt`), or any buffer with `START OF DEBUG in FILE` or `START OF DEBUG in SECTION` in its first 4 KB (it may also be opened as `plaintext` or `log`). It is one flattened execution with no includes or calls to resolve. Only trace semantic tokens, debug-value hover, Go to Definition, Find References and document links answer for it ([ADR 0025](docs/adr/0025-debug-trace-fast-path.md)).
 _Avoid_: debug file (when the dump document is meant, versus the `debug` command)
 
 **Extension URI**:

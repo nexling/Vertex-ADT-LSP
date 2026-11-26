@@ -27,4 +27,12 @@ struct CheapHoverContext
 
 [[nodiscard]] auto cheapHover(const CheapHoverContext& context) -> lsp::TextDocumentHoverResult;
 
+class DebugTrace;
+
+// Debug trace hover (docs/adr/0025-debug-trace-fast-path.md): the most recent
+// `<value>` of the word on lines 0…cursor from the assignment index (waits
+// for it), else the keyword catalog entry. Never reads the workspace.
+[[nodiscard]] auto debugTraceHover(const DebugTrace& trace, lsp::Position position)
+  -> lsp::TextDocumentHoverResult;
+
 } // namespace vertexadt

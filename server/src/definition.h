@@ -45,6 +45,16 @@ namespace navigation {
 [[nodiscard]] auto splitJsLines(std::string_view text) -> std::vector<std::string_view>;
 } // namespace navigation
 
+class DebugTrace;
+
+// Debug trace definition (docs/adr/0025-debug-trace-fast-path.md): the most
+// recent assignment line from the assignment index; no declaration scan, no
+// includes.
+[[nodiscard]] auto debugTraceDefinition(
+  const DebugTrace& trace,
+  const lsp::Uri& uri,
+  lsp::Position position) -> lsp::TextDocumentDefinitionResult;
+
 // Where Node's findVariableDefinition lands: URI, line, UTF-16 start column.
 // `path` is set when the site is a linked file (not this buffer).
 struct DefinitionSite
