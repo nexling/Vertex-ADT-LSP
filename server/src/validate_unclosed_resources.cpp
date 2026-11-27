@@ -21,6 +21,8 @@ enum class ResourceKind
 {
   Database,
   File,
+  // A `dwgopen_bg` port: global for the session, closed by `dwgclose`.
+  Drawing,
 };
 
 enum class ResourceAction
@@ -83,10 +85,15 @@ struct WalkState
   std::optional<IncludeSite> fromIncludeSite;
   std::string dbNs = "root-db";
   std::string fileNs = "root-file";
+  std::string drawingNs = "drawing";
   int* nsCounter = nullptr;
 
   [[nodiscard]] auto nsByKind(ResourceKind kind) const -> const std::string&
   {
+    if (kind == ResourceKind::Drawing)
+    {
+      return drawingNs;
+    }
     return kind == ResourceKind::Database ? dbNs : fileNs;
   }
 
@@ -311,6 +318,64 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
   return toLowerAscii(resourceNameStem(a)) == toLowerAscii(resourceNameStem(b));
 }
 
+// A drawing port expression as its handle text: spaces outside quotes removed.
+// Case is folded later, with every other handle token.
+[[nodiscard]] auto normalizeDrawingPort(std::string_view expression) -> std::string
+{
+  std::string out;
+  char quote = 0;
+  for (const char ch : trim(expression))
+  {
+    if (quote)
+    {
+      out.push_back(ch);
+      if (ch == quote)
+      {
+        quote = 0;
+      }
+      continue;
+    }
+    if (ch == '"' || ch == '\'')
+    {
+      quote = ch;
+      out.push_back(ch);
+      continue;
+    }
+    if (!std::isspace(static_cast<unsigned char>(ch)))
+    {
+      out.push_back(ch);
+    }
+  }
+  return out;
+}
+
+// The text after `dwgclose` up to the end of its `;` statement.
+[[nodiscard]] auto statementTail(std::string_view text) -> std::string_view
+{
+  char quote = 0;
+  for (std::size_t i = 0; i < text.size(); ++i)
+  {
+    const auto ch = text[i];
+    if (quote)
+    {
+      if (ch == quote)
+      {
+        quote = 0;
+      }
+      continue;
+    }
+    if (ch == '"' || ch == '\'')
+    {
+      quote = ch;
+    }
+    else if (ch == ';')
+    {
+      return text.substr(0, i);
+    }
+  }
+  return text;
+}
+
 [[nodiscard]] bool tokensMatch(std::string_view left, std::string_view right)
 {
   return toLowerAscii(trim(left)) == toLowerAscii(trim(right));
@@ -363,7 +428,7 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
   }
 
   static const std::regex resourceRe{
-    R"re(\b(dbcreate|dbclose_by_name|dbopen|dbclose|open|close)\s*\()re",
+    R"re(\b(dbcreate|dbclose_by_name|dbopen|dbclose|open|close|dwgopen_bg)\s*\()re",
     std::regex::icase};
   for (std::sregex_iterator it(codeLine.begin(), codeLine.end(), resourceRe), last; it != last;
        ++it)
@@ -385,7 +450,7 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
         static_cast<std::size_t>(closeParenIndex - openParenIndex - 1)));
     const auto afterParams =
       parseParameters(codeLine.substr(static_cast<std::size_t>(closeParenIndex + 1)));
-    const auto handleToken = insideParams.empty() ? std::string{} : std::string(trim(insideParams[0]));
+    auto handleToken = insideParams.empty() ? std::string{} : std::string(trim(insideParams[0]));
     const auto firstAfterLiteral =
       afterParams.empty() ? std::optional<std::string>{} : parseStringLiteral(afterParams[0]);
     std::optional<std::string> nameLiteral = commandName == "dbclose_by_name"
@@ -421,6 +486,12 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
       action = ResourceAction::Close;
       kind = ResourceKind::File;
     }
+    else if (commandName == "dwgopen_bg")
+    {
+      action = ResourceAction::Open;
+      kind = ResourceKind::Drawing;
+      handleToken = normalizeDrawingPort(handleToken);
+    }
     else
     {
       continue;
@@ -447,6 +518,50 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
       .fromIncludeSite = walkState.fromIncludeSite,
     });
   }
+
+  // `dwgclose Port$` / `dwgclose(Port$)`: a statement, so the port is the rest
+  // of its `;` statement.
+  static const std::regex dwgcloseRe{R"re(\bdwgclose\b)re", std::regex::icase};
+  for (std::sregex_iterator it(codeLine.begin(), codeLine.end(), dwgcloseRe), last; it != last; ++it)
+  {
+    const auto index = static_cast<std::size_t>(it->position());
+    if (isInsideQuotes(codeLine, index))
+    {
+      continue;
+    }
+    const auto afterIndex = index + static_cast<std::size_t>(it->length());
+    const auto rawTail = statementTail(std::string_view(codeLine).substr(afterIndex));
+    auto tail = trim(rawTail);
+    if (tail.empty() || tail.front() == '=')
+    {
+      continue;
+    }
+    if (tail.front() == '(' && findMatchingParenIndex(tail, 0) == static_cast<int>(tail.size()) - 1)
+    {
+      tail = trim(tail.substr(1, tail.size() - 2));
+    }
+    const auto params = parseParameters(tail);
+    if (params.empty())
+    {
+      continue;
+    }
+    events.push_back(ResourceEvent{
+      .action = ResourceAction::Close,
+      .kind = ResourceKind::Drawing,
+      .token = normalizeDrawingPort(params[0]),
+      .ignoreClose = ignoreClose,
+      .filePath = filePath,
+      .line = lineIndex,
+      .startChar = static_cast<int>(index),
+      .endChar = static_cast<int>(afterIndex + rawTail.find_last_not_of(" \t\r") + 1),
+      .lineText = std::string(rawLine),
+      .ns = walkState.nsByKind(ResourceKind::Drawing),
+      .fromIncludeSite = walkState.fromIncludeSite,
+    });
+  }
+  std::stable_sort(events.begin(), events.end(), [](const ResourceEvent& a, const ResourceEvent& b) {
+    return a.startChar < b.startChar;
+  });
   return events;
 }
 
@@ -504,11 +619,19 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
     {
       return "Included code opens file " + label + " which is not closed in this file";
     }
+    if (event.kind == ResourceKind::Drawing)
+    {
+      return "Included code opens drawing " + label + " which is not closed in this file";
+    }
     return "Included code opens database " + label + " which is not closed in this file";
   }
   if (event.kind == ResourceKind::File)
   {
     return "File " + label + " is opened here and not closed in this execution tree";
+  }
+  if (event.kind == ResourceKind::Drawing)
+  {
+    return "Drawing " + label + " is opened here and not closed in this execution tree";
   }
   return "Database " + label + " is opened here and not closed in this execution tree";
 }
@@ -593,6 +716,8 @@ struct LineInfo
   Control inlineTail = Control::None;
   std::string assignVar;
   std::string dbvalidToken;
+  // Port of `ok = dwgopen_bg(port, ...)`: `ok` then tells whether it opened.
+  std::string openResultToken;
   int paramIndex = 0;
 };
 
@@ -783,6 +908,24 @@ void classifyControl(LineInfo& info, std::string_view trimmed)
   {
     info.paramIndex = std::stoi(rhsMatch[1].str());
   }
+  else
+  {
+    static const std::regex dwgOpenRe{R"re(^\s*dwgopen_bg\s*\()re", std::regex::icase};
+    if (std::regex_search(rhs, rhsMatch, dwgOpenRe))
+    {
+      const auto open = static_cast<int>(rhsMatch.length(0)) - 1;
+      const auto close = findMatchingParenIndex(rhs, open);
+      if (close > open)
+      {
+        const auto params = parseParameters(
+          std::string_view(rhs).substr(static_cast<std::size_t>(open + 1), static_cast<std::size_t>(close - open - 1)));
+        if (!params.empty())
+        {
+          info.openResultToken = normalizeDrawingPort(params[0]);
+        }
+      }
+    }
+  }
 }
 
 [[nodiscard]] auto parseLineInfos(const std::vector<std::string>& lines, const std::string& filePath)
@@ -894,6 +1037,8 @@ enum class StmtKind
   Exit,
   Break,
   DbValid,
+  // `ok = dwgopen_bg(port, ...)`: like DbValid, `ok` tells whether `port` is open.
+  OpenResult,
   Assign,
 };
 
@@ -1024,6 +1169,15 @@ private:
           .line = line,
           .var = info.assignVar,
           .token = info.dbvalidToken,
+        });
+      }
+      else if (!info.openResultToken.empty())
+      {
+        block.push_back(Stmt{
+          .kind = StmtKind::OpenResult,
+          .line = line,
+          .var = info.assignVar,
+          .token = info.openResultToken,
         });
       }
       else
@@ -1191,6 +1345,7 @@ struct Resolved
   int attr = 0;
   // Call in the `attr` frame that leads down to where the handle was named, or -1.
   int callsite = -1;
+  ResourceKind kind = ResourceKind::Database;
 
   bool operator==(const Resolved&) const = default;
 };
@@ -1333,8 +1488,15 @@ struct Frame
 
   [[nodiscard]] int nsFor(ResourceKind kind) const
   {
+    if (kind == ResourceKind::Drawing)
+    {
+      // Drawing ports are global for the session: every frame shares them.
+      return kDrawingNs;
+    }
     return kind == ResourceKind::Database ? dbNs : fileNs;
   }
+
+  static constexpr int kDrawingNs = -1;
 };
 
 constexpr int kMaxWalkSteps = 400000;
@@ -1349,11 +1511,18 @@ constexpr std::size_t kMaxAliasRegions = 64;
     && std::all_of(token.begin(), token.end(), [](char ch) { return std::isdigit(static_cast<unsigned char>(ch)); });
 }
 
+// A whole quoted string such as `"planlay"`: a literal drawing port.
+[[nodiscard]] bool isStringLiteralToken(std::string_view token)
+{
+  return parseStringLiteral(token).has_value();
+}
+
 [[nodiscard]] bool isSimpleHandleArg(std::string_view arg)
 {
-  static const std::regex ident{R"re(^[A-Za-z_][A-Za-z0-9_]*$)re"};
+  // `$` names and string literals carry drawing ports.
+  static const std::regex ident{R"re(^[A-Za-z_][A-Za-z0-9_]*\$?$)re"};
   const std::string text(trim(arg));
-  return isNumericToken(text) || std::regex_match(text, ident);
+  return isNumericToken(text) || std::regex_match(text, ident) || isStringLiteralToken(text);
 }
 
 [[nodiscard]] auto regionKey(std::string_view filePath, std::string_view section) -> std::string
@@ -1373,14 +1542,39 @@ struct RootRun
   int nsCounter = 0;
   int includeSite = -1;
   int steps = 0;
+  std::string rootSection;
+  mutable std::optional<bool> rootCallers;
 
   auto execBlock(const Block& block, PathState state, int loopDepth) -> Flow;
 
+  // Whether some section calls the root region (looked up on first need).
+  [[nodiscard]] bool rootHasCallers() const;
+
   [[nodiscard]] auto resolve(int frameIndex, std::string_view raw, ResourceKind kind) const -> Resolved
+  {
+    auto resolved = resolveUntyped(frameIndex, raw, kind);
+    resolved.kind = kind;
+    return resolved;
+  }
+
+  [[nodiscard]] auto resolveUntyped(int frameIndex, std::string_view raw, ResourceKind kind) const -> Resolved
   {
     const auto label = std::string(trim(raw));
     const auto token = toLowerAscii(label);
     const auto& frame = frames[static_cast<std::size_t>(frameIndex)];
+    if (kind == ResourceKind::Drawing && isStringLiteralToken(token))
+    {
+      // A literal port is one drawing in every frame. A root that is called
+      // hands it to its callers, like a $CALLPARAM handle.
+      const auto home = rootHasCallers() ? -1 : 0;
+      return Resolved{
+        .token = token,
+        .label = label,
+        .home = home,
+        .attr = 0,
+        .callsite = frameIndex > 0 ? frames[1].callsite : -1,
+      };
+    }
     if (isNumericToken(token))
     {
       // A literal handle is the same handle in every frame sharing the namespace.
@@ -1485,8 +1679,7 @@ struct RootRun
     {
       handle = resolve(frameIndex, condition.validToken, ResourceKind::Database);
     }
-    removeMatching(state, ResourceKind::Database, handle,
-      frames.back().nsFor(ResourceKind::Database), std::nullopt);
+    removeMatching(state, handle.kind, handle, frames.back().nsFor(handle.kind), std::nullopt);
   }
 
   void leakAll(PathState& state, LeakReason reason, const std::string& file, int line)
@@ -1764,7 +1957,7 @@ struct ResourceWalker
       return result;
     }
     const auto flags = commonFlags(filePath);
-    RootRun run{.walker = *this, .result = result};
+    RootRun run{.walker = *this, .result = result, .rootSection = section};
     run.frames.push_back(Frame{
       .filePath = filePath,
       .codeFile = filePath,
@@ -2166,6 +2359,15 @@ struct ResourceWalker
 // RootRun statement execution
 // ---------------------------------------------------------------------------
 
+bool RootRun::rootHasCallers() const
+{
+  if (!rootCallers)
+  {
+    rootCallers = !walker.findCallers(frames.front().filePath, rootSection).empty();
+  }
+  return *rootCallers;
+}
+
 auto RootRun::execBlock(const Block& block, PathState state, int loopDepth) -> Flow
 {
   Flow flow;
@@ -2205,7 +2407,7 @@ auto RootRun::execBlock(const Block& block, PathState state, int loopDepth) -> F
             }
           }
         }
-        if (!closed && aliases.empty() && !event.token.empty())
+        if (!closed && aliases.empty() && !event.token.empty() && event.kind == ResourceKind::Database)
         {
           result.unmatchedCloses.insert(&event);
         }
@@ -2374,6 +2576,13 @@ auto RootRun::execBlock(const Block& block, PathState state, int loopDepth) -> F
       state.valid.emplace_back(stmt.var, std::move(handle));
       break;
     }
+    case StmtKind::OpenResult:
+    {
+      auto handle = resolve(frameIndex, stmt.token, ResourceKind::Drawing);
+      std::erase_if(state.valid, [&](const auto& entry) { return entry.first == stmt.var; });
+      state.valid.emplace_back(stmt.var, std::move(handle));
+      break;
+    }
     case StmtKind::Assign:
       std::erase_if(state.valid, [&](const auto& entry) { return entry.first == stmt.var; });
       break;
@@ -2432,7 +2641,8 @@ auto RootRun::execCall(const Stmt& stmt, PathState state) -> std::optional<PathS
     {
       continue;
     }
-    auto handle = resolve(callerIndex, arg, ResourceKind::Database);
+    auto handle = resolve(callerIndex, arg,
+      isStringLiteralToken(trim(arg)) ? ResourceKind::Drawing : ResourceKind::Database);
     if (handle.attr == callerIndex)
     {
       handle.callsite = callsite;
@@ -2516,7 +2726,25 @@ auto RootRun::execInclude(const Stmt& stmt, PathState state, int loopDepth) -> F
   {
     return "File";
   }
+  if (event.kind == ResourceKind::Drawing)
+  {
+    return "Drawing";
+  }
   return "Database";
+}
+
+[[nodiscard]] auto kindKey(ResourceKind kind) -> std::string
+{
+  switch (kind)
+  {
+  case ResourceKind::File:
+    return "file";
+  case ResourceKind::Drawing:
+    return "drawing";
+  case ResourceKind::Database:
+    break;
+  }
+  return "database";
 }
 
 [[nodiscard]] auto openedVerb(const ResourceEvent& /*event*/) -> std::string
@@ -2526,7 +2754,7 @@ auto RootRun::execInclude(const Stmt& stmt, PathState state, int loopDepth) -> F
 
 [[nodiscard]] auto lowerNoun(const std::string& noun) -> std::string
 {
-  return noun == "Database" ? "database" : noun == "File" ? "file" : noun;
+  return toLowerAscii(noun);
 }
 
 // "break (line 20)", or "exit (other.prg line 20)" when the stop is in another file.
@@ -2731,7 +2959,7 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
         return;
       }
       const auto key = std::to_string(site.line) + "::" + std::to_string(site.startChar) + "::"
-        + (fact.kind == ResourceKind::File ? "file" : "database") + "::" + fact.token;
+        + kindKey(fact.kind) + "::" + fact.token;
       const auto noun = handleNoun(*fact.origin);
       auto openedHere = relatedAt(fact.origin->filePath, fact.origin->line, fact.origin->startChar,
         fact.origin->endChar, fact.origin->lineText,
@@ -2779,8 +3007,7 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
       }
       const auto& event = *fact.origin;
       const auto key = std::to_string(site.line) + "::"
-        + (event.kind == ResourceKind::File ? "file" : "database") + "::"
-        + toLowerAscii(event.token);
+        + kindKey(event.kind) + "::" + toLowerAscii(event.token);
       if (!includeLeftoverKeys.insert(key).second)
       {
         continue;

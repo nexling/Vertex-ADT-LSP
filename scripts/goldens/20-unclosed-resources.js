@@ -224,6 +224,7 @@ async function runGoldens(session) {
     );
 
     await runPathAwareGoldens(session);
+    await runDrawingGoldens(session);
     const aliasCloseUri = await runAliasCloseGoldens(session);
 
     session.didChange({
@@ -321,6 +322,66 @@ async function runPathAwareGoldens(session) {
     await session.waitQuiet(400);
     assertEqual(await pullUnclosed(session, callerUri), [], 'cross-file caller clean after the fix');
     assertEqual(await pullUnclosed(session, openerUri), [], 'cross-file callee clean after the caller fix');
+}
+
+// Native-only (docs/adr/0029-native-background-drawing-unclosed-resources.md):
+// dwgopen_bg opens a drawing that dwgclose must close. The handle is the port
+// expression, matched by text without spaces outside quotes, ignoring case.
+async function runDrawingGoldens(session) {
+    const lines = async (name, text) => summary(await pullUnclosed(session, await openText(session, name, text)));
+    const OPEN = (port) => `Ok=dwgopen_bg(${port},File$,1,1,20,108)\n`;
+
+    assertEqual(await lines('dwg_closed.prg', `${OPEN('"planlay"')}dwgclose "planlay"\n`), [],
+        'dwgopen_bg closed by dwgclose');
+
+    const unclosed = await lines('dwg_unclosed.prg', OPEN('"planlay"'));
+    assertEqual(unclosed.map((item) => item.line), [0], 'unclosed dwgopen_bg');
+    assertEqual(unclosed[0].message, 'Drawing "planlay" is opened here and not closed in this execution tree',
+        'unclosed drawing message');
+
+    assertEqual(await lines('dwg_case.prg', `${OPEN(' "PlanLay" ')}dwgclose  "planlay"\n`), [],
+        'literal port matches ignoring case and spaces');
+    assertEqual(await lines('dwg_var.prg', `${OPEN('Win$')}dwgclose win$\n`), [],
+        'variable port matches ignoring case');
+    assertEqual(await lines('dwg_expr.prg', `${OPEN('"tmp"&Nr$')}dwgclose "tmp" & nr$\n`), [],
+        'composite port matches as normalized text');
+    assertEqual(await lines('dwg_parens.prg', `${OPEN('"p"')}dwgclose("p")\n`), [],
+        'dwgclose with parentheses');
+    assertEqual(await lines('dwg_semicolon.prg', `${OPEN('"p"')}dwgclose "p"; x = 1\n`), [],
+        'dwgclose ends at ;');
+    assertEqual((await lines('dwg_literal_var.prg', `${OPEN('"planlay"')}dwgclose Win$\n`)).map((item) => item.line),
+        [0], 'a literal never matches a variable');
+
+    assertEqual(await lines('dwg_untracked.prg',
+        'Ok = dwgopen("PICTURE",F$,10,10,35,100)\nmodelopen "M",model=F$\nOk=dwgopen_old("D")\n'),
+    [], 'dwgopen, modelopen and dwgopen_old are not tracked');
+    assertEqual(await lines('dwg_close_only.prg', 'dwgclose "PICTURE"\n'), [], 'close without open is silent');
+
+    assertEqual(await lines('dwg_guard.prg', `${OPEN('"p"')}if !Ok then\n    exit\nendif\ndwgclose "p"\n`), [],
+        'failed open branch counts as not open');
+    assertEqual(await lines('dwg_guard_eq.prg', `${OPEN('"p"')}if Ok = 0 then exit\ndwgclose "p"\n`), [],
+        'Ok = 0 inline guard');
+
+    const atExit = await lines('dwg_exit.prg', `${OPEN('"p"')}if x then\n    exit\nendif\ndwgclose "p"\n`);
+    assertEqual(atExit.map((item) => item.line), [0], 'open at exit');
+    assert(atExit[0].message.includes('Drawing "p" is opened here and still open at exit (line 3)'),
+        `open at exit message: ${atExit[0].message}`);
+
+    assertEqual((await lines('dwg_branch.prg', `${OPEN('"p"')}if x then\n    dwgclose "p"\nendif\n`))
+        .map((item) => item.line), [0], 'closed on one branch only');
+    assertEqual(await lines('dwg_reopen.prg', `${OPEN('"p"')}${OPEN('"p"')}dwgclose "p"\n`), [],
+        'reopening an open port is silent');
+    assertEqual(await lines('dwg_ignore.prg', 'Ok=dwgopen_bg("p",F$,1,1,20,108) ;!IGNORE CLOSE\n'), [],
+        'IGNORE CLOSE on the open');
+
+    // A literal port is the same drawing in every frame: the duty goes up the call chain.
+    const chain = summary(await pullUnclosed(session, await openFixture(session, 'drawing_chain.prg')));
+    assertEqual(chain.map((item) => item.line), [1, 10], 'drawing chain: open and failing call line');
+    assert(chain[0].message.includes('Drawing "planlay" is opened here and not closed on every caller path'),
+        `drawing chain open message: ${chain[0].message}`);
+    assertEqual(chain[0].related, ['drawing_chain.prg:10'], 'drawing chain open links only the failing caller');
+    assert(chain[1].message.includes('Drawing "planlay" opened by the called code is not closed on every path after this call'),
+        `drawing chain call-line message: ${chain[1].message}`);
 }
 
 const ALIAS_CLOSE = 'dbopen(1) "ALREADY_OPEN",X\ndbclose(1)\n';
