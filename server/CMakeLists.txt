@@ -17,6 +17,13 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
+# Compile a target's files in parallel. The Visual Studio generator otherwise
+# builds one file at a time per project. Set before FetchContent so the lsp
+# library (with its large generated types.cpp) gets it too.
+if(MSVC)
+  add_compile_options(/MP)
+endif()
+
 include(FetchContent)
 
 set(LSP_INSTALL OFF CACHE BOOL "" FORCE)
@@ -100,6 +107,8 @@ set(VERTEX_ADT_LS_CORE_SOURCES
   src/validate_unclosed_resources.cpp
   src/validate_infinite_loops.cpp
   src/infinite_loops.cpp
+  src/validate_iterator_types.cpp
+  src/iterator_types.cpp
   src/validate_in_file_decl.cpp
   src/validate_local_slots.cpp
   src/validate_callee_common.cpp
@@ -116,11 +125,42 @@ set(VERTEX_ADT_LS_CORE_SOURCES
   src/generated/keyword_catalog_data.cpp
   src/generated/command_type_writes_data.cpp
   src/generated/object_parameters_data.cpp
+  src/generated/iterator_object_types_data.cpp
 )
-add_executable(vertex-adt-ls src/main.cpp ${VERTEX_ADT_LS_CORE_SOURCES})
-target_include_directories(vertex-adt-ls PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(vertex-adt-ls PRIVATE lsp)
-target_compile_features(vertex-adt-ls PRIVATE cxx_std_20)
+# Core sources compile once into a static library; the exe and the tests that
+# need the full core link it instead of recompiling every file. STATIC, not
+# OBJECT: with OBJECT, REUSE_FROM links cmake_pch.obj twice (LNK4042). Nothing
+# in core self-registers through static initializers, so the linker dropping
+# unreferenced members is safe.
+add_library(vertex-adt-core STATIC ${VERTEX_ADT_LS_CORE_SOURCES})
+target_include_directories(vertex-adt-core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(vertex-adt-core PUBLIC lsp)
+target_compile_features(vertex-adt-core PUBLIC cxx_std_20)
+if(MSVC)
+  target_compile_options(vertex-adt-core PRIVATE /utf-8 /bigobj)
+endif()
+
+# Precompiled header: lsp/types.h is a ~330 KB generated header included by
+# most sources, and <regex> is heavy too. Targets that link vertex-adt-core
+# reuse it with REUSE_FROM; they must use the same compile options
+# (/utf-8 /bigobj) for the PCH to match.
+target_precompile_headers(vertex-adt-core PRIVATE
+  <lsp/types.h>
+  <lsp/json/json.h>
+  <algorithm>
+  <filesystem>
+  <optional>
+  <regex>
+  <string>
+  <string_view>
+  <unordered_map>
+  <unordered_set>
+  <vector>
+)
+
+add_executable(vertex-adt-ls src/main.cpp)
+target_link_libraries(vertex-adt-ls PRIVATE vertex-adt-core)
+target_precompile_headers(vertex-adt-ls REUSE_FROM vertex-adt-core)
 
 if(MSVC)
   target_compile_options(vertex-adt-ls PRIVATE /utf-8 /bigobj)
@@ -205,11 +245,9 @@ endif()
 #   build\Release\bracket-balance-test.exe
 add_executable(bracket-balance-test EXCLUDE_FROM_ALL
   tests/bracket_balance_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(bracket-balance-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(bracket-balance-test PRIVATE lsp)
-target_compile_features(bracket-balance-test PRIVATE cxx_std_20)
+target_link_libraries(bracket-balance-test PRIVATE vertex-adt-core)
+target_precompile_headers(bracket-balance-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(bracket-balance-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -220,11 +258,9 @@ endif()
 #   build\Release\concat-whitespace-test.exe
 add_executable(concat-whitespace-test EXCLUDE_FROM_ALL
   tests/concat_whitespace_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(concat-whitespace-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(concat-whitespace-test PRIVATE lsp)
-target_compile_features(concat-whitespace-test PRIVATE cxx_std_20)
+target_link_libraries(concat-whitespace-test PRIVATE vertex-adt-core)
+target_precompile_headers(concat-whitespace-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(concat-whitespace-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -235,11 +271,9 @@ endif()
 #   build\Release\document-links-test.exe
 add_executable(document-links-test EXCLUDE_FROM_ALL
   tests/document_links_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(document-links-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(document-links-test PRIVATE lsp)
-target_compile_features(document-links-test PRIVATE cxx_std_20)
+target_link_libraries(document-links-test PRIVATE vertex-adt-core)
+target_precompile_headers(document-links-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(document-links-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -250,11 +284,9 @@ endif()
 #   build\Release\substring-index-test.exe
 add_executable(substring-index-test EXCLUDE_FROM_ALL
   tests/substring_index_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(substring-index-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(substring-index-test PRIVATE lsp)
-target_compile_features(substring-index-test PRIVATE cxx_std_20)
+target_link_libraries(substring-index-test PRIVATE vertex-adt-core)
+target_precompile_headers(substring-index-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(substring-index-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -265,11 +297,9 @@ endif()
 #   build\Release\findstr-value-expression-test.exe
 add_executable(findstr-value-expression-test EXCLUDE_FROM_ALL
   tests/findstr_value_expression_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(findstr-value-expression-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(findstr-value-expression-test PRIVATE lsp)
-target_compile_features(findstr-value-expression-test PRIVATE cxx_std_20)
+target_link_libraries(findstr-value-expression-test PRIVATE vertex-adt-core)
+target_precompile_headers(findstr-value-expression-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(findstr-value-expression-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -280,11 +310,9 @@ endif()
 #   build\Release\snippet-catalog-corrections-test.exe
 add_executable(snippet-catalog-corrections-test EXCLUDE_FROM_ALL
   tests/snippet_catalog_corrections_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(snippet-catalog-corrections-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(snippet-catalog-corrections-test PRIVATE lsp)
-target_compile_features(snippet-catalog-corrections-test PRIVATE cxx_std_20)
+target_link_libraries(snippet-catalog-corrections-test PRIVATE vertex-adt-core)
+target_precompile_headers(snippet-catalog-corrections-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(snippet-catalog-corrections-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -295,11 +323,9 @@ endif()
 #   build\Release\drawing-file-commands-test.exe
 add_executable(drawing-file-commands-test EXCLUDE_FROM_ALL
   tests/drawing_file_commands_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(drawing-file-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(drawing-file-commands-test PRIVATE lsp)
-target_compile_features(drawing-file-commands-test PRIVATE cxx_std_20)
+target_link_libraries(drawing-file-commands-test PRIVATE vertex-adt-core)
+target_precompile_headers(drawing-file-commands-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(drawing-file-commands-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -308,11 +334,9 @@ endif()
 #   cmake --build build --config Release --target note-map-system-commands-test
 add_executable(note-map-system-commands-test EXCLUDE_FROM_ALL
   tests/note_map_system_commands_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(note-map-system-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(note-map-system-commands-test PRIVATE lsp)
-target_compile_features(note-map-system-commands-test PRIVATE cxx_std_20)
+target_link_libraries(note-map-system-commands-test PRIVATE vertex-adt-core)
+target_precompile_headers(note-map-system-commands-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(note-map-system-commands-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -321,11 +345,9 @@ endif()
 #   cmake --build build --config Release --target file-map-error-form-commands-test
 add_executable(file-map-error-form-commands-test EXCLUDE_FROM_ALL
   tests/file_map_error_form_commands_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(file-map-error-form-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(file-map-error-form-commands-test PRIVATE lsp)
-target_compile_features(file-map-error-form-commands-test PRIVATE cxx_std_20)
+target_link_libraries(file-map-error-form-commands-test PRIVATE vertex-adt-core)
+target_precompile_headers(file-map-error-form-commands-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(file-map-error-form-commands-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -336,11 +358,9 @@ endif()
 #   build\Release\control-block-pairing-test.exe
 add_executable(control-block-pairing-test EXCLUDE_FROM_ALL
   tests/control_block_pairing_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(control-block-pairing-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(control-block-pairing-test PRIVATE lsp)
-target_compile_features(control-block-pairing-test PRIVATE cxx_std_20)
+target_link_libraries(control-block-pairing-test PRIVATE vertex-adt-core)
+target_precompile_headers(control-block-pairing-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(control-block-pairing-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -423,11 +443,9 @@ endif()
 #   build\Release\debug-trace-test.exe [--parity] [file.dbg ...]
 add_executable(debug-trace-test EXCLUDE_FROM_ALL
   tests/debug_trace_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(debug-trace-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(debug-trace-test PRIVATE lsp)
-target_compile_features(debug-trace-test PRIVATE cxx_std_20)
+target_link_libraries(debug-trace-test PRIVATE vertex-adt-core)
+target_precompile_headers(debug-trace-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(debug-trace-test PRIVATE /utf-8 /bigobj)
 endif()
@@ -438,11 +456,9 @@ endif()
 #   build\Release\infinite-loops-test.exe
 add_executable(infinite-loops-test EXCLUDE_FROM_ALL
   tests/infinite_loops_test.cpp
-  ${VERTEX_ADT_LS_CORE_SOURCES}
 )
-target_include_directories(infinite-loops-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(infinite-loops-test PRIVATE lsp)
-target_compile_features(infinite-loops-test PRIVATE cxx_std_20)
+target_link_libraries(infinite-loops-test PRIVATE vertex-adt-core)
+target_precompile_headers(infinite-loops-test REUSE_FROM vertex-adt-core)
 if(MSVC)
   target_compile_options(infinite-loops-test PRIVATE /utf-8 /bigobj)
 endif()

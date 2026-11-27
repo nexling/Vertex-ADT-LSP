@@ -124,6 +124,21 @@ std::span<const ObjectParameterCommand> objectParameterConfigurations()
   return generated::kObjectParameters;
 }
 
+std::span<const NameType> iteratorObjectTypes()
+{
+  return generated::kIteratorObjectTypes;
+}
+
+std::span<const std::string_view> iteratorJointTasks()
+{
+  return generated::kIteratorJointTasks;
+}
+
+std::span<const NameType> iteratorTypoHints()
+{
+  return generated::kIteratorTypoHints;
+}
+
 CatalogLink linkIntoExecutable()
 {
   CatalogLink link;

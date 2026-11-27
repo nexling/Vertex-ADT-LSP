@@ -21,6 +21,13 @@ std::span<const CommandSlotTypes> paramTypeMap();
 std::span<const CommandSlotTypes> multiParamTypeMap();
 std::span<const ObjectParameterCommand> objectParameterConfigurations();
 
+// Typed iterator items (docs/adr/0030-typed-iterator-items.md): first value
+// -> next_item type, the tasks whose items are joints, and typo hints whose
+// `type` is the suggested first value. All case-sensitive.
+std::span<const NameType> iteratorObjectTypes();
+std::span<const std::string_view> iteratorJointTasks();
+std::span<const NameType> iteratorTypoHints();
+
 // Touches every compiled catalog so Release /OPT:REF cannot strip them.
 // Does not run from initialize.
 CatalogLink linkIntoExecutable();

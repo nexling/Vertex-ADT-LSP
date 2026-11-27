@@ -42,6 +42,7 @@ function main() {
         keywords: readJson('keywords.json'),
         commandTypeWrites: readJson('command-type-writes.json'),
         objectParameters: readJson('object-parameters.json'),
+        iteratorObjectTypes: readJson('iterator-object-types.json'),
     };
     assertCatalogs(catalogs);
     writeGeneratedCpp(catalogs);
@@ -113,6 +114,22 @@ function assertCatalogs(catalogs) {
     if (!writes.paramTypeMap.get_edge_dir || writes.paramTypeMap.get_edge_dir['2'] !== 'dvector') {
         throw new Error('get_edge_dir slot 2 missing');
     }
+
+    // docs/adr/0030-typed-iterator-items.md
+    const iter = catalogs.iteratorObjectTypes;
+    for (const key of ['objectTypes', 'jointTasks', 'typoHints']) {
+        if (!iter[key]) {
+            throw new Error(`iterator-object-types.json lacks ${key}`);
+        }
+    }
+    if (iter.objectTypes.PROFOBJ !== 'profile') {
+        throw new Error('iterator-object-types lost PROFOBJ -> profile');
+    }
+    for (const [typo, suggestion] of Object.entries(iter.typoHints)) {
+        if (iter.objectTypes[typo] || !iter.objectTypes[suggestion]) {
+            throw new Error(`iterator typo hint ${typo} -> ${suggestion} must map an unknown value to a known one`);
+        }
+    }
 }
 
 function hasMixedCase(writes, key) {
@@ -130,8 +147,9 @@ function summarize(catalogs) {
             `${Object.keys(catalogs.commandTypeWrites.inputParamTypeMap).length}/` +
             `${Object.keys(catalogs.commandTypeWrites.paramTypeMap).length}/` +
             `${Object.keys(catalogs.commandTypeWrites.multiParamTypeMap).length}`,
-        `keys, ${Object.keys(catalogs.objectParameters).length} object-parameter commands.`,
-        `Wrote server/src/generated/{catalog_data.h,command_catalog_data.cpp,keyword_catalog_data.cpp,command_type_writes_data.cpp,object_parameters_data.cpp}.`,
+        `keys, ${Object.keys(catalogs.objectParameters).length} object-parameter commands,`,
+        `${Object.keys(catalogs.iteratorObjectTypes.objectTypes).length} iterator object types.`,
+        `Wrote server/src/generated/{catalog_data.h,command_catalog_data.cpp,keyword_catalog_data.cpp,command_type_writes_data.cpp,object_parameters_data.cpp,iterator_object_types_data.cpp}.`,
     ].join(' ');
 }
 
@@ -165,6 +183,7 @@ function writeGeneratedCpp(catalogs) {
     writeKeywordCatalogData(catalogs.keywords);
     writeCommandTypeWritesData(catalogs.commandTypeWrites);
     writeObjectParametersData(catalogs.objectParameters);
+    writeIteratorObjectTypesData(catalogs.iteratorObjectTypes);
 }
 
 function writeGeneratedHeader(catalogs) {
@@ -186,6 +205,9 @@ inline constexpr std::size_t kInputParamTypeCount = ${Object.keys(writes.inputPa
 inline constexpr std::size_t kParamTypeCommandCount = ${Object.keys(writes.paramTypeMap).length};
 inline constexpr std::size_t kMultiParamTypeCommandCount = ${Object.keys(writes.multiParamTypeMap).length};
 inline constexpr std::size_t kObjectParameterCommandCount = ${Object.keys(catalogs.objectParameters).length};
+inline constexpr std::size_t kIteratorObjectTypeCount = ${Object.keys(catalogs.iteratorObjectTypes.objectTypes).length};
+inline constexpr std::size_t kIteratorJointTaskCount = ${catalogs.iteratorObjectTypes.jointTasks.length};
+inline constexpr std::size_t kIteratorTypoHintCount = ${Object.keys(catalogs.iteratorObjectTypes.typoHints).length};
 
 extern const CommandCatalogEntry kCommands[kCommandCount];
 extern const KeywordCatalogEntry kKeywords[kKeywordCount];
@@ -194,6 +216,11 @@ extern const NameType kInputParamTypes[kInputParamTypeCount];
 extern const CommandSlotTypes kParamTypes[kParamTypeCommandCount];
 extern const CommandSlotTypes kMultiParamTypes[kMultiParamTypeCommandCount];
 extern const ObjectParameterCommand kObjectParameters[kObjectParameterCommandCount];
+// new_iterator / init_iterator first value -> next_item type; typo hints use
+// \`type\` for the suggested first value (docs/adr/0030-typed-iterator-items.md).
+extern const NameType kIteratorObjectTypes[kIteratorObjectTypeCount];
+extern const std::string_view kIteratorJointTasks[kIteratorJointTaskCount];
+extern const NameType kIteratorTypoHints[kIteratorTypoHintCount];
 
 } // namespace vertexadt::catalog::generated
 `;
@@ -532,6 +559,25 @@ function writeObjectParametersData(objectParameters) {
         '',
     ];
     fs.writeFileSync(path.join(GENERATED_DIR, 'object_parameters_data.cpp'), lines.join('\n'), 'utf8');
+}
+
+function writeIteratorObjectTypesData(iter) {
+    const lines = [
+        GENERATED_BANNER,
+        '#include "generated/catalog_data.h"',
+        '',
+        'namespace vertexadt::catalog::generated {',
+        '',
+        ...emitNameTypes('kIteratorObjectTypes', 'kIteratorObjectTypeCount', iter.objectTypes),
+        'const std::string_view kIteratorJointTasks[kIteratorJointTaskCount] = {',
+        ...iter.jointTasks.map((task) => `  ${cppStringView(task)},`),
+        '};',
+        '',
+        ...emitNameTypes('kIteratorTypoHints', 'kIteratorTypoHintCount', iter.typoHints),
+        '} // namespace vertexadt::catalog::generated',
+        '',
+    ];
+    fs.writeFileSync(path.join(GENERATED_DIR, 'iterator_object_types_data.cpp'), lines.join('\n'), 'utf8');
 }
 
 function optionalView(value) {

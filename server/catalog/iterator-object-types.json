@@ -1,0 +1,29 @@
+{
+    "objectTypes": {
+        "PROFOBJ": "profile",
+        "AREAOBJ": "area",
+        "WALLOBJ": "wall",
+        "MACROBJ": "macro",
+        "SHEETOBJ": "sheet",
+        "PROFEND": "profileend",
+        "EDGEOBJ": "edge",
+        "SLOPEOBJ": "slope",
+        "TRUSSOBJ": "slope",
+        "SELEMOBJ": "selemobj",
+        "NOTCHOBJ": "macro",
+        "LNOTCHOBJ": "macro",
+        "ANOTCHOBJ": "macro",
+        "CUTFEATOBJ": "macro",
+        "DIMPLEOBJ": "macro",
+        "FEATURE": "macro",
+        "FLANGECUT": "macro"
+    },
+    "jointTasks": [
+        "CONNECTIONS",
+        "CONNECTIONS_HC"
+    ],
+    "typoHints": {
+        "MACROOBJ": "MACROBJ",
+        "MACOBJ": "MACROBJ"
+    }
+}

@@ -3,6 +3,7 @@
 #include "parent_context.h"
 
 #include "catalog/catalog.h"
+#include "iterator_types.h"
 #include "regex_classes.h"
 #include "utf16_text.h"
 
@@ -561,9 +562,51 @@ std::string vecToReturnType(const std::vector<std::string>& params)
   return "pvector";
 }
 
+// next_item takes its type from the iterator's latest new_iterator /
+// init_iterator in this section (docs/adr/0030-typed-iterator-items.md).
+void analyzeIteratorLine(
+  ValidateContext& ctx,
+  const std::string& line,
+  int lineNumber,
+  const std::string& section)
+{
+  // Cheap gate: new_iterator, init_iterator and next_item all hold `_i` in some case.
+  if (line.find("_i") == std::string::npos && line.find("_I") == std::string::npos)
+  {
+    return;
+  }
+  auto& items = ctx.buildingTypes->iteratorItems;
+  for (const auto& next : findNextItems(line))
+  {
+    const TypeWrite* latest = nullptr;
+    for (const auto& item : items)
+    {
+      if (item.name == next.iterator && item.section == section && item.line < lineNumber)
+      {
+        latest = &item;
+      }
+    }
+    if (latest && !latest->type.empty())
+    {
+      pushWrite(ctx, next.target, latest->type, lineNumber, section, next.targetColumn);
+    }
+  }
+  for (auto& site : findIteratorSites(line))
+  {
+    items.push_back(TypeWrite{
+      .name = std::move(site.iterator),
+      .type = std::move(site.itemType),
+      .line = lineNumber,
+      .section = section,
+      .column = site.iteratorColumn,
+    });
+  }
+}
+
 void analyzeThisFileLine(ValidateContext& ctx, const std::string& line, int lineNumber)
 {
   const auto section = sectionNameForLine(lineNumber, ctx.prep->sections);
+  analyzeIteratorLine(ctx, line, lineNumber, section);
   if (const auto functionMatch = functionName(line))
   {
     const auto anyFunc = [](std::string_view) { return true; };
@@ -1288,6 +1331,7 @@ void pushInferredParentWrites(
 void collectTypeTimeline(ValidateContext& ctx)
 {
   ctx.buildingTypes->writes.clear();
+  ctx.buildingTypes->iteratorItems.clear();
   std::unordered_map<std::string, std::optional<std::string>> comments;
   ingestComments(ctx.prep->live, comments);
   ingestComments(ctx.prep->neighborhood, comments);

@@ -870,6 +870,7 @@ const FAMILY_GOLDENS = [
     '63-slot-popup-reopens',
     '64-signature-box-follows-the-cursor',
     '65-infinite-loops',
+    '66-typed-iterators',
 ];
 
 async function runFamilyGoldens() {

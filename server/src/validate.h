@@ -44,6 +44,9 @@ struct TypeTimeline
   // Indexes into `writes` per name, in write order. Filled when the prep is
   // finished (buildDocumentPrep), empty while it is collected.
   std::unordered_map<std::string, std::vector<std::size_t>> byName;
+  // What next_item returns per iterator write (`type` empty: untyped), in
+  // line order (docs/adr/0030-typed-iterator-items.md).
+  std::vector<TypeWrite> iteratorItems;
 };
 
 // The write that types `name` when it is read at byte `column` on `line` in
@@ -258,6 +261,8 @@ void familyIncludedFromNotFound(ValidateContext& ctx);
 void familyUnclosedResources(ValidateContext& ctx);
 // validate_infinite_loops.cpp: bare `loop` with no exit, exitif that never changes.
 void familyInfiniteLoops(ValidateContext& ctx);
+// validate_iterator_types.cpp: CONNECTIONS first value, unknown iterator object types.
+void familyIteratorTypes(ValidateContext& ctx);
 void familyInFileDeclarationDuplicates(ValidateContext& ctx);
 void familyRedeclaration(ValidateContext& ctx);
 void familyLocalSlotsManifest(ValidateContext& ctx);
