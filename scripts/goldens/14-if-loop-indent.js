@@ -317,12 +317,12 @@ async function run(session) {
       'x = 1',
       'if A then',
       '    Y = 1',
-      'if and x then',
-      '    Z = 1',
-      'if and x then',
-      '    W = 1',
-      'endif',
-      'endif',
+      '    if and x then',
+      '        Z = 1',
+      '        if and x then',
+      '            W = 1',
+      '        endif',
+      '    endif',
       'endif',
       '',
     ].join('\n'),
@@ -334,6 +334,64 @@ async function run(session) {
     cap.items.some((item) => related(item) === 'if without matching endif'),
     `cap leftover-if ignores cap: ${dump(cap.items)}`
   );
+
+  // Over-indent (native only, docs/adr/0026-native-over-indent-warnings.md).
+  const indentRows = [
+    ['ok_2space', 'if a = 1 then\n  b = 1\n  if c = 1 then\n    d = 1\n  endif\nelse\n  b = 2\nendif\n', []],
+    ['ok_4space', 'if a = 1 then\n    b = 1\n    loop 3\n        d = 1\n    endloop\nendif\n', []],
+    ['ok_tabs', 'if a = 1 then\n\tb = 1\n\tif c = 1 then\n\t\td = 1\n\tendif\nendif\n', []],
+    [
+      'first_too_deep',
+      'if a = 1 then\n  b = 1\nendif\nloop\n      b = 1\nendloop\n',
+      [[4, "This line is indented more than one level deeper than the matching 'loop'."]],
+    ],
+    [
+      'sibling_deeper',
+      'if a = 1 then\n  b = 1\n    c = 1\nendif\n',
+      [[2, "This line is indented more than the other lines in this 'if' block."]],
+    ],
+    [
+      'else_body_shares_level',
+      'if a = 1 then\n  b = 1\nelse\n    c = 1\nendif\n',
+      [[3, "This line is indented more than the other lines in this 'if' block."]],
+    ],
+    ['endif_deeper', 'if a = 1 then\n  b = 1\n  endif\n', [[2, "This line should line up with the matching 'if'."]]],
+    ['else_deeper', 'if a = 1 then\n  b = 1\n  else\n  b = 2\nendif\n', [[2, "This line should line up with the matching 'if'."]]],
+    [
+      'nested_opener_at_parent',
+      'if a = 1 then\nif b = 1 then\n  c = 1\nendif\nendif\n',
+      [[1, "This line should be more indented than the matching 'if' or 'loop'."]],
+    ],
+    ['comments_exempt', 'if a = 1 then\n  b = 1\n;! note\n      ;! deep\n        ! deep bang\n  c = 1\nendif\n', []],
+    ['continuation_exempt', 'if a = 1 then\n  dbcreate(a, \\\n          b)\n  c = 1\nendif\n', []],
+    // One odd 1-space block does not shrink a 2-space file's step.
+    ['step_is_most_common', 'if a then\n b = 1\nendif\nif c then\n  d = 1\nendif\nif e then\n  f = 1\nendif\n', []],
+    ['inline_if_body_line', 'if a = 1 then\n  if b = 1 then c = 1\n  d = 1\nendif\n', []],
+  ];
+  const indentMessages = new Set([
+    "This line is indented more than one level deeper than the matching 'if'.",
+    "This line is indented more than one level deeper than the matching 'loop'.",
+    "This line is indented more than the other lines in this 'if' block.",
+    "This line is indented more than the other lines in this 'loop' block.",
+    "This line should line up with the matching 'if'.",
+    "This line should line up with the matching 'loop'.",
+    "This line should be more indented than the matching 'if' or 'loop'.",
+  ]);
+  for (const [name, text, expected] of indentRows) {
+    const result = await pull(session, text, `indent_${name}`);
+    const got = result.items
+      .filter((item) => indentMessages.has(related(item)))
+      .map((item) => `${item.range.start.line}:${related(item)}`);
+    const want = expected.map(([line, message]) => `${line}:${message}`);
+    assert(
+      JSON.stringify(got) === JSON.stringify(want),
+      `indent ${name}: want ${JSON.stringify(want)} got ${dump(result.items)}`
+    );
+    assert(
+      result.items.filter((item) => indentMessages.has(related(item))).every((item) => item.severity === 2),
+      `indent ${name}: Warning severity`
+    );
+  }
 
   await session.shutdownAndExit();
 }

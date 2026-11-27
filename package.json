@@ -202,6 +202,11 @@
 					"default": true,
 					"description": "When enabled, warns if dbcreate/dbopen/open are not closed in the same execution tree (includes and calls). ALREADY_OPEN aliases are information only. Suppress a line with ;!IGNORE CLOSE."
 				},
+				"vertexadt.diagnostics.warnInfiniteLoops": {
+					"type": "boolean",
+					"default": true,
+					"description": "When enabled, warns on a bare `loop` (no count) whose body has no exitif, break, exit or quit, and notes an exitif whose condition variables are never changed inside the loop. `# include` is followed; a `call` in the loop silences the exitif note."
+				},
 				"vertexadt.semanticHighlighting.enabled": {
 					"type": "boolean",
 					"default": true,

@@ -373,6 +373,7 @@ auto fullDocumentValidate(
   runPostLoop(ctx, familyUnknownSection, false);
   runPostLoop(ctx, familyIncludedFromNotFound, true);
   runPostLoop(ctx, familyUnclosedResources, false);
+  runPostLoop(ctx, familyInfiniteLoops, false);
   runPostLoop(ctx, familyInFileDeclarationDuplicates, true);
   runPostLoop(ctx, familyRedeclaration, false);
   runPostLoop(ctx, familyLocalSlotsManifest, false);

@@ -700,7 +700,8 @@ void updateStacksSilently(ValidateContext& ctx, const PerLineState& line, const 
 
   if ((flags.beginsWithIfKeyword || flags.beginsWithLoopKeyword) && !flags.inlineIfThen)
   {
-    state.indentStack.push_back(line.indentation);
+    state.indentStack.push_back(
+      IfLoopIndentState::IndentFrame{.opener = line.indentation, .isLoop = flags.beginsWithLoopKeyword});
   }
   else if (flags.startsWithEndif || flags.startsWithEndloop || flags.startsWithElse)
   {
@@ -953,6 +954,10 @@ const IfHeaderLines& ifHeaderLinesFor(ValidateContext& ctx)
         }
         map.headerByStart.emplace(static_cast<int>(i), std::move(joined));
       }
+      for (auto k = i + 1; k <= last; ++k)
+      {
+        map.anyContinuation.insert(static_cast<int>(k));
+      }
       i = last;
     }
     ctx.ifHeaderLines = std::move(map);
@@ -1095,6 +1100,144 @@ void familyEqualsAngle(ValidateContext& ctx, PerLineState& line)
   }
 }
 
+namespace {
+
+bool opensIndentBlock(const LineFlags& flags)
+{
+  return (flags.beginsWithIfKeyword || flags.beginsWithLoopKeyword) && !flags.inlineIfThen;
+}
+
+// The file's indent step (docs/adr/0026-native-over-indent-warnings.md): the
+// most common positive gap between an if/loop line and its block's first body
+// line, in raw characters. Walks the same lines and stacks as familyIndentLine.
+int indentStepFor(ValidateContext& ctx)
+{
+  auto& cached = ctx.ifLoop.indentStep;
+  if (cached)
+  {
+    return *cached;
+  }
+  const auto& continuations = ifHeaderLinesFor(ctx).anyContinuation;
+  struct Open
+  {
+    int opener = -1;
+    bool sawBody = false;
+  };
+  std::vector<Open> stack;
+  std::unordered_map<int, int> gapCounts;
+  const auto& lines = ctx.prep->lines;
+  for (int i = 0; i < static_cast<int>(lines.size()); ++i)
+  {
+    const auto raw = lines[static_cast<std::size_t>(i)];
+    if (isSharedPerLineSkip(raw) || continuations.contains(i))
+    {
+      continue;
+    }
+    PerLineState line;
+    line.index = i;
+    line.raw = raw;
+    line.stripped = stripValidationComment(raw);
+    line.trimmed = trim(line.stripped);
+    if (line.trimmed.empty())
+    {
+      continue;
+    }
+    line.indentation = static_cast<int>(line.trimmed.data() - line.stripped.data());
+    const auto flags = classifyLogical(ctx, line);
+    if (flags.startsWithEndif || flags.startsWithEndloop || flags.startsWithElse)
+    {
+      if (!flags.startsWithElse && !stack.empty())
+      {
+        stack.pop_back();
+      }
+      continue;
+    }
+    if (!stack.empty() && !stack.back().sawBody && !flags.startsWithInclude)
+    {
+      stack.back().sawBody = true;
+      const auto gap = line.indentation - stack.back().opener;
+      if (gap > 0)
+      {
+        ++gapCounts[gap];
+      }
+    }
+    if (opensIndentBlock(flags))
+    {
+      stack.push_back(Open{line.indentation});
+    }
+  }
+  // The most common gap; a tie goes to the smaller one.
+  int step = 0;
+  int best = 0;
+  for (const auto& [gap, count] : gapCounts)
+  {
+    if (count > best || (count == best && gap < step))
+    {
+      step = gap;
+      best = count;
+    }
+  }
+  cached = step;
+  return step;
+}
+
+auto blockWord(const IfLoopIndentState::IndentFrame& frame) -> std::string
+{
+  return frame.isLoop ? "'loop'" : "'if'";
+}
+
+// A direct body line of the innermost open block (an if/loop opener included).
+void checkBodyLine(ValidateContext& ctx, const PerLineState& line, const LineFlags& flags)
+{
+  auto& stack = ctx.ifLoop.indentStack;
+  if (stack.empty() || flags.startsWithInclude || line.indentation < 0)
+  {
+    return;
+  }
+  auto& top = stack.back();
+  if (line.indentation <= top.opener)
+  {
+    ctx.append(wrappedDiagnostic(
+      ctx,
+      line.index,
+      line.stripped,
+      "This line should be more indented than the matching 'if' or 'loop'.",
+      lsp::DiagnosticSeverity::Warning));
+    return;
+  }
+  // Continuation lines of other `\` groups keep their own offsets.
+  if (ifHeaderLinesFor(ctx).anyContinuation.contains(line.index))
+  {
+    return;
+  }
+  if (top.body < 0)
+  {
+    top.body = line.indentation;
+    const auto step = indentStepFor(ctx);
+    if (step > 0 && line.indentation - top.opener > step)
+    {
+      ctx.append(wrappedDiagnostic(
+        ctx,
+        line.index,
+        line.stripped,
+        "This line is indented more than one level deeper than the matching " + blockWord(top) + ".",
+        lsp::DiagnosticSeverity::Warning));
+    }
+    return;
+  }
+  if (line.indentation > top.body)
+  {
+    ctx.append(wrappedDiagnostic(
+      ctx,
+      line.index,
+      line.stripped,
+      "This line is indented more than the other lines in this " + blockWord(top) + " block.",
+      lsp::DiagnosticSeverity::Warning));
+  }
+}
+
+} // namespace
+
 void familyIndentLine(ValidateContext& ctx, PerLineState& line)
 {
   if (ctx.atCap() || isIfHeaderContinuation(ctx, line.index))
@@ -1114,11 +1257,6 @@ void familyIndentLine(ValidateContext& ctx, PerLineState& line)
     return;
   }
 
-  if ((flags.beginsWithIfKeyword || flags.beginsWithLoopKeyword) && !flags.inlineIfThen)
-  {
-    stack.push_back(line.indentation);
-    return;
-  }
   if (flags.startsWithEndif || flags.startsWithEndloop || flags.startsWithElse)
   {
     if (stack.empty())
@@ -1130,13 +1268,26 @@ void familyIndentLine(ValidateContext& ctx, PerLineState& line)
         "Found an 'endif', 'endloop', or 'else' without a matching 'if' or 'loop'.",
         lsp::DiagnosticSeverity::Warning));
     }
-    else if (line.indentation < stack.back() && !flags.startsWithInclude)
+    else if (flags.startsWithEndloop)
+    {
+      // Deeper endloop lines are reported by "endloop at different indentation level".
+      if (line.indentation < stack.back().opener)
+      {
+        ctx.append(wrappedDiagnostic(
+          ctx,
+          line.index,
+          line.stripped,
+          "This line should be more indented than the matching 'if' or 'loop'.",
+          lsp::DiagnosticSeverity::Warning));
+      }
+    }
+    else if (line.indentation >= 0 && line.indentation != stack.back().opener)
     {
       ctx.append(wrappedDiagnostic(
         ctx,
         line.index,
         line.stripped,
-        "This line should be more indented than the matching 'if' or 'loop'.",
+        "This line should line up with the matching " + blockWord(stack.back()) + ".",
         lsp::DiagnosticSeverity::Warning));
     }
     if (!flags.startsWithElse && !stack.empty())
@@ -1145,18 +1296,12 @@ void familyIndentLine(ValidateContext& ctx, PerLineState& line)
     }
     return;
   }
-  if (!stack.empty() && line.indentation <= stack.back())
+
+  checkBodyLine(ctx, line, flags);
+  if (opensIndentBlock(flags))
   {
-    if (flags.startsWithInclude)
-    {
-      return;
-    }
-    ctx.append(wrappedDiagnostic(
-      ctx,
-      line.index,
-      line.stripped,
-      "This line should be more indented than the matching 'if' or 'loop'.",
-      lsp::DiagnosticSeverity::Warning));
+    stack.push_back(
+      IfLoopIndentState::IndentFrame{.opener = line.indentation, .isLoop = flags.beginsWithLoopKeyword});
   }
 }
 

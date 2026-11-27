@@ -31,10 +31,11 @@
             "end": ".*##|@declarationnumbercheckend.*"
         }
     },
+    // Block if (`then` last, before an optional `;` / `;!` comment), loop with
+    // or without arguments, and else open a level. Case-sensitive (ADR 0010).
     "indentationRules": {
-      "increaseIndentPattern": "^\\s*(if\\b.*\\bthen|loop)$",
-      "decreaseIndentPattern": "^\\s*(endif|endloop)$",
-      "unIndentedLinePattern": "^\\s*(else)$"
+      "increaseIndentPattern": "^\\s*(if\\b[^;]*\\bthen|loop\\b[^;]*|else)\\s*(;.*)?$",
+      "decreaseIndentPattern": "^\\s*(endif|endloop|else)\\b"
     },
     "wordPattern": "\\b\\w+\\$?"
 }

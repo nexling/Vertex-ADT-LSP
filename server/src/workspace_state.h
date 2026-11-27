@@ -50,6 +50,7 @@ struct LanguageServerSettings
   bool noteUnusedVariables = false;
   bool strictModeEnabled = false;
   bool warnUnclosedResources = true;
+  bool warnInfiniteLoops = true;
   bool warnOnRedeclaration = true;
   bool validateUniqueNames = true;
   bool validateParameterCount = true;

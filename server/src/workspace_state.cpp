@@ -92,6 +92,7 @@ bool settingsAffectDiagnostics(const lsp::json::Value& settings)
     || object.contains("warnVectorToValueTransition")
     || object.contains("warnUsedBeforeAssignment")
     || object.contains("warnUnclosedResources")
+    || object.contains("warnInfiniteLoops")
     || object.contains("noteUnusedVariables")
     || object.contains("warnOnRedeclaration")
     || object.contains("validateUniqueNames")
@@ -191,6 +192,7 @@ void WorkspaceState::applySettingsJson(const lsp::json::Value& value)
       settings_.maxNumberOfProblems = jsonInt(*max, settings_.maxNumberOfProblems);
     }
     applyBool(settings_.warnUnclosedResources, nested, "warnUnclosedResources");
+    applyBool(settings_.warnInfiniteLoops, nested, "warnInfiniteLoops");
     const auto* customOnly = nested.find("exportCustomOnly");
     settings_.exportCustomOnly =
       !(customOnly && customOnly->isBoolean() && !customOnly->boolean());
@@ -200,6 +202,7 @@ void WorkspaceState::applySettingsJson(const lsp::json::Value& value)
     settings_.maxNumberOfProblems = jsonInt(*max, settings_.maxNumberOfProblems);
   }
   applyBool(settings_.warnUnclosedResources, object, "warnUnclosedResources");
+  applyBool(settings_.warnInfiniteLoops, object, "warnInfiniteLoops");
   if (const auto* variables = object.find("variables"); variables && variables->isObject())
   {
     const auto& nested = variables->object();
@@ -563,6 +566,7 @@ auto WorkspaceState::runFullDocumentValidate(
     .noteUnusedVariables = settings.noteUnusedVariables,
     .strictModeEnabled = settings.strictModeEnabled,
     .warnUnclosedResources = settings.warnUnclosedResources,
+    .warnInfiniteLoops = settings.warnInfiniteLoops,
     .warnOnRedeclaration = settings.warnOnRedeclaration,
     .validateUniqueNames = settings.validateUniqueNames,
     .validateParameterCount = settings.validateParameterCount,
@@ -627,6 +631,7 @@ auto WorkspaceState::runExportDocumentValidate(
     .noteUnusedVariables = settings.noteUnusedVariables,
     .strictModeEnabled = settings.strictModeEnabled,
     .warnUnclosedResources = settings.warnUnclosedResources,
+    .warnInfiniteLoops = settings.warnInfiniteLoops,
     .warnOnRedeclaration = settings.warnOnRedeclaration,
     .validateUniqueNames = settings.validateUniqueNames,
     .validateParameterCount = settings.validateParameterCount,

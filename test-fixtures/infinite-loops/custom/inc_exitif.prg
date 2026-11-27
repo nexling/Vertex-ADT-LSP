@@ -1,0 +1,1 @@
+exitif !Obj

@@ -67,6 +67,8 @@ struct ValidateSettings
   bool noteUnusedVariables = false;
   bool strictModeEnabled = false;
   bool warnUnclosedResources = true;
+  // vertexadt.diagnostics.warnInfiniteLoops (docs/adr/0027-native-infinite-loop-warnings.md).
+  bool warnInfiniteLoops = true;
   bool warnOnRedeclaration = true;
   bool validateUniqueNames = true;
   bool validateParameterCount = true;
@@ -90,9 +92,20 @@ struct IfLoopIndentState
     int indentation = -1;
   };
 
+  // One open if/loop block for the indent checks (docs/adr/0026-native-over-indent-warnings.md).
+  struct IndentFrame
+  {
+    int opener = -1;     // the if/loop line's indentation
+    int body = -1;       // the block's body level, set by its first checked body line
+    bool isLoop = false;
+  };
+
   std::vector<Frame> ifStack;
   std::vector<Frame> loopStack;
-  std::vector<int> indentStack;
+  std::vector<IndentFrame> indentStack;
+  // The file's indent step: the most common positive gap between an opener
+  // and its first body line. Computed on first use; 0 when the file has none.
+  std::optional<int> indentStep;
   bool pendingIfHeader = false;
 };
 
@@ -129,6 +142,8 @@ struct IfHeaderLines
 {
   std::unordered_map<int, JoinedLines> headerByStart;
   std::unordered_map<int, int> startByContinuation;
+  // Every line after the first of any `\` group, if header or not.
+  std::unordered_set<int> anyContinuation;
 };
 
 struct PerLineState
@@ -241,6 +256,8 @@ void familyUnknownSection(ValidateContext& ctx);
 inline constexpr std::string_view kIncludedFromNotFoundCode = "vertexadt/included-from-not-found";
 void familyIncludedFromNotFound(ValidateContext& ctx);
 void familyUnclosedResources(ValidateContext& ctx);
+// validate_infinite_loops.cpp: bare `loop` with no exit, exitif that never changes.
+void familyInfiniteLoops(ValidateContext& ctx);
 void familyInFileDeclarationDuplicates(ValidateContext& ctx);
 void familyRedeclaration(ValidateContext& ctx);
 void familyLocalSlotsManifest(ValidateContext& ctx);

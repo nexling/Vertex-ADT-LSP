@@ -98,6 +98,8 @@ set(VERTEX_ADT_LS_CORE_SOURCES
   src/validate_cross_call_types.cpp
   src/validate_unknown_section.cpp
   src/validate_unclosed_resources.cpp
+  src/validate_infinite_loops.cpp
+  src/infinite_loops.cpp
   src/validate_in_file_decl.cpp
   src/validate_local_slots.cpp
   src/validate_callee_common.cpp
@@ -415,4 +417,19 @@ target_link_libraries(debug-trace-test PRIVATE lsp)
 target_compile_features(debug-trace-test PRIVATE cxx_std_20)
 if(MSVC)
   target_compile_options(debug-trace-test PRIVATE /utf-8 /bigobj)
+endif()
+
+# Infinite-loop checks: bare loop with no exit, exitif that never changes
+# (docs/adr/0027-native-infinite-loop-warnings.md; not shipped, not in ALL):
+#   cmake --build build --config Release --target infinite-loops-test
+#   build\Release\infinite-loops-test.exe
+add_executable(infinite-loops-test EXCLUDE_FROM_ALL
+  tests/infinite_loops_test.cpp
+  ${VERTEX_ADT_LS_CORE_SOURCES}
+)
+target_include_directories(infinite-loops-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(infinite-loops-test PRIVATE lsp)
+target_compile_features(infinite-loops-test PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(infinite-loops-test PRIVATE /utf-8 /bigobj)
 endif()
