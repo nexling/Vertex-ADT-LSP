@@ -54,8 +54,8 @@ function assertCatalogs(catalogs) {
         throw new Error(`Unexpected object-parameter commands: ${objectParameterCommands}`);
     }
     const names = Object.keys(catalogs.commands);
-    if (names.length !== 293) {
-        throw new Error(`Expected 293 command keys, got ${names.length}`);
+    if (names.length !== 298) {
+        throw new Error(`Expected 298 command keys, got ${names.length}`);
     }
     if (names.includes('call')) {
         throw new Error('call must not be a command-catalog key');
@@ -65,8 +65,8 @@ function assertCatalogs(catalogs) {
     if (custom.length !== 5) {
         throw new Error(`Expected 5 custom validators, got ${custom.join(', ')}`);
     }
-    if (table.length !== 288) {
-        throw new Error(`Expected 288 table validators, got ${table.length}`);
+    if (table.length !== 293) {
+        throw new Error(`Expected 293 table validators, got ${table.length}`);
     }
     for (const name of CUSTOM_VALIDATORS) {
         const row = catalogs.commands[name];

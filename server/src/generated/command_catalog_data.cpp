@@ -3590,6 +3590,29 @@ const TableValidator kTable_del_object{
   .inside = kInside_del_object,
 };
 
+const std::string_view kStrictTypes_dircreate_input_0[] = {
+  std::string_view{"string"},
+};
+const StrictTypeSlot kStrictSlots_dircreate_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_dircreate_input_0,
+    .paramName = std::string_view{"directory path"},
+  },
+};
+const StrictMode kStrict_dircreate{
+  .enabled = true,
+  .inputTypes = kStrictSlots_dircreate_input,
+};
+
+const Slot kInside_dircreate[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Directory path parameter must be a valid string in dircreate"}},
+};
+const TableValidator kTable_dircreate{
+  .tooFewInside = "dircreate requires a directory path",
+  .inside = kInside_dircreate,
+};
+
 const std::string_view kStrictTypes_disconnect_input_0[] = {
   std::string_view{"profileend"},
   std::string_view{"profile"},
@@ -3822,6 +3845,47 @@ const TableValidator kTable_dwgupdatetext{
   .tooManyAfter = "dwgupdatetext takes no parameters",
 };
 
+const std::string_view kStrictTypes_edit_obj_data_input_0[] = {
+  std::string_view{"string"},
+};
+const std::string_view kStrictTypes_edit_obj_data_input_1[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_edit_obj_data_input[] = {
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_edit_obj_data_input_0,
+    .paramName = std::string_view{"form"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_edit_obj_data_input_1,
+    .paramName = std::string_view{"mode"},
+  },
+};
+const StrictMode kStrict_edit_obj_data{
+  .enabled = true,
+  .inputTypes = kStrictSlots_edit_obj_data_input,
+};
+
+const AssignmentCheck kAssign_edit_obj_data{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Assignment variable must be a normal variable in edit_obj_data",
+};
+const Slot kInside_edit_obj_data[] = {
+  {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Object parameter must be a valid variable in edit_obj_data"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Form parameter must be a valid string in edit_obj_data"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Mode parameter must be a valid variable in edit_obj_data"}},
+};
+const TableValidator kTable_edit_obj_data{
+  .assignment = &kAssign_edit_obj_data,
+  .tooFewInside = "edit_obj_data requires 3 parameters",
+  .inside = kInside_edit_obj_data,
+};
+
 const Slot kInside_eof[] = {
   {.index = 0, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Parameter inside parentheses must be a valid variable in eof"}},
 };
@@ -3836,6 +3900,37 @@ const Slot kAfter_exit[] = {
 const TableValidator kTable_exit{
   .tooManyAfter = "exit takes at most 1 parameter",
   .after = kAfter_exit,
+};
+
+const std::string_view kStrictTypes_file_exists_input_0[] = {
+  std::string_view{"string"},
+};
+const StrictTypeSlot kStrictSlots_file_exists_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_file_exists_input_0,
+    .paramName = std::string_view{"file path"},
+  },
+};
+const StrictMode kStrict_file_exists{
+  .enabled = true,
+  .inputTypes = kStrictSlots_file_exists_input,
+};
+
+const AssignmentCheck kAssign_file_exists{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Assignment variable must be a normal variable in file_exists",
+};
+const Slot kInside_file_exists[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"File path parameter must be a valid string in file_exists"}},
+};
+const TableValidator kTable_file_exists{
+  .assignment = &kAssign_file_exists,
+  .tooFewInside = "file_exists requires 1 parameter",
+  .inside = kInside_file_exists,
 };
 
 const std::string_view kStrictTypes_filecopy_after_0[] = {
@@ -6454,6 +6549,37 @@ const TableValidator kTable_map_size{
   .inside = kInside_map_size,
 };
 
+const std::string_view kStrictTypes_map_store_input_0[] = {
+  std::string_view{"string"},
+};
+const StrictTypeSlot kStrictSlots_map_store_input[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_map_store_input_0,
+    .paramName = std::string_view{"map name"},
+  },
+};
+const StrictMode kStrict_map_store{
+  .enabled = true,
+  .inputTypes = kStrictSlots_map_store_input,
+};
+
+const AssignmentCheck kAssign_map_store{
+  .presence = AssignmentPresence::Optional,
+  .hasKind = true,
+  .kind = SlotKind::NormalVariable,
+  .variableKind = VariableKind::None,
+  .invalid = "Assignment variable must be a normal variable in map_store",
+};
+const Slot kInside_map_store[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Map parameter must be a valid string in map_store"}},
+};
+const TableValidator kTable_map_store{
+  .assignment = &kAssign_map_store,
+  .tooFewInside = "map_store requires 1 parameter",
+  .inside = kInside_map_store,
+};
+
 const std::string_view kStrictTypes_map_to_dbrow_input_0[] = {
   std::string_view{"database"},
 };
@@ -8657,6 +8783,47 @@ const TableValidator kTable_set_visibility{
   .after = kAfter_set_visibility,
 };
 
+const std::string_view kStrictTypes_show_error_after_0[] = {
+  std::string_view{"string"},
+};
+const std::string_view kStrictTypes_show_error_after_1[] = {
+  std::string_view{"string"},
+};
+const std::string_view kStrictTypes_show_error_after_2[] = {
+  std::string_view{"value"},
+};
+const StrictTypeSlot kStrictSlots_show_error_after[] = {
+  {
+    .paramIndex = 0,
+    .allowedTypes = kStrictTypes_show_error_after_0,
+    .paramName = std::string_view{"error message"},
+  },
+  {
+    .paramIndex = 1,
+    .allowedTypes = kStrictTypes_show_error_after_1,
+    .paramName = std::string_view{"header"},
+  },
+  {
+    .paramIndex = 2,
+    .allowedTypes = kStrictTypes_show_error_after_2,
+    .paramName = std::string_view{"time"},
+  },
+};
+const StrictMode kStrict_show_error{
+  .enabled = true,
+  .afterParamTypes = kStrictSlots_show_error_after,
+};
+
+const Slot kAfter_show_error[] = {
+  {.index = 0, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = true, .invalid = std::string_view{"Message parameter must be a valid string in show_error"}},
+  {.index = 1, .kind = SlotKind::StringExpression, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Header parameter must be a valid string in show_error"}},
+  {.index = 2, .kind = SlotKind::NormalVariable, .variableKind = VariableKind::None, .required = false, .invalid = std::string_view{"Time parameter must be a valid variable in show_error"}},
+};
+const TableValidator kTable_show_error{
+  .tooFewAfter = "show_error requires an error message",
+  .after = kAfter_show_error,
+};
+
 const std::string_view kStrictTypes_shrink_poly_input_0[] = {
   std::string_view{"polyline"},
 };
@@ -10218,6 +10385,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_del_object,
 },
 {
+  .name = std::string_view{"dircreate"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = true},
+  .strictMode = &kStrict_dircreate,
+  .tableValidator = &kTable_dircreate,
+},
+{
   .name = std::string_view{"disconnect"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_disconnect,
@@ -10292,6 +10465,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_dwgupdatetext,
 },
 {
+  .name = std::string_view{"edit_obj_data"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(3), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_edit_obj_data,
+  .tableValidator = &kTable_edit_obj_data,
+},
+{
   .name = std::string_view{"eof"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_eof,
@@ -10300,6 +10479,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .name = std::string_view{"exit"},
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::finite(0), .maxParamsInside = Arity::finite(0), .paramsOutside = Arity::finite(0), .maxParamsOutside = Arity::finite(1), .acceptSpacesAsSeparators = true, .valueExpression = false, .parenthesesOptional = false},
   .tableValidator = &kTable_exit,
+},
+{
+  .name = std::string_view{"file_exists"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_file_exists,
+  .tableValidator = &kTable_file_exists,
 },
 {
   .name = std::string_view{"filecopy"},
@@ -10787,6 +10972,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .tableValidator = &kTable_map_size,
 },
 {
+  .name = std::string_view{"map_store"},
+  .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_map_store,
+  .tableValidator = &kTable_map_store,
+},
+{
   .name = std::string_view{"map_to_dbrow"},
   .structure = {.hasAssignment = AssignmentPresence::Optional, .hasParentheses = true, .minParamsInside = Arity::finite(3), .maxParamsInside = Arity::finite(3), .paramsOutside = Arity::omitted(), .maxParamsOutside = Arity::omitted(), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_map_to_dbrow,
@@ -11112,6 +11303,12 @@ const CommandCatalogEntry kCommands[kCommandCount] = {
   .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = true, .minParamsInside = Arity::finite(1), .maxParamsInside = Arity::finite(1), .paramsOutside = Arity::finite(2), .maxParamsOutside = Arity::finite(2), .acceptSpacesAsSeparators = false, .valueExpression = false, .parenthesesOptional = false},
   .strictMode = &kStrict_set_visibility,
   .tableValidator = &kTable_set_visibility,
+},
+{
+  .name = std::string_view{"show_error"},
+  .structure = {.hasAssignment = AssignmentPresence::Forbidden, .hasParentheses = false, .minParamsInside = Arity::omitted(), .maxParamsInside = Arity::omitted(), .paramsOutside = Arity::finite(1), .maxParamsOutside = Arity::finite(3), .acceptSpacesAsSeparators = true, .valueExpression = false, .parenthesesOptional = false},
+  .strictMode = &kStrict_show_error,
+  .tableValidator = &kTable_show_error,
 },
 {
   .name = std::string_view{"shrink_poly"},

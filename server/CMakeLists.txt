@@ -317,6 +317,19 @@ if(MSVC)
   target_compile_options(note-map-system-commands-test PRIVATE /utf-8 /bigobj)
 endif()
 
+# File, map, error and form command entries (docs/adr/0028; not shipped, not in ALL):
+#   cmake --build build --config Release --target file-map-error-form-commands-test
+add_executable(file-map-error-form-commands-test EXCLUDE_FROM_ALL
+  tests/file_map_error_form_commands_test.cpp
+  ${VERTEX_ADT_LS_CORE_SOURCES}
+)
+target_include_directories(file-map-error-form-commands-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(file-map-error-form-commands-test PRIVATE lsp)
+target_compile_features(file-map-error-form-commands-test PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(file-map-error-form-commands-test PRIVATE /utf-8 /bigobj)
+endif()
+
 # Control-block pairing: if/else/endif and loop/endloop hover and document
 # highlight (not shipped, not in ALL):
 #   cmake --build build --config Release --target control-block-pairing-test

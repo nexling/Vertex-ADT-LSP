@@ -13872,5 +13872,222 @@
         }
       ]
     }
+  },
+  "file_exists": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "file path"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Assignment variable must be a normal variable in file_exists"
+      },
+      "tooFewInside": "file_exists requires 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "File path parameter must be a valid string in file_exists"
+        }
+      ]
+    }
+  },
+  "dircreate": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": true,
+      "parenthesesOptional": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "directory path"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewInside": "dircreate requires a directory path",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Directory path parameter must be a valid string in dircreate"
+        }
+      ]
+    }
+  },
+  "map_store": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 1,
+      "maxParamsInside": 1
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "map name"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Assignment variable must be a normal variable in map_store"
+      },
+      "tooFewInside": "map_store requires 1 parameter",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Map parameter must be a valid string in map_store"
+        }
+      ]
+    }
+  },
+  "show_error": {
+    "structure": {
+      "hasAssignment": false,
+      "hasParentheses": false,
+      "paramsOutside": 1,
+      "maxParamsOutside": 3,
+      "acceptSpacesAsSeparators": true
+    },
+    "strictMode": {
+      "enabled": true,
+      "afterParamTypes": [
+        {
+          "paramIndex": 0,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "error message"
+        },
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "header"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "time"
+        }
+      ]
+    },
+    "tableValidator": {
+      "tooFewAfter": "show_error requires an error message",
+      "after": [
+        {
+          "index": 0,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Message parameter must be a valid string in show_error"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": false,
+          "invalid": "Header parameter must be a valid string in show_error"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": false,
+          "invalid": "Time parameter must be a valid variable in show_error"
+        }
+      ]
+    }
+  },
+  "edit_obj_data": {
+    "structure": {
+      "hasAssignment": "optional",
+      "hasParentheses": true,
+      "minParamsInside": 3,
+      "maxParamsInside": 3
+    },
+    "strictMode": {
+      "enabled": true,
+      "inputTypes": [
+        {
+          "paramIndex": 1,
+          "allowedTypes": [
+            "string"
+          ],
+          "paramName": "form"
+        },
+        {
+          "paramIndex": 2,
+          "allowedTypes": [
+            "value"
+          ],
+          "paramName": "mode"
+        }
+      ]
+    },
+    "tableValidator": {
+      "assignment": {
+        "presence": "optional",
+        "kind": "normal variable",
+        "invalid": "Assignment variable must be a normal variable in edit_obj_data"
+      },
+      "tooFewInside": "edit_obj_data requires 3 parameters",
+      "inside": [
+        {
+          "index": 0,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Object parameter must be a valid variable in edit_obj_data"
+        },
+        {
+          "index": 1,
+          "kind": "string expression",
+          "required": true,
+          "invalid": "Form parameter must be a valid string in edit_obj_data"
+        },
+        {
+          "index": 2,
+          "kind": "normal variable",
+          "required": true,
+          "invalid": "Mode parameter must be a valid variable in edit_obj_data"
+        }
+      ]
+    }
   }
 }
