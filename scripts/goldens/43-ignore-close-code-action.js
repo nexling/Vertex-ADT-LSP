@@ -26,7 +26,8 @@ const ROOT_URI = pathToFileURL(FIXTURE).href;
 
 const TITLE = 'Ignore missing close (;!IGNORE CLOSE)';
 const UNCLOSED = 'vertexadt/unclosed-resource';
-const ALREADY_OPEN = 'vertexadt/unclosed-already-open';
+// Newer than the Node oracle tapes: its rows are native-only.
+const CLOSE_ALIAS = 'vertexadt/close-already-open';
 
 class AssertionError extends Error {
     constructor(message) {
@@ -140,7 +141,7 @@ function applyEdit(text, uri, action) {
 
 function unclosedItems(report) {
     return ((report && report.items) || []).filter((item) => (
-        item.code === UNCLOSED || item.code === ALREADY_OPEN
+        item.code === UNCLOSED || item.code === CLOSE_ALIAS
     ));
 }
 
@@ -162,7 +163,6 @@ function diag(code, line, data) {
 // revalidate (TESTING.md scenario 5). The oracle gets the same request.
 const FIXTURE_ROWS = [
     { name: 'unclosed_dbopen.prg', code: UNCLOSED, line0: 'dbopen(1) "SHEETLIB",1 ;!IGNORE CLOSE' },
-    { name: 'already_open.prg', code: ALREADY_OPEN, line0: 'dbopen(1) "ALREADY_OPEN",OtherId ;!IGNORE CLOSE' },
     { name: 'include_opener.prg', code: UNCLOSED, line0: '# include opener.prg ;!IGNORE CLOSE' },
 ];
 
@@ -190,7 +190,8 @@ const SYNTHETIC_ROWS = [
     { label: 'non-number data.line uses range', text: 'x=1\ndbopen(1) "A",1\n', diagnostics: [diag(UNCLOSED, 1, { line: '0' })], expect: [[1, 15, ' ;!IGNORE CLOSE']] },
     { label: 'out-of-range line inserts at 0', text: 'dbopen(1) "A",1\n', diagnostics: [diag(UNCLOSED, 9, { line: 9 })], expect: [[9, 0, ' ;!IGNORE CLOSE']] },
     { label: 'two leftovers on one line', text: '# include opener.prg\n', diagnostics: [diag(UNCLOSED, 0, { line: 0 }), diag(UNCLOSED, 0, { line: 0 })], expect: [[0, 20, ' ;!IGNORE CLOSE'], [0, 20, ' ;!IGNORE CLOSE']] },
-    { label: 'Information severity', text: 'dbopen(1) "ALREADY_OPEN",Id\n', diagnostics: [Object.assign(diag(ALREADY_OPEN, 0, { line: 0 }), { severity: 3 })], expect: [[0, 27, ' ;!IGNORE CLOSE']] },
+    // Keeps its index so later rows keep the synthetic_<i>.prg names in the tape.
+    { label: 'alias close (native-only)', nativeOnly: true, text: 'dbopen(1) "ALREADY_OPEN",Id\ndbclose(1)\n', diagnostics: [diag(CLOSE_ALIAS, 1, { line: 1 })], expect: [[1, 10, ' ;!IGNORE CLOSE']] },
     { label: 'other codes ignored', text: 'dbopen(1) "A",1\n', diagnostics: [diag('vertexadt/unused-variable', 0, { line: 0 }), diag(UNCLOSED, 0, { line: 0 })], expect: [[0, 15, ' ;!IGNORE CLOSE']] },
     { label: 'only quickfix', text: 'dbopen(1) "A",1\n', diagnostics: [diag(UNCLOSED, 0, { line: 0 })], only: ['quickfix'], expect: [[0, 15, ' ;!IGNORE CLOSE']] },
     { label: 'only source.fixAll', text: 'dbopen(1) "A",1\n', diagnostics: [diag(UNCLOSED, 0, { line: 0 })], only: ['source.fixAll'], expect: [] },
@@ -199,7 +200,7 @@ const SYNTHETIC_ROWS = [
 ];
 
 function expectedActions(uri, diagnostics, expect) {
-    const matching = diagnostics.filter((d) => d.code === UNCLOSED || d.code === ALREADY_OPEN);
+    const matching = diagnostics.filter((d) => d.code === UNCLOSED || d.code === CLOSE_ALIAS);
     return expect.map(([line, character, newText], i) => ({
         title: TITLE,
         kind: 'quickfix',
@@ -273,13 +274,32 @@ async function runGoldens(native, oracle) {
     for (let i = 0; i < SYNTHETIC_ROWS.length; i++) {
         const row = SYNTHETIC_ROWS[i];
         const uri = fixtureUri(`synthetic_${i}.prg`);
-        for (const session of [native, oracle]) {
+        for (const session of row.nativeOnly ? [native] : [native, oracle]) {
             session.didOpen({ uri, languageId: 'vertexadt', version: 1, text: row.text });
         }
         const actions = await codeAction(native, uri, row.diagnostics, row.only);
         assertEqual(actions, expectedActions(uri, row.diagnostics, row.expect), `${row.label}: native`);
-        assertEqual(actions, await codeAction(oracle, uri, row.diagnostics, row.only),
-            `${row.label}: native vs Node`);
+        if (!row.nativeOnly) {
+            assertEqual(actions, await codeAction(oracle, uri, row.diagnostics, row.only),
+                `${row.label}: native vs Node`);
+        }
+    }
+
+    // dbclose of an ALREADY_OPEN alias (native-only): the fix goes on the
+    // dbclose line and silences it; the alias line needs no close.
+    {
+        const uri = fixtureUri('alias_close_fix.prg');
+        const text = 'dbopen(1) "ALREADY_OPEN",OtherId\ndbclose(1)\n';
+        native.didOpen({ uri, languageId: 'vertexadt', version: 1, text });
+        const items = unclosedItems(await native.diagnostic(uri));
+        assert(items.length === 1 && items[0].code === CLOSE_ALIAS, `alias close: ${JSON.stringify(items)}`);
+        assertEqual(items[0].data, { line: 1 }, 'alias close: data');
+        const actions = await codeAction(native, uri, items);
+        assertEqual(actions, expectedActions(uri, items, [[1, 10, ' ;!IGNORE CLOSE']]), 'alias close: action');
+        const applied = applyEdit(text, uri, actions[0]);
+        native.didChange({ uri, version: 2, contentChanges: [{ text: applied }] });
+        assertEqual(unclosedItems(await native.diagnostic(uri)), [], 'alias close: silenced after apply');
+        assertEqual(await codeAction(native, uri, items), [], 'alias close: no action once applied');
     }
 
     // Missing range and data: skipped by both.

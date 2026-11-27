@@ -437,7 +437,7 @@ The diagnostic family that warns when a named-section suffix is not an exact or 
 _Avoid_: section completion, unknown include (when this diagnostic is meant)
 
 **Unclosed-resource check**:
-The diagnostic family that reports unmatched `dbcreate`/`dbopen`/`open` in this file’s execution tree, leftover `# include` opens, `ALREADY_OPEN` aliases, and (native) call lines that leave a called section's handle open. See `docs/adr/0012-native-path-aware-unclosed-resources.md`.
+The diagnostic family that reports unmatched `dbcreate`/`dbopen`/`open` in this file’s execution tree, leftover `# include` opens, (native) call lines that leave a called section's handle open, and `dbclose` of an `ALREADY_OPEN` alias. An `ALREADY_OPEN` dbopen is never an open: the source program that opened the database closes it. See `docs/adr/0012-native-path-aware-unclosed-resources.md`.
 _Avoid_: resource leak, unclosed database (when this family is meant), commons-gated call (when `common_dbases`/`common_files` share is meant), dbcreate logical line (when continuation tails are skipped, not joined)
 
 **Execution tree**:

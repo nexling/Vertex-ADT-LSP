@@ -34,7 +34,7 @@ function fixtureText(name) {
 function unclosed(items) {
     return (items || []).filter((item) => (
         item.code === 'vertexadt/unclosed-resource'
-        || item.code === 'vertexadt/unclosed-already-open'
+        || item.code === 'vertexadt/close-already-open'
     ));
 }
 
@@ -108,15 +108,9 @@ async function runGoldens(session) {
     const closedUri = await openFixture(session, 'closed_dbopen.prg');
     assertEqual(await pullUnclosed(session, closedUri), [], 'matched dbopen/dbclose');
 
+    // The source program owns an ALREADY_OPEN alias and closes it.
     const alreadyUri = await openFixture(session, 'already_open.prg');
-    const alreadyItems = await pullUnclosed(session, alreadyUri);
-    assertEqual(alreadyItems.length, 1, 'ALREADY_OPEN count');
-    assertEqual(alreadyItems[0].severity, 3, 'ALREADY_OPEN information');
-    assertEqual(alreadyItems[0].code, 'vertexadt/unclosed-already-open', 'ALREADY_OPEN code');
-    assert(
-        messageOf(alreadyItems[0]).includes('ALREADY_OPEN'),
-        `ALREADY_OPEN message: ${messageOf(alreadyItems[0])}`
-    );
+    assertEqual(await pullUnclosed(session, alreadyUri), [], 'ALREADY_OPEN needs no close');
 
     const includeUri = await openFixture(session, 'include_opener.prg');
     const includeItems = await pullUnclosed(session, includeUri);
@@ -230,6 +224,7 @@ async function runGoldens(session) {
     );
 
     await runPathAwareGoldens(session);
+    const aliasCloseUri = await runAliasCloseGoldens(session);
 
     session.didChange({
         uri: unclosedUri,
@@ -243,11 +238,11 @@ async function runGoldens(session) {
     });
     await session.waitQuiet(200);
     session.didChange({
-        uri: alreadyUri,
+        uri: aliasCloseUri,
         version: 2,
-        contentChanges: [{ text: fixtureText('already_open.prg') }],
+        contentChanges: [{ text: ALIAS_CLOSE }],
     });
-    assertEqual(await pullUnclosed(session, alreadyUri), [], 'setting off skips the walk');
+    assertEqual(await pullUnclosed(session, aliasCloseUri), [], 'setting off skips the walk');
 
     await session.shutdownAndExit();
 }
@@ -326,6 +321,73 @@ async function runPathAwareGoldens(session) {
     await session.waitQuiet(400);
     assertEqual(await pullUnclosed(session, callerUri), [], 'cross-file caller clean after the fix');
     assertEqual(await pullUnclosed(session, openerUri), [], 'cross-file callee clean after the caller fix');
+}
+
+const ALIAS_CLOSE = 'dbopen(1) "ALREADY_OPEN",X\ndbclose(1)\n';
+const ALIAS_MESSAGE = "dbclose closes the source program's database";
+
+// Native-only: a dbclose of a handle whose latest dbopen on some path was
+// "ALREADY_OPEN" closes the source program's database.
+async function runAliasCloseGoldens(session) {
+    const aliasCloseUri = await openText(session, 'alias_close.prg', ALIAS_CLOSE);
+    const report = await session.diagnostic(aliasCloseUri);
+    const items = unclosed(report.items);
+    assertEqual(items.length, 1, 'alias close count');
+    assertEqual(items[0].code, 'vertexadt/close-already-open', 'alias close code');
+    assertEqual(items[0].severity, 2, 'alias close warning');
+    assertEqual(items[0].range.start.line, 1, 'alias close on the dbclose line');
+    assertEqual(messageOf(items[0]),
+        `Database 1 was aliased with ALREADY_OPEN (line 1); ${ALIAS_MESSAGE}`, 'alias close message');
+    assertEqual(summary(items)[0].related, ['alias_close.prg:0'], 'alias close links the alias');
+
+    const lines = async (name, text) => summary(await pullUnclosed(session, await openText(session, name, text)));
+
+    assertEqual(await lines('alias_function_form.prg',
+        'Cid = dbopen(Id,"ALREADY_OPEN",Cid)\n'),
+    [], 'function-form ALREADY_OPEN needs no close');
+    assertEqual((await lines('alias_function_close.prg',
+        'Cid = dbopen(Id,"ALREADY_OPEN",Cid)\ndbclose(Id)\n')).map((item) => item.line),
+    [1], 'function-form alias close warns');
+
+    assertEqual(await lines('alias_then_real.prg',
+        'dbopen(1) "ALREADY_OPEN",X\ndbopen(1) "A",1\ndbclose(1)\n'),
+    [], 'latest open is real: no alias warning');
+
+    const realThenAlias = await lines('real_then_alias.prg',
+        'dbopen(1) "A",1\ndbopen(1) "ALREADY_OPEN",X\ndbclose(1)\n');
+    assertEqual(realThenAlias.map((item) => item.line), [2],
+        'latest open is the alias: warn on dbclose, real open counts as closed');
+    assert(realThenAlias[0].message.includes(ALIAS_MESSAGE), `real then alias: ${realThenAlias[0].message}`);
+
+    const mixed = await lines('alias_mixed.prg',
+        'if x then\n    dbopen(1) "ALREADY_OPEN",X\nelse\n    dbopen(1) "A",1\nendif\ndbclose(1)\n');
+    assertEqual(mixed.map((item) => item.line), [5], 'alias on one branch: warn on dbclose only');
+
+    assertEqual(await lines('alias_ignore.prg',
+        'dbopen(1) "ALREADY_OPEN",X\ndbclose(1) ;!IGNORE CLOSE\n'),
+    [], 'IGNORE CLOSE on the dbclose line');
+
+    assertEqual(await lines('alias_by_name.prg',
+        'dbopen(1) "ALREADY_OPEN",X\nok = dbclose_by_name(\'X\')\n'),
+    [], 'dbclose_by_name is not tied to an alias');
+
+    // Alias in the caller, dbclose in the callee.
+    await openFixture(session, 'alias_caller.prg');
+    const closerUri = await openFixture(session, 'alias_closer.prg');
+    await session.waitQuiet(400);
+    const closer = summary(await pullUnclosed(session, closerUri));
+    assertEqual(closer.map((item) => item.line), [0], 'callee dbclose of caller alias');
+    assert(closer[0].message.includes('(alias_caller.prg line 2)'), `callee close message: ${closer[0].message}`);
+    assertEqual(closer[0].related, ['alias_caller.prg:1'], 'callee close links the caller alias');
+    assertEqual(await pullUnclosed(session, fixtureUri('alias_caller.prg')), [], 'alias caller is clean');
+
+    // Alias in the callee, dbclose in the caller.
+    const reverse = summary(await pullUnclosed(session, await openFixture(session, 'alias_reverse_caller.prg')));
+    assertEqual(reverse.map((item) => item.line), [2], 'caller dbclose of callee alias');
+    assert(reverse[0].message.includes('(alias_opener_callee.prg line 1)'),
+        `caller close message: ${reverse[0].message}`);
+
+    return aliasCloseUri;
 }
 
 async function run() {

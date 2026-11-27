@@ -29,6 +29,16 @@ The unclosed-resource check used to read a file as one flat stream: `# include` 
 
 Slowest file 271 ms (`walldetailing.prg`), against 266 ms before.
 
+## Amendment 2026-11-27: ALREADY_OPEN aliases
+
+`dbopen(h) "ALREADY_OPEN",Cid` (and `Cid = dbopen(h,"ALREADY_OPEN",Cid)`) hands the ADT program a database the source program opened and will close. It used to be tracked as an open and reported as a blue information (`vertexadt/unclosed-already-open`), which leaked into include leftovers, call lines and caller chains. Now:
+
+- **An alias is never an open.** It adds no open fact and leaves the open facts of `h` as they were, so `dbopen(h) "A",1` / alias / `dbclose(h)` still closes `"A"`. The `vertexadt/unclosed-already-open` code is gone. A leftover `;!IGNORE CLOSE` on an alias line does nothing.
+- **Closing an alias is a warning.** Each path also carries the handles whose latest `dbopen`/`dbcreate` was an alias (joined as a union, compared for the loop fixpoint, dropped with their frame). A `dbclose(h)` reached on any path with `h` an alias gets `vertexadt/close-already-open` (Warning): `Database h was aliased with ALREADY_OPEN (line N); dbclose closes the source program's database`, with a related link to each alias. Handles are resolved as for opens, so `# include`, `call` with `common_dbases 1` and `$CALLPARAM` bindings work in both directions. `dbclose_by_name` is not tied to aliases. `;!IGNORE CLOSE` on the `dbclose` line and the existing quick fix suppress it, under the same setting.
+- **Where the alias comes from.** The warning is reported in the `dbclose`'s file. When a `dbclose` there matches no open or alias in the file's own roots, its include roots and callers (transitively, at most 64 regions) are walked as roots too, so an alias in a caller is found.
+
+Corpus gate (`C:\vxbd320` root, 442 files): unclosed-already-open 26 → 0, unclosed-resource 33 → 27 (the 6 removed are the function-form aliases in `system/sysprogs/dbdemo/*_trig.prg`), close-already-open 0. No line that was silent now warns. Goldens: `runAliasCloseGoldens` in `20-unclosed-resources.js` and the native-only alias rows in `43-ignore-close-code-action.js`.
+
 ## Tests
 
 - `scripts/goldens/20-unclosed-resources.js` `runPathAwareGoldens`: native-only rows with no Node oracle (call chain, branch close, break, IGNORE CLOSE on break, `dbvalid` guard, section scope, no caller, no `common_dbases`, loops, cross-file refresh).

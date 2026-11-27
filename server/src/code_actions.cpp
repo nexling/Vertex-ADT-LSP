@@ -21,7 +21,7 @@ namespace {
 constexpr std::string_view kQuickFix = "quickfix";
 constexpr std::string_view kSourceFixAll = "source.fixAll";
 constexpr std::string_view kUnclosedResourceCode = "vertexadt/unclosed-resource";
-constexpr std::string_view kUnclosedAlreadyOpenCode = "vertexadt/unclosed-already-open";
+constexpr std::string_view kCloseAlreadyOpenCode = "vertexadt/close-already-open";
 constexpr std::string_view kMissingCallParamsCode = "vertexadt/missing-call-params";
 constexpr std::string_view kCalleeLocalNamingCode = "vertexadt/callee-local-naming";
 constexpr std::string_view kIgnoreCloseTitle = "Ignore missing close (;!IGNORE CLOSE)";
@@ -229,7 +229,7 @@ void appendIgnoreCloseActions(
   for (const auto& diagnostic : diagnostics)
   {
     if (!hasCode(diagnostic, kUnclosedResourceCode)
-      && !hasCode(diagnostic, kUnclosedAlreadyOpenCode))
+      && !hasCode(diagnostic, kCloseAlreadyOpenCode))
     {
       continue;
     }

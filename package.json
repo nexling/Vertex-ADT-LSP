@@ -200,7 +200,7 @@
 				"vertexadt.diagnostics.warnUnclosedResources": {
 					"type": "boolean",
 					"default": true,
-					"description": "When enabled, warns if dbcreate/dbopen/open are not closed in the same execution tree (includes and calls). ALREADY_OPEN aliases are information only. Suppress a line with ;!IGNORE CLOSE."
+					"description": "When enabled, warns if dbcreate/dbopen/open are not closed in the same execution tree (includes and calls). An ALREADY_OPEN dbopen needs no close (the source program closes it), and a dbclose of one is warned. Suppress a line with ;!IGNORE CLOSE."
 				},
 				"vertexadt.diagnostics.warnInfiniteLoops": {
 					"type": "boolean",

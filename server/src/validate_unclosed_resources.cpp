@@ -6,6 +6,7 @@
 #include <cctype>
 #include <iterator>
 #include <regex>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -14,7 +15,7 @@ namespace vertexadt {
 namespace {
 
 constexpr std::string_view kUnclosedResourceCode = "vertexadt/unclosed-resource";
-constexpr std::string_view kUnclosedAlreadyOpenCode = "vertexadt/unclosed-already-open";
+constexpr std::string_view kCloseAlreadyOpenCode = "vertexadt/close-already-open";
 
 enum class ResourceKind
 {
@@ -110,7 +111,8 @@ struct UnclosedIssue
   int startChar = 0;
   int endChar = 0;
   std::string message;
-  bool alreadyOpen = false;
+  // A `dbclose` of an ALREADY_OPEN alias, not an unclosed open.
+  bool closesAlias = false;
   std::vector<RelatedIssue> related;
 };
 
@@ -389,8 +391,13 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
     std::optional<std::string> nameLiteral = commandName == "dbclose_by_name"
       ? parseStringLiteral(insideParams.empty() ? std::string_view{} : insideParams[0])
       : firstAfterLiteral;
-    const auto alreadyOpen = commandName == "dbopen" && firstAfterLiteral
-      && toLowerAscii(*firstAfterLiteral) == "already_open";
+    // `dbopen(Id) "ALREADY_OPEN",Cid` or the function form `Cid = dbopen(Id,"ALREADY_OPEN",Cid)`.
+    const auto isAlreadyOpen = [](const std::optional<std::string>& literal) {
+      return literal && toLowerAscii(*literal) == "already_open";
+    };
+    const auto alreadyOpen = commandName == "dbopen"
+      && (isAlreadyOpen(firstAfterLiteral)
+        || (insideParams.size() >= 2 && isAlreadyOpen(parseStringLiteral(insideParams[1]))));
 
     ResourceAction action = ResourceAction::Open;
     ResourceKind kind = ResourceKind::Database;
@@ -497,20 +504,11 @@ ParsedPath parseIncludeCallPathAndSection(std::string_view rawPath, std::string_
     {
       return "Included code opens file " + label + " which is not closed in this file";
     }
-    if (event.alreadyOpen)
-    {
-      return "Included code aliases ALREADY_OPEN database " + label
-        + " which is not closed in this file";
-    }
     return "Included code opens database " + label + " which is not closed in this file";
   }
   if (event.kind == ResourceKind::File)
   {
     return "File " + label + " is opened here and not closed in this execution tree";
-  }
-  if (event.alreadyOpen)
-  {
-    return "ALREADY_OPEN database " + label + " is aliased here and not closed in this execution tree";
   }
   return "Database " + label + " is opened here and not closed in this execution tree";
 }
@@ -1216,8 +1214,19 @@ struct Fact
 struct PathState
 {
   std::vector<Fact> facts;
+  // Handles whose latest dbopen on this path was `"ALREADY_OPEN"`: the source
+  // program owns them, so they are never open facts, but closing one is wrong.
+  std::vector<Fact> aliases;
   std::vector<std::pair<std::string, Resolved>> valid;
 };
+
+void addUnique(std::vector<Fact>& list, const Fact& fact)
+{
+  if (std::find(list.begin(), list.end(), fact) == list.end())
+  {
+    list.push_back(fact);
+  }
+}
 
 void addFact(PathState& state, Fact fact)
 {
@@ -1238,20 +1247,29 @@ void joinInto(std::optional<PathState>& acc, const PathState& other)
   {
     addFact(*acc, fact);
   }
+  for (const auto& alias : other.aliases)
+  {
+    addUnique(acc->aliases, alias);
+  }
   std::erase_if(acc->valid, [&](const auto& entry) {
     return std::find(other.valid.begin(), other.valid.end(), entry) == other.valid.end();
   });
 }
 
-[[nodiscard]] bool sameFacts(const PathState& a, const PathState& b)
+[[nodiscard]] bool sameFactList(const std::vector<Fact>& a, const std::vector<Fact>& b)
 {
-  if (a.facts.size() != b.facts.size())
+  if (a.size() != b.size())
   {
     return false;
   }
-  return std::all_of(a.facts.begin(), a.facts.end(), [&](const Fact& fact) {
-    return std::find(b.facts.begin(), b.facts.end(), fact) != b.facts.end();
+  return std::all_of(a.begin(), a.end(), [&](const Fact& fact) {
+    return std::find(b.begin(), b.end(), fact) != b.end();
   });
+}
+
+[[nodiscard]] bool sameFacts(const PathState& a, const PathState& b)
+{
+  return sameFactList(a.facts, b.facts) && sameFactList(a.aliases, b.aliases);
 }
 
 struct Flow
@@ -1276,9 +1294,22 @@ struct Leak
   int reasonLine = 0;
 };
 
+// A `dbclose` reached while its handle is an ALREADY_OPEN alias on the path.
+struct AliasClose
+{
+  const ResourceEvent* close = nullptr;
+  const ResourceEvent* alias = nullptr;
+
+  bool operator==(const AliasClose&) const = default;
+};
+
 struct RootResult
 {
   std::vector<Leak> leaks;
+  std::vector<AliasClose> aliasCloses;
+  // `dbclose` lines that matched no open or alias on some path: the handle may
+  // come from a caller or an include root.
+  std::unordered_set<const ResourceEvent*> unmatchedCloses;
   // Handles bound to the root's own $CALLPARAM that are still open at its end:
   // its callers must close them.
   std::vector<Fact> escapes;
@@ -1309,6 +1340,8 @@ struct Frame
 constexpr int kMaxWalkSteps = 400000;
 constexpr int kMaxFrameDepth = 48;
 constexpr int kMaxLoopPasses = 4;
+// Caller and include-root regions walked to find where a closed alias came from.
+constexpr std::size_t kMaxAliasRegions = 64;
 
 [[nodiscard]] bool isNumericToken(std::string_view token)
 {
@@ -1391,10 +1424,11 @@ struct RootRun
     return Resolved{.token = token, .label = label, .home = frameIndex, .attr = frameIndex, .callsite = -1};
   }
 
-  void removeMatching(PathState& state, ResourceKind kind, const Resolved& handle, int ns,
+  // Returns whether any open fact was closed.
+  bool removeMatching(PathState& state, ResourceKind kind, const Resolved& handle, int ns,
     const std::optional<std::string>& nameLiteral) const
   {
-    std::erase_if(state.facts, [&](const Fact& fact) {
+    return std::erase_if(state.facts, [&](const Fact& fact) {
       if (fact.kind != kind)
       {
         return false;
@@ -1406,7 +1440,26 @@ struct RootRun
         return true;
       }
       return !handle.token.empty() && fact.token == handle.token && fact.ns == ns;
+    }) > 0;
+  }
+
+  // Drops the aliases of `handle`, returning the ones dropped.
+  [[nodiscard]] static auto takeAliases(PathState& state, const Resolved& handle, int ns) -> std::vector<Fact>
+  {
+    std::vector<Fact> taken;
+    if (handle.token.empty())
+    {
+      return taken;
+    }
+    std::erase_if(state.aliases, [&](const Fact& alias) {
+      if (alias.token != handle.token || alias.ns != ns)
+      {
+        return false;
+      }
+      taken.push_back(alias);
+      return true;
     });
+    return taken;
   }
 
   void narrow(PathState& state, const Condition& condition, bool thenBranch) const
@@ -1450,6 +1503,7 @@ struct RootRun
   void endFrame(PathState& state, int frameIndex, const std::string& exitFile = {}, int exitLine = -1)
   {
     const auto& frame = frames[static_cast<std::size_t>(frameIndex)];
+    std::erase_if(state.aliases, [&](const Fact& alias) { return alias.home == frameIndex; });
     std::erase_if(state.facts, [&](const Fact& fact) {
       if (fact.home != frameIndex)
       {
@@ -2104,6 +2158,8 @@ struct ResourceWalker
   }
 
   [[nodiscard]] auto collectIssues() -> std::vector<UnclosedIssue>;
+  void appendAliasCloseIssues(const std::vector<std::string>& regions,
+    std::optional<std::vector<std::string>>& includeRoots, std::vector<UnclosedIssue>& issues);
 };
 
 // ---------------------------------------------------------------------------
@@ -2134,7 +2190,46 @@ auto RootRun::execBlock(const Block& block, PathState state, int loopDepth) -> F
       const auto ns = frame.nsFor(event.kind);
       if (event.action == ResourceAction::Close)
       {
-        removeMatching(state, event.kind, handle, ns, event.nameLiteral);
+        const auto closed = removeMatching(state, event.kind, handle, ns, event.nameLiteral);
+        const auto aliases = event.kind == ResourceKind::Database
+          ? takeAliases(state, handle, ns)
+          : std::vector<Fact>{};
+        if (!event.ignoreClose)
+        {
+          for (const auto& alias : aliases)
+          {
+            const AliasClose hit{.close = &event, .alias = alias.origin};
+            if (std::find(result.aliasCloses.begin(), result.aliasCloses.end(), hit) == result.aliasCloses.end())
+            {
+              result.aliasCloses.push_back(hit);
+            }
+          }
+        }
+        if (!closed && aliases.empty() && !event.token.empty())
+        {
+          result.unmatchedCloses.insert(&event);
+        }
+        break;
+      }
+      if (event.kind == ResourceKind::Database)
+      {
+        // The latest dbopen of a handle decides whether it is an alias.
+        (void)takeAliases(state, handle, ns);
+      }
+      if (event.alreadyOpen)
+      {
+        // Owned and closed by the source program: never an open to close.
+        addUnique(state.aliases, Fact{
+          .origin = &event,
+          .kind = event.kind,
+          .token = handle.token,
+          .label = handle.label,
+          .ns = ns,
+          .home = handle.home,
+          .attr = handle.attr,
+          .callsite = handle.callsite,
+          .includeSite = includeSite,
+        });
         break;
       }
       result.reached.insert(&event);
@@ -2258,6 +2353,7 @@ auto RootRun::execBlock(const Block& block, PathState state, int loopDepth) -> F
       if (stmt.ignoreClose)
       {
         std::erase_if(state.facts, [&](const Fact& fact) { return fact.home == frameIndex; });
+        std::erase_if(state.aliases, [&](const Fact& alias) { return alias.home == frameIndex; });
       }
       else
       {
@@ -2420,12 +2516,12 @@ auto RootRun::execInclude(const Stmt& stmt, PathState state, int loopDepth) -> F
   {
     return "File";
   }
-  return event.alreadyOpen ? "ALREADY_OPEN database" : "Database";
+  return "Database";
 }
 
-[[nodiscard]] auto openedVerb(const ResourceEvent& event) -> std::string
+[[nodiscard]] auto openedVerb(const ResourceEvent& /*event*/) -> std::string
 {
-  return event.alreadyOpen ? "aliased" : "opened";
+  return "opened";
 }
 
 [[nodiscard]] auto lowerNoun(const std::string& noun) -> std::string
@@ -2610,7 +2706,6 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
         .startChar = openStart,
         .endChar = openEnd,
         .message = std::move(message),
-        .alreadyOpen = origin->alreadyOpen,
         .related = std::move(related),
       });
     }
@@ -2658,7 +2753,6 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
         .startChar = start,
         .endChar = end,
         .message = noun + " " + fact.label + " " + openedVerb(*fact.origin) + " by the called code " + suffix,
-        .alreadyOpen = fact.origin->alreadyOpen,
       };
       issue.related.push_back(std::move(openedHere));
       callLineIssues.emplace(key, issues.size());
@@ -2686,7 +2780,7 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
       const auto& event = *fact.origin;
       const auto key = std::to_string(site.line) + "::"
         + (event.kind == ResourceKind::File ? "file" : "database") + "::"
-        + toLowerAscii(event.token) + "::" + (event.alreadyOpen ? "1" : "0");
+        + toLowerAscii(event.token);
       if (!includeLeftoverKeys.insert(key).second)
       {
         continue;
@@ -2697,7 +2791,6 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
         .startChar = siteStart,
         .endChar = siteEnd,
         .message = buildOpenMessage(event, true),
-        .alreadyOpen = event.alreadyOpen,
       };
       issue.related.push_back(relatedAt(event.filePath, event.line, event.startChar, event.endChar,
         event.lineText, buildOpenMessage(event, false)));
@@ -2714,7 +2807,115 @@ auto ResourceWalker::collectIssues() -> std::vector<UnclosedIssue>
       }
     }
   }
+  appendAliasCloseIssues(regions, includeRoots, issues);
   return issues;
+}
+
+// `dbclose` lines in this file that close a handle aliased with ALREADY_OPEN.
+// The alias may come from a caller or an include root; those are walked only
+// when a close here matched nothing in this file's own roots.
+void ResourceWalker::appendAliasCloseIssues(const std::vector<std::string>& regions,
+  std::optional<std::vector<std::string>>& includeRoots, std::vector<UnclosedIssue>& issues)
+{
+  std::vector<const RootResult*> roots;
+  std::vector<std::pair<std::string, std::string>> queue;
+  std::unordered_set<std::string> visited;
+  bool closeFromOutside = false;
+  for (const auto& section : regions)
+  {
+    visited.insert(regionKey(currentFilePath, section));
+    queue.emplace_back(currentFilePath, section);
+    const auto& result = analyzeRoot(currentFilePath, section);
+    if (result.truncated)
+    {
+      continue;
+    }
+    roots.push_back(&result);
+    closeFromOutside = closeFromOutside
+      || std::any_of(result.unmatchedCloses.begin(), result.unmatchedCloses.end(),
+        [&](const ResourceEvent* close) { return close->filePath == currentFilePath; });
+  }
+  if (closeFromOutside)
+  {
+    auto visit = [&](const std::string& filePath, const std::string& section) {
+      if (visited.size() >= kMaxAliasRegions || !visited.insert(regionKey(filePath, section)).second)
+      {
+        return;
+      }
+      queue.emplace_back(filePath, section);
+      const auto& result = analyzeRoot(filePath, section);
+      if (!result.truncated)
+      {
+        roots.push_back(&result);
+      }
+    };
+    if (!includeRoots)
+    {
+      includeRoots = getIncludeRoots(currentFilePath);
+    }
+    for (const auto& rootPath : *includeRoots)
+    {
+      for (const auto& section : regionsOf(rootPath))
+      {
+        visit(rootPath, section);
+      }
+    }
+    for (std::size_t i = 0; i < queue.size() && visited.size() < kMaxAliasRegions; ++i)
+    {
+      const auto [filePath, section] = queue[i];
+      for (const auto& [callerFile, callerSection] : findCallers(filePath, section))
+      {
+        visit(callerFile, callerSection);
+      }
+    }
+  }
+
+  std::vector<const ResourceEvent*> closes;
+  std::unordered_map<const ResourceEvent*, std::vector<const ResourceEvent*>> aliasesByClose;
+  for (const auto* result : roots)
+  {
+    for (const auto& hit : result->aliasCloses)
+    {
+      if (hit.close->filePath != currentFilePath)
+      {
+        continue;
+      }
+      auto& aliases = aliasesByClose[hit.close];
+      if (aliases.empty())
+      {
+        closes.push_back(hit.close);
+      }
+      if (std::find(aliases.begin(), aliases.end(), hit.alias) == aliases.end())
+      {
+        aliases.push_back(hit.alias);
+      }
+    }
+  }
+  std::sort(closes.begin(), closes.end(), [](const ResourceEvent* a, const ResourceEvent* b) {
+    return std::pair(a->line, a->startChar) < std::pair(b->line, b->startChar);
+  });
+  for (const auto* close : closes)
+  {
+    const auto& aliases = aliasesByClose[close];
+    const auto* first = aliases.front();
+    std::string place = "line " + std::to_string(first->line + 1);
+    if (first->filePath != currentFilePath)
+    {
+      place = posixBasename(replaceBackslashes(first->filePath)) + " " + place;
+    }
+    UnclosedIssue issue;
+    issue.line = close->line;
+    std::tie(issue.startChar, issue.endChar) = u16Columns(close->lineText, close->startChar, close->endChar);
+    issue.message = "Database " + tokenLabel(*close) + " was aliased with ALREADY_OPEN (" + place
+      + "); dbclose closes the source program's database";
+    issue.closesAlias = true;
+    for (const auto* alias : aliases)
+    {
+      issue.related.push_back(relatedAt(alias->filePath, alias->line, alias->startChar, alias->endChar,
+        alias->lineText, "Database " + tokenLabel(*alias) + " is aliased with ALREADY_OPEN here"));
+    }
+    issues.push_back(std::move(issue));
+  }
 }
 
 lsp::Diagnostic toDiagnostic(const UnclosedIssue& issue)
@@ -2723,9 +2924,8 @@ lsp::Diagnostic toDiagnostic(const UnclosedIssue& issue)
   diagnostic.range = makeRange(issue.line, issue.startChar, issue.endChar);
   diagnostic.message = issue.message;
   diagnostic.source = "ADT-Syntax";
-  diagnostic.severity = issue.alreadyOpen ? lsp::DiagnosticSeverity::Information
-                                          : lsp::DiagnosticSeverity::Warning;
-  diagnostic.code = std::string(issue.alreadyOpen ? kUnclosedAlreadyOpenCode : kUnclosedResourceCode);
+  diagnostic.severity = lsp::DiagnosticSeverity::Warning;
+  diagnostic.code = std::string(issue.closesAlias ? kCloseAlreadyOpenCode : kUnclosedResourceCode);
   lsp::json::Object data;
   data["line"] = issue.line;
   diagnostic.data = lsp::json::Value(std::move(data));

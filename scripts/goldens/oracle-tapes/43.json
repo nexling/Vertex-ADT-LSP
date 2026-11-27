@@ -153,57 +153,6 @@
          },
          "end": {
           "line": 0,
-          "character": 9
-         }
-        },
-        "message": "ALREADY_OPEN database 1 is aliased here and not closed in this execution tree",
-        "severity": 3,
-        "code": "vertexadt/unclosed-already-open",
-        "source": "ADT-Syntax",
-        "data": {
-         "line": 0
-        }
-       }
-      ],
-      "edit": {
-       "changes": {
-        "@@A0S49@@/custom/already_open.prg": [
-         {
-          "range": {
-           "start": {
-            "line": 0,
-            "character": 32
-           },
-           "end": {
-            "line": 0,
-            "character": 32
-           }
-          },
-          "newText": " ;!IGNORE CLOSE"
-         }
-        ]
-       }
-      }
-     }
-    ]
-   }
-  },
-  {
-   "method": "textDocument/codeAction",
-   "payload": {
-    "result": [
-     {
-      "title": "Ignore missing close (;!IGNORE CLOSE)",
-      "kind": "quickfix",
-      "diagnostics": [
-       {
-        "range": {
-         "start": {
-          "line": 0,
-          "character": 0
-         },
-         "end": {
-          "line": 0,
           "character": 21
          }
         },
@@ -1133,57 +1082,6 @@
            "end": {
             "line": 0,
             "character": 20
-           }
-          },
-          "newText": " ;!IGNORE CLOSE"
-         }
-        ]
-       }
-      }
-     }
-    ]
-   }
-  },
-  {
-   "method": "textDocument/codeAction",
-   "payload": {
-    "result": [
-     {
-      "title": "Ignore missing close (;!IGNORE CLOSE)",
-      "kind": "quickfix",
-      "diagnostics": [
-       {
-        "range": {
-         "start": {
-          "line": 0,
-          "character": 0
-         },
-         "end": {
-          "line": 0,
-          "character": 1
-         }
-        },
-        "message": "synthetic",
-        "severity": 3,
-        "code": "vertexadt/unclosed-already-open",
-        "source": "ADT-Syntax",
-        "data": {
-         "line": 0
-        }
-       }
-      ],
-      "edit": {
-       "changes": {
-        "@@A0S49@@/custom/synthetic_21.prg": [
-         {
-          "range": {
-           "start": {
-            "line": 0,
-            "character": 27
-           },
-           "end": {
-            "line": 0,
-            "character": 27
            }
           },
           "newText": " ;!IGNORE CLOSE"
